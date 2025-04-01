@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="500" height="100" viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- K'iche' -->
+  <circle cx="50" cy="50" r="40" fill="#e74c3c" />
+  <text x="50" y="55" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">K'ICHE'</text>
+  
+  <!-- Q'eqchi' -->
+  <circle cx="150" cy="50" r="40" fill="#3498db" />
+  <text x="150" y="55" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">Q'EQCHI'</text>
+  
+  <!-- Kaqchikel -->
+  <circle cx="250" cy="50" r="40" fill="#2ecc71" />
+  <text x="250" y="55" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">KAQCHIKEL</text>
+  
+  <!-- Mam -->
+  <circle cx="350" cy="50" r="40" fill="#f39c12" />
+  <text x="350" y="55" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">MAM</text>
+  
+  <!-- Tz'utujil -->
+  <circle cx="450" cy="50" r="40" fill="#9b59b6" />
+  <text x="450" y="55" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">TZ'UTUJIL</text>
+</svg>
