@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
@@ -16,11 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Astro Maya",
-  description: "Uniendo culturas a través del idioma",
+  title: "Astro Maya — Lenguas Mayas de Guatemala",
+  description: "Plataforma educativa para la preservación y aprendizaje de los cinco idiomas mayas más hablados de Guatemala.",
   openGraph: {
-    title: "Astro Maya",
-    description: "Uniendo culturas a través del idioma",
+    title: "Astro Maya — Lenguas Mayas de Guatemala",
+    description: "Plataforma educativa para la preservación y aprendizaje de los cinco idiomas mayas más hablados de Guatemala.",
     url: "https://astromaya.neuralcodelab.com/",
     siteName: "Astro Maya",
     images: [
@@ -30,13 +29,13 @@ export const metadata: Metadata = {
         height: 612,
       },
     ],
-    locale: "es_MX",
+    locale: "es_GT",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Astro Maya",
-    description: "Uniendo culturas a través del idioma",
+    title: "Astro Maya — Lenguas Mayas de Guatemala",
+    description: "Plataforma educativa para la preservación y aprendizaje de los cinco idiomas mayas más hablados de Guatemala.",
     images: ["https://opengraph.b-cdn.net/production/images/f52c8273-3f88-45dd-9aa3-b2ac122b7ee5.png?token=y2X_mrAmcrxqA-CQ51dmskTKc3q39MDY0xlCLA92Vsc&height=612&width=1200&expires=33281173115"],
   },
   metadataBase: new URL("https://astromaya.neuralcodelab.com/"),
@@ -48,9 +47,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
-        {/* Google Analytics */}
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-1Q9GZKZF0V" />
         <Script id="google-analytics">
           {`
@@ -61,9 +59,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
         <ScrollToTop />
       </body>
