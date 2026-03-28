@@ -29,14 +29,18 @@ const Footer = (_props: FooterProps) => {
 
           {/* Col 1: Identity */}
           <div>
-            <div className="mb-4">
+            <div className="flex items-center gap-3 mb-4">
               <Image
                 src="/astromaya-logo.svg"
                 alt="Astro Maya"
-                width={110}
-                height={36}
-                className="brightness-0 invert opacity-90"
+                width={52}
+                height={52}
+                className="rounded-full"
               />
+              <div>
+                <div className="text-white font-bold text-base">Astro Maya</div>
+                <div className="text-white/40 text-[10px] uppercase tracking-wider">Lenguas Mayas · Guatemala</div>
+              </div>
             </div>
             <p className="text-white/55 text-sm leading-relaxed mb-5">
               Plataforma educativa para la preservación y difusión de las lenguas mayas de Guatemala. Conectamos comunidades a través del idioma.
