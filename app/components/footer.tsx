@@ -102,8 +102,15 @@ const Footer = (_props: FooterProps) => {
           </div>
         </div>
 
+        {/* Legal links */}
+        <div className="pt-6 pb-4 flex flex-wrap gap-4 justify-center border-b border-white/10">
+          <Link href="/privacidad" className="text-white/35 hover:text-white/60 text-xs transition-colors">Política de Privacidad</Link>
+          <Link href="/cookies" className="text-white/35 hover:text-white/60 text-xs transition-colors">Política de Cookies</Link>
+          <Link href="/terminos" className="text-white/35 hover:text-white/60 text-xs transition-colors">Términos de Uso</Link>
+        </div>
+
         {/* Bottom bar */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="pt-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-white/35 text-xs">
             © {new Date().getFullYear()} Astro Maya. Todos los derechos reservados.
           </p>

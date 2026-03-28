@@ -42,6 +42,7 @@ export default function Nosotros() {
       cta: 'Solicitar demo',
       href: 'mailto:devlewiso@gmail.com?subject=Demo Institucional Astro Maya',
       featured: true,
+      comingSoon: true,
     },
     {
       name: 'Enterprise',
@@ -62,6 +63,7 @@ export default function Nosotros() {
       cta: 'Contáctanos',
       href: 'mailto:devlewiso@gmail.com?subject=Enterprise Astro Maya',
       featured: false,
+      comingSoon: true,
     },
   ];
 
@@ -144,6 +146,16 @@ export default function Nosotros() {
             </p>
           </div>
 
+          {/* Free only notice */}
+          <div className="mb-8 p-4 bg-[#1b3a6b]/5 border border-[#1b3a6b]/20 rounded-xl flex items-start gap-3 max-w-3xl mx-auto">
+            <svg className="w-5 h-5 text-[#c8a217] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p className="text-sm text-[#1a2035]">
+              <strong>Actualmente solo el plan Gratuito está disponible.</strong> Los planes Institucional y Enterprise son la visión futura del proyecto y están en desarrollo. No se realizan cobros ni se procesan pagos en esta plataforma.
+            </p>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {tiers.map((tier, i) => (
               <div
@@ -152,9 +164,14 @@ export default function Nosotros() {
                   tier.featured
                     ? 'border-[#1b3a6b] shadow-xl shadow-[#1b3a6b]/10'
                     : 'border-[#dde3f0] shadow-sm'
-                }`}
+                } ${(tier as {comingSoon?: boolean}).comingSoon ? 'opacity-60' : ''}`}
               >
-                {tier.featured && (
+                {(tier as {comingSoon?: boolean}).comingSoon && (
+                  <div className="bg-[#6b7a9e] text-white text-xs font-bold text-center py-1.5 tracking-wider uppercase">
+                    Próximamente
+                  </div>
+                )}
+                {!((tier as {comingSoon?: boolean}).comingSoon) && tier.featured && (
                   <div className="bg-[#1b3a6b] text-white text-xs font-bold text-center py-1.5 tracking-wider uppercase">
                     Más popular
                   </div>
@@ -180,16 +197,22 @@ export default function Nosotros() {
                       </li>
                     ))}
                   </ul>
-                  <Link
-                    href={tier.href}
-                    className="block text-center px-5 py-3 rounded font-semibold text-sm transition-colors"
-                    style={{
-                      backgroundColor: tier.featured ? '#1b3a6b' : `${tier.color}15`,
-                      color: tier.featured ? '#ffffff' : tier.color,
-                    }}
-                  >
-                    {tier.cta}
-                  </Link>
+                  {(tier as {comingSoon?: boolean}).comingSoon ? (
+                    <div className="block text-center px-5 py-3 rounded font-semibold text-sm bg-[#f5f7fc] text-[#6b7a9e] cursor-not-allowed border border-[#dde3f0]">
+                      No disponible aún
+                    </div>
+                  ) : (
+                    <Link
+                      href={tier.href}
+                      className="block text-center px-5 py-3 rounded font-semibold text-sm transition-colors"
+                      style={{
+                        backgroundColor: tier.featured ? '#1b3a6b' : `${tier.color}15`,
+                        color: tier.featured ? '#ffffff' : tier.color,
+                      }}
+                    >
+                      {tier.cta}
+                    </Link>
+                  )}
                 </div>
               </div>
             ))}
