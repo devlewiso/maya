@@ -18,6 +18,7 @@ const languages = [
   { name: "Tz'utujil", href: '/tzutujilLeccion' },
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Footer = (_props: FooterProps) => {
   return (
     <footer className="bg-[#0f2347] text-white">
