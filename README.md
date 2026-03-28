@@ -24,29 +24,18 @@ La plataforma cubre los 5 idiomas mayas más hablados del país:
 
 ## Modelo de Negocio
 
-### Principio base
-> La enseñanza primaria de lenguas mayas es gratuita para siempre. Los planes de pago financian el desarrollo de contenido avanzado y nuevos idiomas.
+> Actualmente la plataforma es **completamente gratuita**. No se realizan cobros ni se procesan pagos.
 
-### Plan Gratuito — Q0
-- Audiencia: individuos, estudiantes, comunidades, cualquier persona
+### Plan Gratuito — disponible ahora
 - Acceso a los 5 idiomas mayas principales
 - Lecciones introductorias (vocabulario, frases, pronunciación, notas culturales)
 - Sin registro requerido
+- Para individuos, estudiantes, comunidades y cualquier persona
 
-### Plan Institucional — desde Q500/mes
-- Audiencia: escuelas, municipalidades, universidades, ONG, instituciones de Guatemala
-- Currículo completo (10+ lecciones por idioma)
-- Panel de administración docente y seguimiento de progreso
-- Certificados de completitud
-- Cobertura adaptada a los 22 departamentos
-- Soporte prioritario en español
-
-### Plan Enterprise — precio a medida
-- Audiencia: gobierno central, organizaciones internacionales, grandes instituciones
-- Todo lo institucional + acceso a los 22 idiomas mayas de Guatemala
-- Marca blanca (white label) e integración via API
-- Desarrollo de contenido personalizado
-- Contratos anuales, soporte dedicado 24/7
+### Planes Institucional y Enterprise — próximamente
+- Currículo completo y herramientas de gestión para escuelas e instituciones
+- Acceso a los 22 idiomas mayas de Guatemala
+- En desarrollo — contactar para más información
 
 ---
 
