@@ -1,5 +1,13 @@
+import type { Metadata } from "next";
 import Header from '../components/Header';
 import Footer from '../components/footer';
+
+export const metadata: Metadata = {
+  title: "Política de Privacidad",
+  description: "Política de privacidad de Astro Maya. Cómo recopilamos, usamos y protegemos tus datos personales.",
+  robots: { index: true, follow: false },
+  alternates: { canonical: "https://astromaya.neuralcodelab.com/privacidad" },
+};
 
 export default function Privacidad() {
   return (

@@ -1,7 +1,32 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Footer from "./components/footer";
 import Header from './components/Header';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: "Astro Maya — Aprende los 5 Idiomas Mayas de Guatemala Gratis",
+  description: "Aprende K'iche', Q'eqchi', Kaqchikel, Mam y Tz'utujil gratis. Vocabulario, frases y lecciones interactivas para preservar las lenguas mayas de Guatemala.",
+  keywords: [
+    "idiomas mayas guatemala gratis",
+    "aprender kiche online",
+    "lecciones qeqchi gratis",
+    "lenguas mayas de guatemala",
+    "idiomas indigenas de guatemala",
+    "learn kiche free",
+    "maya language lessons",
+    "kaqchikel aprender",
+    "mam idioma",
+    "tzutujil lecciones",
+  ],
+  alternates: { canonical: "https://astromaya.neuralcodelab.com" },
+  openGraph: {
+    title: "Astro Maya — Aprende los 5 Idiomas Mayas de Guatemala Gratis",
+    description: "Aprende K'iche', Q'eqchi', Kaqchikel, Mam y Tz'utujil gratis. Vocabulario, frases y lecciones interactivas.",
+    url: "https://astromaya.neuralcodelab.com",
+    type: "website",
+  },
+};
 
 export default function Home() {
   const mayaLanguages = [

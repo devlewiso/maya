@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/footer';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: "Nosotros — Misión y Visión",
+  description: "Conoce la misión de Astro Maya: preservar y revitalizar las lenguas mayas de Guatemala a través de la tecnología educativa. Planes para escuelas, municipalidades y ONGs.",
+  keywords: ["nosotros astro maya", "misión lenguas mayas", "plataforma educativa mayas guatemala", "planes institucionales idiomas mayas"],
+  alternates: { canonical: "https://astromaya.neuralcodelab.com/nosotros" },
+};
 
 export default function Nosotros() {
   const tiers = [

@@ -1,6 +1,14 @@
+import type { Metadata } from "next";
 import Header from '../components/Header';
 import Footer from '../components/footer';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: "Política de Cookies",
+  description: "Información sobre el uso de cookies en Astro Maya.",
+  robots: { index: false, follow: false },
+  alternates: { canonical: "https://astromaya.neuralcodelab.com/cookies" },
+};
 
 export default function Cookies() {
   return (

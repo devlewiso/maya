@@ -1,6 +1,14 @@
+import type { Metadata } from "next";
 import Header from '../components/Header';
 import Footer from '../components/footer';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: "Términos de Uso",
+  description: "Términos y condiciones de uso de la plataforma Astro Maya.",
+  robots: { index: true, follow: false },
+  alternates: { canonical: "https://astromaya.neuralcodelab.com/terminos" },
+};
 
 export default function Terminos() {
   return (
