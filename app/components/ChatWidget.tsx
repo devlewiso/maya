@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 
-const SYSTEM_PROMPT = `Eres Ix'im, asistente virtual de Astro Maya. Tu misión es ayudar a los usuarios a aprender y explorar los idiomas mayas de Guatemala: K'iche', Q'eqchi', Kaqchikel, Mam y Tz'utujil. Responde siempre en español. Eres amable, paciente y culturalmente respetuoso. Puedes enseñar vocabulario, frases, pronunciación y compartir notas culturales sobre el pueblo maya de Guatemala. Si no sabes algo específico, invita al usuario a explorar las lecciones en la plataforma.`
 
 const WS_URL = 'wss://agentclaw.nosotros.space'
 const SESSION_KEY = 'astromaya_chat_session'
@@ -114,7 +113,7 @@ export default function ChatWidget() {
     setMessages(prev => [...prev, { id: crypto.randomUUID(), role: 'user', text }])
 
     if (ws.current?.readyState === WebSocket.OPEN) {
-      ws.current.send(JSON.stringify({ message: text, system_prompt: SYSTEM_PROMPT }))
+      ws.current.send(JSON.stringify({ message: text }))
     } else {
       // Fallback HTTP
       setTyping(true)
@@ -125,7 +124,7 @@ export default function ChatWidget() {
           body: JSON.stringify({
             session_id: sessionId.current ?? localStorage.getItem(SESSION_KEY) ?? crypto.randomUUID(),
             message: text,
-            system_prompt: SYSTEM_PROMPT,
+            
           }),
         })
         if (res.status === 429) {
