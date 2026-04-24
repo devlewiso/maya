@@ -17,6 +17,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
+  const [showBanner, setShowBanner] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -183,6 +184,22 @@ const Header = () => {
           )}
         </nav>
       </div>
+
+      {/* Banner de registro funcionando */}
+      {!loadingAuth && !user && showBanner && (
+        <div className="bg-[#c8a217] text-[#0f2347] text-[11px] font-semibold text-center py-1.5 px-4 relative">
+          <span className="inline-flex items-center gap-1">
+            🎉 ¡Registro activo! Ya puedes crear tu cuenta gratis
+          </span>
+          <button
+            onClick={() => setShowBanner(false)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#0f2347]/60 hover:text-[#0f2347] text-lg leading-none"
+            aria-label="Cerrar banner"
+          >
+            ×
+          </button>
+        </div>
+      )}
     </header>
   );
 };
