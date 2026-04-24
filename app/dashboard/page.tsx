@@ -37,7 +37,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats rápidas */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <div className="bg-white rounded-xl border border-[#dde3f0] p-5">
           <div className="text-2xl font-bold text-[#1b3a6b]">{progress?.length ?? 0}</div>
           <div className="text-xs text-[#6b7a9e] mt-0.5">Lecciones completadas</div>
@@ -55,9 +55,9 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Proyectos activos */}
-        <div className="col-span-2">
+        <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-bold text-[#1a2035]">Proyectos activos</h2>
             <Link href="/dashboard/proyectos" className="text-xs text-[#1b3a6b] font-semibold hover:underline">
@@ -86,9 +86,9 @@ export default async function DashboardPage() {
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-semibold text-sm text-[#1a2035]">{project.title}</p>
+                      <p className="font-semibold text-sm text-[#1a2035] break-words">{project.title}</p>
                       {project.description && (
-                        <p className="text-xs text-[#6b7a9e] mt-0.5 line-clamp-1">{project.description}</p>
+                        <p className="text-xs text-[#6b7a9e] mt-0.5 line-clamp-1 break-words">{project.description}</p>
                       )}
                     </div>
                     <span className="text-xs text-[#1b3a6b] font-medium">Ver →</span>
@@ -114,7 +114,7 @@ export default async function DashboardPage() {
               <p className="text-xs text-[#6b7a9e]">Completa tu primer proyecto para ganar tu primer skill</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 sm:grid-cols-2 gap-2">
               {earnedSkills.slice(0, 6).map((skill: any) => (
                 <div
                   key={skill.id}
@@ -122,7 +122,7 @@ export default async function DashboardPage() {
                   className="bg-white rounded-xl border border-[#dde3f0] p-3 text-center hover:border-[#c8a217] transition-colors"
                 >
                   <div className="text-2xl mb-1">{skill.icon}</div>
-                  <p className="text-[10px] font-semibold text-[#1a2035] leading-tight">{skill.name}</p>
+                  <p className="text-[10px] font-semibold text-[#1a2035] leading-tight break-words">{skill.name}</p>
                 </div>
               ))}
             </div>
@@ -136,7 +136,7 @@ export default async function DashboardPage() {
       {/* Idiomas disponibles */}
       <div className="mt-8">
         <h2 className="font-bold text-[#1a2035] mb-4">Explorar idiomas</h2>
-        <div className="grid grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {[
             { name: "K'iche'", slug: 'kiche' },
             { name: "Q'eqchi'", slug: 'qeqchi' },
