@@ -6,14 +6,11 @@ export async function createClient() {
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!url || !key) {
-    throw new Error(
-      'Missing Supabase environment variables. ' +
-      'Ensure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set.'
-    )
+    console.error('[Supabase] Missing environment variables: NEXT_PUBLIC_SUPABASE_URL and/or NEXT_PUBLIC_SUPABASE_ANON_KEY')
   }
 
   const cookieStore = await cookies()
-  return createServerClient(url, key, {
+  return createServerClient(url || 'http://localhost', key || 'dummy-key', {
     cookies: {
       getAll() { return cookieStore.getAll() },
       setAll(cookiesToSet) {

@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!url || !key) {
-    console.error('Missing Supabase environment variables')
+    console.error('[Supabase] Missing environment variables')
     return NextResponse.next({ request })
   }
 
