@@ -1,0 +1,88 @@
+{
+  "skills": [
+    {
+      "name": "deploy",
+      "description": "Deploy the project to staging or production",
+      "prompt": "Deploy Astro Maya to the specified environment. Ask the user if they want to deploy to 'staging' or 'production', then execute: git push origin main:staging (for staging) or git push origin main (for production). Wait for confirmation before proceeding.",
+      "args": [
+        {
+          "name": "environment",
+          "description": "Target environment: staging or production",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "db-query",
+      "description": "Execute a Supabase database query",
+      "prompt": "Run a SQL query against the Supabase database. The user should provide the query. Use the Supabase MCP if authenticated, otherwise use the SQL editor in the Supabase dashboard. Common tables: profiles, projects, project_tasks, lesson_progress, user_xp_log, streaks, skills, user_skills, languages, lessons.",
+      "args": [
+        {
+          "name": "query",
+          "description": "SQL query to execute",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "add-lesson",
+      "description": "Add a new lesson to a language course",
+      "prompt": "Create a new lesson for one of the Maya languages. Steps:\n1. Ask which language (kiche, qeqchi, kaqchikel, mam, tzutujil)\n2. Ask for lesson title, level (principiante/intermedio/avanzado), and description\n3. Ask for vocabulary items (kiche/spanish pairs), phrases, grammar notes, cultural notes\n4. Generate the lesson content JSON\n5. Show the user the SQL INSERT statement to add to the database\n6. Optionally create the lesson content in the corresponding content file if needed",
+      "args": [
+        {
+          "name": "language",
+          "description": "Language slug (kiche, qeqchi, kaqchikel, mam, tzutujil)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "add-skill",
+      "description": "Add a new skill/badge to the system",
+      "prompt": "Create a new skill/badge for users to earn. Steps:\n1. Ask for skill name, description, and icon (emoji)\n2. Ask which language it belongs to (or if it's global)\n3. Ask for requirements to unlock it\n4. Generate SQL INSERT for skills table\n5. Show example code of how to award this skill in the app",
+      "args": [
+        {
+          "name": "name",
+          "description": "Skill name",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "user-stats",
+      "description": "View user statistics and progress",
+      "prompt": "Query user statistics from the database. Ask for user email or ID, then show:\n- Profile info\n- Total XP\n- Current streak\n- Projects count\n- Lessons completed\n- Skills earned\nUse Supabase queries to get this data from profiles, user_xp_log, streaks, projects, lesson_progress, and user_skills tables.",
+      "args": [
+        {
+          "name": "user",
+          "description": "User email or ID",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "fix-responsive",
+      "description": "Fix responsive design issues in a component",
+      "prompt": "Analyze and fix responsive design issues in a specific component. Ask which component/file to fix, then:\n1. Read the file\n2. Identify mobile layout issues\n3. Apply Tailwind responsive classes (sm:, md:, lg:)\n4. Ensure proper text wrapping (break-words)\n5. Check grid layouts for mobile\n6. Build and verify changes",
+      "args": [
+        {
+          "name": "file",
+          "description": "Component file path",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "content-check",
+      "description": "Check content files for missing translations or data",
+      "prompt": "Review the lesson content files (kicheLeccion.js, qeqchiLeccion.js, etc.) for:\n1. Missing Spanish translations\n2. Incomplete lessons\n3. Missing vocabulary or phrases\n4. Grammar notes\n5. Cultural notes\nProvide a summary of what's complete vs missing.",
+      "args": []
+    },
+    {
+      "name": "test-build",
+      "description": "Run build and check for errors",
+      "prompt": "Execute npm run build to verify the project compiles without errors. If there are TypeScript errors, ESLint warnings, or build failures, analyze and fix them. Show the final build output summary.",
+      "args": []
+    }
+  ]
+}
