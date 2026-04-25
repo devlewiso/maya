@@ -18,15 +18,50 @@ export default function LoginPage() {
     setError('')
 
     const supabase = createClient()
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { data: signInData, error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
       setError('Correo o contraseña incorrectos.')
       setLoading(false)
-    } else {
-      router.push('/dashboard')
-      router.refresh()
+      return
     }
+
+    // Verificar y crear perfil si no existe (para usuarios antiguos)
+    if (signInData.user) {
+      const { data: existingProfile } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', signInData.user.id)
+        .single()
+
+      if (!existingProfile) {
+        // Crear perfil faltante
+        await supabase.from('profiles').insert({
+          id: signInData.user.id,
+          display_name: signInData.user.user_metadata?.full_name || email.split('@')[0],
+          email: email,
+        })
+      }
+
+      // Verificar y crear streak si no existe
+      const { data: existingStreak } = await supabase
+        .from('streaks')
+        .select('user_id')
+        .eq('user_id', signInData.user.id)
+        .single()
+
+      if (!existingStreak) {
+        await supabase.from('streaks').insert({
+          user_id: signInData.user.id,
+          current_days: 0,
+          longest_days: 0,
+          last_activity: null,
+        })
+      }
+    }
+
+    router.push('/dashboard')
+    router.refresh()
   }
 
   return (
