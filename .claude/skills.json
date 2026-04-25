@@ -61,6 +61,18 @@
       ]
     },
     {
+      "name": "improve-ux",
+      "description": "Implement UX improvements following Astro Maya standards",
+      "prompt": "Implement specific UX improvements for Astro Maya. The user should specify which feature to implement from this list:\n\n1. SKELETON-LOADERS: Replace 'Cargando...' texts with animated skeleton loaders using shimmer effect in dashboard, projects, and lesson pages.\n\n2. EMPTY-STATES: Replace empty state messages with illustrated empty states including: illustration/emoji, friendly message, and clear CTA button. Apply to projects list, skills grid, lessons list.\n\n3. ONBOARDING: Create a 3-step onboarding modal for new users: (1) Welcome to Astro Maya, (2) Create your first project, (3) Complete your first lesson. Use localStorage to show only once.\n\n4. TOAST-NOTIFICATIONS: Implement toast notification system using Sonner or custom. Show toasts for: XP earned, skill unlocked, streak updated, lesson completed, project completed. Auto-dismiss after 4 seconds.\n\n5. CELEBRATIONS: Add confetti animation (canvas-confetti) when: completing a lesson, completing a project, earning a skill. Trigger from project detail page completeTask function.\n\n6. AUDIO-PLAYER: Add audio playback for vocabulary and phrases. Create AudioButton component that plays TTS or audio files. Position next to each word/phrase in lesson content.\n\n7. INTERACTIVE-QUIZ: Replace 'Ver respuesta' spoilers with interactive quiz components: multiple choice, text input with validation, matching pairs. Show correct/incorrect feedback immediately.\n\n8. STREAK-REMINDER: Add streak warning when user hasn't studied in 20+ hours. Show banner in dashboard with '¡Tu racha de X días está en riesgo!' CTA to continue learning.\n\n9. SEARCH-FILTER: Add search bar and filters to projects page. Filter by: language, status (active/completed), progress percentage. Search by project title.\n\n10. ACCESSIBILITY: Add ARIA labels to all interactive elements, ensure keyboard navigation works, verify color contrast meets WCAG 2.1 AA standards.\n\nAsk the user which number(s) to implement, then create the necessary components and integrate them. Always test with npm run build after changes.",
+      "args": [
+        {
+          "name": "feature",
+          "description": "UX feature number(s) to implement (1-10, comma separated for multiple)",
+          "required": true
+        }
+      ]
+    },
+    {
       "name": "fix-responsive",
       "description": "Fix responsive design issues in a component",
       "prompt": "Analyze and fix responsive design issues in a specific component. Ask which component/file to fix, then:\n1. Read the file\n2. Identify mobile layout issues\n3. Apply Tailwind responsive classes (sm:, md:, lg:)\n4. Ensure proper text wrapping (break-words)\n5. Check grid layouts for mobile\n6. Build and verify changes",
