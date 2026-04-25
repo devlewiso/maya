@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { SkeletonProject } from '@/app/components/Skeleton'
 
 const PROJECT_TYPES = [
   { value: 'ruta_basica',            label: 'Ruta Básica',           desc: 'Todas las lecciones principiante del idioma' },
@@ -19,10 +20,16 @@ const LANG_COLORS: Record<string, string> = {
 export default function ProyectosPage() {
   const supabase = createClient()
   const [projects, setProjects] = useState<any[]>([])
+  const [filteredProjects, setFilteredProjects] = useState<any[]>([])
   const [languages, setLanguages] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [saving, setSaving] = useState(false)
+
+  // Search and filter state
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filterLanguage, setFilterLanguage] = useState('')
+  const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'completed'>('all')
 
   const [form, setForm] = useState({
     title: '', description: '', language_id: '', type: 'ruta_basica'
@@ -38,11 +45,38 @@ export default function ProyectosPage() {
         supabase.from('languages').select('*').eq('is_active', true).order('name'),
       ])
       setProjects(proj ?? [])
+      setFilteredProjects(proj ?? [])
       setLanguages(langs ?? [])
       setLoading(false)
     }
     load()
   }, [])
+
+  // Filter projects based on search and filters
+  useEffect(() => {
+    let filtered = projects
+
+    // Search by title
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase()
+      filtered = filtered.filter(p =>
+        p.title.toLowerCase().includes(query) ||
+        (p.description && p.description.toLowerCase().includes(query))
+      )
+    }
+
+    // Filter by language
+    if (filterLanguage) {
+      filtered = filtered.filter(p => p.language_id?.toString() === filterLanguage)
+    }
+
+    // Filter by status
+    if (filterStatus !== 'all') {
+      filtered = filtered.filter(p => p.status === filterStatus)
+    }
+
+    setFilteredProjects(filtered)
+  }, [searchQuery, filterLanguage, filterStatus, projects])
 
   async function createProject(e: React.FormEvent) {
     e.preventDefault()
@@ -104,8 +138,8 @@ export default function ProyectosPage() {
     setSaving(false)
   }
 
-  const active = projects.filter(p => p.status === 'active')
-  const completed = projects.filter(p => p.status === 'completed')
+  const active = filteredProjects.filter(p => p.status === 'active')
+  const completed = filteredProjects.filter(p => p.status === 'completed')
 
   return (
     <div className="p-8 max-w-4xl">
@@ -121,6 +155,86 @@ export default function ProyectosPage() {
           + Nuevo proyecto
         </button>
       </div>
+
+      {/* Search and filters */}
+      {!loading && projects.length > 0 && (
+        <div className="mb-6 space-y-3">
+          {/* Search bar */}
+          <div className="relative">
+            <svg
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6b7a9e]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            <input
+              type="text"
+              placeholder="Buscar proyectos..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-4 py-2.5 text-sm rounded-lg border border-[#dde3f0] bg-white focus:outline-none focus:border-[#1b3a6b] focus:ring-1 focus:ring-[#1b3a6b]"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6b7a9e] hover:text-[#1a2035]"
+              >
+                ×
+              </button>
+            )}
+          </div>
+
+          {/* Filters */}
+          <div className="flex flex-wrap gap-2">
+            <select
+              value={filterLanguage}
+              onChange={(e) => setFilterLanguage(e.target.value)}
+              className="px-3 py-1.5 text-sm rounded-lg border border-[#dde3f0] bg-white focus:outline-none focus:border-[#1b3a6b]"
+            >
+              <option value="">Todos los idiomas</option>
+              {languages.map((l: any) => (
+                <option key={l.id} value={l.id}>{l.name}</option>
+              ))}
+            </select>
+
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value as 'all' | 'active' | 'completed')}
+              className="px-3 py-1.5 text-sm rounded-lg border border-[#dde3f0] bg-white focus:outline-none focus:border-[#1b3a6b]"
+            >
+              <option value="all">Todos los estados</option>
+              <option value="active">Activos</option>
+              <option value="completed">Completados</option>
+            </select>
+
+            {(searchQuery || filterLanguage || filterStatus !== 'all') && (
+              <button
+                onClick={() => {
+                  setSearchQuery('')
+                  setFilterLanguage('')
+                  setFilterStatus('all')
+                }}
+                className="px-3 py-1.5 text-sm text-[#6b7a9e] hover:text-[#1b3a6b] font-medium"
+              >
+                Limpiar filtros
+              </button>
+            )}
+          </div>
+
+          {filteredProjects.length !== projects.length && (
+            <p className="text-xs text-[#6b7a9e]">
+              Mostrando {filteredProjects.length} de {projects.length} proyectos
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Modal crear proyecto */}
       {showForm && (
@@ -204,7 +318,11 @@ export default function ProyectosPage() {
       )}
 
       {loading ? (
-        <div className="text-sm text-[#6b7a9e]">Cargando proyectos...</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <SkeletonProject />
+          <SkeletonProject />
+          <SkeletonProject />
+        </div>
       ) : projects.length === 0 ? (
         <div className="bg-white rounded-2xl border border-dashed border-[#dde3f0] p-12 text-center">
           <div className="text-4xl mb-3">◈</div>
@@ -213,6 +331,16 @@ export default function ProyectosPage() {
           <button onClick={() => setShowForm(true)} className="px-6 py-2.5 bg-[#c8a217] text-[#0f2347] font-bold rounded-lg text-sm hover:bg-[#e8be2c] transition">
             + Crear mi primer proyecto
           </button>
+        </div>
+      ) : filteredProjects.length === 0 ? (
+        <div className="bg-white rounded-2xl border border-dashed border-[#dde3f0] p-8 text-center">
+          <div className="w-16 h-16 bg-[#f5f7fc] rounded-full flex items-center justify-center mx-auto mb-3">
+            <svg className="w-8 h-8 text-[#6b7a9e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <h3 className="font-bold text-[#1a2035] mb-1">No se encontraron proyectos</h3>
+          <p className="text-sm text-[#6b7a9e]">Intenta con otros términos de búsqueda</p>
         </div>
       ) : (
         <>

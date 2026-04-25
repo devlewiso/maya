@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Toaster } from '@/app/components/Toaster'
+import { Onboarding } from '@/app/components/Onboarding'
 
 const navItems = [
   { href: '/dashboard', label: 'Inicio', icon: '⌂' },
@@ -258,6 +259,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </main>
       </div>
       <Toaster />
+      <Onboarding />
     </div>
   )
 }

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 import confetti from 'canvas-confetti'
 import { createClient } from '@/lib/supabase/client'
+import { AudioButton } from '@/app/components/AudioButton'
 import { kicheLessons } from '@/app/content/kicheLeccion'
 import { qeqchiLessons } from '@/app/content/qeqchiLeccion'
 import { kaqchikelLessons } from '@/app/content/kaqchikelLeccion'
@@ -396,18 +397,20 @@ export default function ProyectoDetailPage() {
                       </h3>
                       <div className="rounded-xl border border-[#dde3f0] overflow-hidden">
                         <div
-                          className="grid grid-cols-2 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-white"
+                          className="grid grid-cols-[1fr_auto_1fr] px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-white items-center"
                           style={{ backgroundColor: color }}
                         >
                           <span>{project.languages?.name}</span>
+                          <span className="w-8" />
                           <span>Español</span>
                         </div>
                         {content.content.vocabulary.map((item: any, i: number) => (
                           <div
                             key={i}
-                            className={`grid grid-cols-2 px-4 py-2.5 text-sm ${i % 2 === 0 ? 'bg-white' : 'bg-[#f5f7fc]'}`}
+                            className={`grid grid-cols-[1fr_auto_1fr] px-4 py-2.5 text-sm items-center gap-2 ${i % 2 === 0 ? 'bg-white' : 'bg-[#f5f7fc]'}`}
                           >
                             <span className="font-semibold text-[#1a2035]">{item[mayaKey]}</span>
+                            <AudioButton text={item[mayaKey]} size="sm" color={color} />
                             <span className="text-[#6b7a9e]">{item.spanish}</span>
                           </div>
                         ))}
@@ -425,10 +428,13 @@ export default function ProyectoDetailPage() {
                         {content.content.phrases.map((p: any, i: number) => (
                           <div
                             key={i}
-                            className="bg-[#f5f7fc] rounded-lg px-4 py-3 border border-[#dde3f0]"
+                            className="bg-[#f5f7fc] rounded-lg px-4 py-3 border border-[#dde3f0] flex items-start gap-3"
                           >
-                            <p className="font-semibold text-sm text-[#1a2035]">{p[mayaKey]}</p>
-                            <p className="text-xs text-[#6b7a9e] mt-0.5">{p.spanish}</p>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-semibold text-sm text-[#1a2035]">{p[mayaKey]}</p>
+                              <p className="text-xs text-[#6b7a9e] mt-0.5">{p.spanish}</p>
+                            </div>
+                            <AudioButton text={p[mayaKey]} size="sm" color={color} />
                           </div>
                         ))}
                       </div>
