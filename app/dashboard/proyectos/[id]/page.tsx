@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
@@ -41,9 +41,21 @@ export default function ProyectoDetailPage() {
   const [completing, setCompleting] = useState(false)
   const [newSkill, setNewSkill] = useState<any>(null)
   const [activeTask, setActiveTask] = useState<any>(null)
+  const [userId, setUserId] = useState<string | null>(null)
+  const [lessonProgress, setLessonProgress] = useState(0)
+  const [timeSpent, setTimeSpent] = useState(0)
+  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set())
+
+  // Tracking refs
+  const lessonStartTime = useRef<number>(0)
+  const autoSaveInterval = useRef<NodeJS.Timeout | null>(null)
+  const sectionsRef = useRef<Set<string>>(new Set())
 
   useEffect(() => {
     async function load() {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUserId(user?.id ?? null)
+
       const { data: proj } = await supabase
         .from('projects')
         .select('*, languages(name, slug)')
@@ -62,6 +74,97 @@ export default function ProyectoDetailPage() {
     }
     load()
   }, [id])
+
+  // Start tracking when opening a lesson
+  useEffect(() => {
+    if (activeTask && userId) {
+      lessonStartTime.current = Date.now()
+      sectionsRef.current.clear()
+      setViewedSections(new Set())
+      setLessonProgress(0)
+      setTimeSpent(0)
+
+      // Auto-save every 10 seconds
+      autoSaveInterval.current = setInterval(() => {
+        saveProgress(false)
+      }, 10000)
+
+      return () => {
+        if (autoSaveInterval.current) {
+          clearInterval(autoSaveInterval.current)
+        }
+        saveProgress(true)
+      }
+    }
+  }, [activeTask, userId])
+
+  // Track time spent
+  useEffect(() => {
+    if (!activeTask) return
+    const interval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - lessonStartTime.current) / 1000)
+      setTimeSpent(elapsed)
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [activeTask])
+
+  async function saveProgress(isFinal: boolean = false) {
+    if (!userId || !activeTask) return
+
+    const elapsed = Math.floor((Date.now() - lessonStartTime.current) / 1000)
+    const sections = Array.from(sectionsRef.current)
+    const totalSections = 4
+    const progress = Math.min(Math.round((sections.length / totalSections) * 100), 100)
+
+    await supabase.from('lesson_progress').upsert({
+      user_id: userId,
+      lesson_id: activeTask.lesson_id,
+      progress_percent: progress,
+      time_spent_seconds: elapsed,
+      sections_viewed: sections,
+      last_viewed_at: new Date().toISOString(),
+      completed: isFinal && progress >= 75,
+    }, {
+      onConflict: 'user_id,lesson_id'
+    })
+
+    setLessonProgress(progress)
+
+    if (progress > 50) {
+      await updateStreak()
+    }
+  }
+
+  async function updateStreak() {
+    if (!userId) return
+    const today = new Date().toISOString().split('T')[0]
+    const { data: streak } = await supabase.from('streaks').select('*').eq('user_id', userId).single()
+
+    if (streak) {
+      const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
+      const newDays = streak.last_activity === yesterday
+        ? streak.current_days + 1
+        : streak.last_activity === today
+          ? streak.current_days
+          : 1
+
+      await supabase.from('streaks').update({
+        current_days: newDays,
+        longest_days: Math.max(newDays, streak.longest_days || 0),
+        last_activity: today,
+      }).eq('user_id', userId)
+    }
+  }
+
+  function trackSection(sectionId: string) {
+    if (!sectionsRef.current.has(sectionId)) {
+      sectionsRef.current.add(sectionId)
+      setViewedSections(new Set(sectionsRef.current))
+      const totalSections = 4
+      const progress = Math.min(Math.round((sectionsRef.current.size / totalSections) * 100), 100)
+      setLessonProgress(progress)
+    }
+  }
 
   function getLessonContent(task: any) {
     const slug = project?.languages?.slug
@@ -186,33 +289,61 @@ export default function ProyectoDetailPage() {
             className="bg-white w-full max-w-xl h-full overflow-y-auto shadow-2xl flex flex-col"
             onClick={e => e.stopPropagation()}
           >
-            {/* Header del panel */}
-            <div className="sticky top-0 bg-white border-b border-[#dde3f0] px-6 py-4 flex items-start justify-between gap-4 z-10">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span
-                    className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white"
-                    style={{ backgroundColor: color }}
-                  >
-                    {project.languages?.name}
-                  </span>
-                  {activeTask.lessons?.level && (
+            {/* Header del panel con progreso */}
+            <div className="sticky top-0 bg-white border-b border-[#dde3f0] z-10">
+              <div className="px-6 py-4 flex items-start justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
                     <span
                       className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white"
-                      style={{ backgroundColor: LEVEL_COLORS[activeTask.lessons.level] ?? '#6b7a9e' }}
+                      style={{ backgroundColor: color }}
                     >
-                      {LEVEL_LABELS[activeTask.lessons.level] ?? activeTask.lessons.level}
+                      {project.languages?.name}
                     </span>
-                  )}
+                    {activeTask.lessons?.level && (
+                      <span
+                        className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white"
+                        style={{ backgroundColor: LEVEL_COLORS[activeTask.lessons.level] ?? '#6b7a9e' }}
+                      >
+                        {LEVEL_LABELS[activeTask.lessons.level] ?? activeTask.lessons.level}
+                      </span>
+                    )}
+                  </div>
+                  <h2 className="text-lg font-bold text-[#1a2035] leading-tight">{activeTask.title}</h2>
                 </div>
-                <h2 className="text-lg font-bold text-[#1a2035] leading-tight">{activeTask.title}</h2>
+                <button
+                  onClick={() => setActiveTask(null)}
+                  className="text-[#6b7a9e] hover:text-[#1a2035] text-2xl leading-none flex-shrink-0 mt-1"
+                >
+                  ×
+                </button>
               </div>
-              <button
-                onClick={() => setActiveTask(null)}
-                className="text-[#6b7a9e] hover:text-[#1a2035] text-2xl leading-none flex-shrink-0 mt-1"
-              >
-                ×
-              </button>
+              {/* Progress bar */}
+              {!activeTask.completed && (
+                <div className="px-6 pb-3">
+                  <div className="flex items-center justify-between text-[10px] text-[#6b7a9e] mb-1">
+                    <span>Progreso: {lessonProgress}%</span>
+                    <span>{Math.floor(timeSpent / 60)}:{String(timeSpent % 60).padStart(2, '0')} min</span>
+                  </div>
+                  <div className="h-1.5 bg-[#f5f7fc] rounded-full overflow-hidden border border-[#dde3f0]">
+                    <div
+                      className="h-full rounded-full transition-all duration-500"
+                      style={{ width: `${lessonProgress}%`, backgroundColor: color }}
+                    />
+                  </div>
+                  <div className="flex gap-1 mt-2">
+                    {['vocab', 'phrases', 'grammar', 'cultural'].map((section) => (
+                      <div
+                        key={section}
+                        className={`h-1 flex-1 rounded-full transition-colors ${
+                          viewedSections.has(section) ? 'bg-green-400' : 'bg-gray-200'
+                        }`}
+                        title={section}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="flex-1 px-6 py-5 space-y-6">
@@ -220,7 +351,7 @@ export default function ProyectoDetailPage() {
                 <>
                   {/* Vocabulario */}
                   {content.content?.vocabulary?.length > 0 && (
-                    <div>
+                    <div ref={(el) => { if (el) trackSection('vocab') }} data-section="vocab">
                       <h3 className="text-xs font-bold uppercase tracking-wider text-[#6b7a9e] mb-3">
                         Vocabulario
                       </h3>
@@ -247,7 +378,7 @@ export default function ProyectoDetailPage() {
 
                   {/* Frases */}
                   {content.content?.phrases?.length > 0 && (
-                    <div>
+                    <div ref={(el) => { if (el) trackSection('phrases') }} data-section="phrases">
                       <h3 className="text-xs font-bold uppercase tracking-wider text-[#6b7a9e] mb-3">
                         Frases clave
                       </h3>
@@ -267,7 +398,7 @@ export default function ProyectoDetailPage() {
 
                   {/* Gramática */}
                   {content.content?.grammar && (
-                    <div>
+                    <div ref={(el) => { if (el) trackSection('grammar') }} data-section="grammar">
                       <h3 className="text-xs font-bold uppercase tracking-wider text-[#6b7a9e] mb-2">
                         Gramática
                       </h3>
@@ -279,7 +410,7 @@ export default function ProyectoDetailPage() {
 
                   {/* Nota cultural */}
                   {content.content?.culturalNote && (
-                    <div>
+                    <div ref={(el) => { if (el) trackSection('cultural') }} data-section="cultural">
                       <h3 className="text-xs font-bold uppercase tracking-wider text-[#6b7a9e] mb-2">
                         Nota cultural
                       </h3>

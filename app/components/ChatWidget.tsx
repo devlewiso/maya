@@ -124,7 +124,7 @@ export default function ChatWidget() {
           body: JSON.stringify({
             session_id: sessionId.current ?? localStorage.getItem(SESSION_KEY) ?? crypto.randomUUID(),
             message: text,
-            
+
           }),
         })
         if (res.status === 429) {
