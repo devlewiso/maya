@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 import confetti from 'canvas-confetti'
 import { createClient } from '@/lib/supabase/client'
 import { AudioButton } from '@/app/components/AudioButton'
+import { InteractiveQuiz } from '@/app/components/InteractiveQuiz'
 import { kicheLessons } from '@/app/content/kicheLeccion'
 import { qeqchiLessons } from '@/app/content/qeqchiLeccion'
 import { kaqchikelLessons } from '@/app/content/kaqchikelLeccion'
@@ -465,6 +466,26 @@ export default function ProyectoDetailPage() {
                       >
                         {content.content.culturalNote}
                       </div>
+                    </div>
+                  )}
+
+                  {/* Ejercicios interactivos */}
+                  {content.content?.exercises && content.content.exercises.length > 0 && (
+                    <div className="mt-6 pt-6 border-t border-[#dde3f0]">
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#6b7a9e] mb-4">
+                        Ejercicios
+                      </h3>
+                      <InteractiveQuiz
+                        exercises={content.content.exercises}
+                        languageColor={color}
+                        onComplete={(score, total) => {
+                          if (score >= total * 0.7) {
+                            toast.success(`¡Ejercicios completados! ${score}/${total}`, {
+                              description: 'Gran trabajo practicando',
+                            })
+                          }
+                        }}
+                      />
                     </div>
                   )}
                 </>
