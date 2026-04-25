@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { Toaster } from '@/app/components/Toaster'
 
 const navItems = [
   { href: '/dashboard', label: 'Inicio', icon: '⌂' },
@@ -256,6 +257,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {children}
         </main>
       </div>
+      <Toaster />
     </div>
   )
 }

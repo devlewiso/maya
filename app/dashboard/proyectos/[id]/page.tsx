@@ -3,6 +3,8 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { toast } from 'sonner'
+import confetti from 'canvas-confetti'
 import { createClient } from '@/lib/supabase/client'
 import { kicheLessons } from '@/app/content/kicheLeccion'
 import { qeqchiLessons } from '@/app/content/qeqchiLeccion'
@@ -222,6 +224,20 @@ export default function ProyectoDetailPage() {
     setTasks(updatedTasks)
     setActiveTask(null)
 
+    // Confetti celebration for completing a task
+    confetti({
+      particleCount: 60,
+      spread: 70,
+      origin: { y: 0.8 },
+      colors: ['#1b3a6b', '#c8a217', '#ffffff']
+    })
+
+    // Toast notification for XP earned
+    toast.success(`¡Lección completada! +${xpReward} XP`, {
+      description: 'Sigue así para mantener tu racha',
+      duration: 4000,
+    })
+
     const allDone = updatedTasks.every(t => t.completed)
     if (allDone) {
       await supabase.from('projects')
@@ -244,6 +260,29 @@ export default function ProyectoDetailPage() {
       }
 
       setProject((p: any) => ({ ...p, status: 'completed' }))
+
+      // Big confetti celebration for completing the entire project
+      const duration = 3000
+      const end = Date.now() + duration
+
+      const frame = () => {
+        confetti({
+          particleCount: 100,
+          spread: 100,
+          origin: { y: 0.6 },
+          colors: ['#1b3a6b', '#c8a217', '#ffffff', '#22c55e']
+        })
+        if (Date.now() < end) {
+          requestAnimationFrame(frame)
+        }
+      }
+      frame()
+
+      // Toast for project completion
+      toast.success('¡Proyecto completado! 🎉', {
+        description: '+50 XP bonus y nuevo skill desbloqueado',
+        duration: 5000,
+      })
     }
 
     setCompleting(false)
