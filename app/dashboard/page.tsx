@@ -1,5 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
+import { StreakReminder } from '@/app/components/StreakReminder'
+import { SkeletonCard, SkeletonProject, SkeletonSkill } from '@/app/components/Skeleton'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -30,6 +32,9 @@ export default async function DashboardPage() {
 
   return (
     <div className="p-8 max-w-5xl">
+      {/* Streak Reminder */}
+      <StreakReminder />
+
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-[#1a2035] mb-1">Tu panel de aprendizaje</h1>
@@ -67,8 +72,13 @@ export default async function DashboardPage() {
 
           {activeProjects.length === 0 ? (
             <div className="bg-white rounded-xl border border-dashed border-[#dde3f0] p-8 text-center">
-              <div className="text-3xl mb-2">◈</div>
-              <p className="text-sm text-[#6b7a9e] mb-4">No tienes proyectos activos</p>
+              <div className="w-20 h-20 bg-[#f5f7fc] rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-10 h-10 text-[#6b7a9e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <h3 className="font-bold text-[#1a2035] mb-1">No tienes proyectos activos</h3>
+              <p className="text-sm text-[#6b7a9e] mb-4">Crea tu primer proyecto para empezar a aprender un idioma maya</p>
               <Link
                 href="/dashboard/proyectos"
                 className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1b3a6b] text-white text-xs font-semibold rounded-lg hover:bg-[#254d8f] transition"
@@ -110,7 +120,12 @@ export default async function DashboardPage() {
           <h2 className="font-bold text-[#1a2035] mb-4">Skills ganados</h2>
           {earnedSkills.length === 0 ? (
             <div className="bg-white rounded-xl border border-dashed border-[#dde3f0] p-6 text-center">
-              <div className="text-2xl mb-2">🪶</div>
+              <div className="w-16 h-16 bg-[#f5f7fc] rounded-full flex items-center justify-center mx-auto mb-3">
+                <svg className="w-8 h-8 text-[#c8a217]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                </svg>
+              </div>
+              <h3 className="font-bold text-[#1a2035] text-sm mb-1">Sin skills aún</h3>
               <p className="text-xs text-[#6b7a9e]">Completa tu primer proyecto para ganar tu primer skill</p>
             </div>
           ) : (
