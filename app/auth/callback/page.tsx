@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
-export default function AuthCallbackPage() {
+function AuthCallbackContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [error, setError] = useState<string | null>(null)
@@ -48,22 +48,35 @@ export default function AuthCallbackPage() {
   }, [searchParams, router])
 
   return (
+    <div className="text-center">
+      {error ? (
+        <>
+          <div className="text-4xl mb-4">❌</div>
+          <p className="text-lg font-semibold text-[#1a2035]">{error}</p>
+          <p className="text-sm text-[#6b7a9e] mt-1">Redirigiendo al login...</p>
+        </>
+      ) : (
+        <>
+          <div className="text-4xl mb-4">⏳</div>
+          <p className="text-lg font-semibold text-[#1a2035]">Completando inicio de sesión...</p>
+          <p className="text-sm text-[#6b7a9e] mt-1">Redirigiendo al dashboard</p>
+        </>
+      )}
+    </div>
+  )
+}
+
+export default function AuthCallbackPage() {
+  return (
     <div className="min-h-screen bg-[#f5f7fc] flex items-center justify-center">
-      <div className="text-center">
-        {error ? (
-          <>
-            <div className="text-4xl mb-4">❌</div>
-            <p className="text-lg font-semibold text-[#1a2035]">{error}</p>
-            <p className="text-sm text-[#6b7a9e] mt-1">Redirigiendo al login...</p>
-          </>
-        ) : (
-          <>
-            <div className="text-4xl mb-4">⏳</div>
-            <p className="text-lg font-semibold text-[#1a2035]">Completando inicio de sesión...</p>
-            <p className="text-sm text-[#6b7a9e] mt-1">Redirigiendo al dashboard</p>
-          </>
-        )}
-      </div>
+      <Suspense fallback={
+        <div className="text-center">
+          <div className="text-4xl mb-4">⏳</div>
+          <p className="text-lg font-semibold text-[#1a2035]">Cargando...</p>
+        </div>
+      }>
+        <AuthCallbackContent />
+      </Suspense>
     </div>
   )
 }
