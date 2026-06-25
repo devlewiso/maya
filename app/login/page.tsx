@@ -71,13 +71,7 @@ export default function LoginPage() {
 
     const supabase = createClient()
 
-    // DEBUG: Verificar estado inicial
-    console.log('[GOOGLE LOGIN] Iniciando login con Google...')
-    console.log('[GOOGLE LOGIN] Window origin:', typeof window !== 'undefined' ? window.location.origin : 'no disponible')
-
-    // La redirect URL debe ser la de la app local para que Supabase guarde las cookies correctamente
     const redirectUrl = `${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/auth/callback`
-    console.log('[GOOGLE LOGIN] Redirect URL:', redirectUrl)
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -86,15 +80,10 @@ export default function LoginPage() {
       },
     })
 
-    // DEBUG: Verificar resultado
-    console.log('[GOOGLE LOGIN] Respuesta de signInWithOAuth:', { error })
-
     if (error) {
-      console.error('[GOOGLE LOGIN] Error detallado:', error)
+      console.error('[GOOGLE LOGIN] Error:', error)
       setError(`Error al iniciar con Google: ${error.message}`)
       setGoogleLoading(false)
-    } else {
-      console.log('[GOOGLE LOGIN] Redirigiendo a Google...')
     }
   }
 
