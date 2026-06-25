@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   }
 
   if (code) {
-    const supabase = await createServerClient()
+    const supabase = await createClient()
 
     // Intercambiar código por sesión (esto maneja PKCE del lado del servidor)
     const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
