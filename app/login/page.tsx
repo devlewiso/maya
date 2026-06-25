@@ -71,7 +71,12 @@ export default function LoginPage() {
 
     const supabase = createClient()
 
-    const redirectUrl = `${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/auth/callback`
+    // Usar URL de producción o la del browser actual
+    const origin = typeof window !== 'undefined'
+      ? window.location.origin
+      : process.env.NEXT_PUBLIC_SITE_URL || 'https://astromaya.neuralcodelab.com'
+
+    const redirectUrl = `${origin}/auth/callback`
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
