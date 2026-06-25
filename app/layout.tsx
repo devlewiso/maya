@@ -19,6 +19,10 @@ const OG_IMAGE = "https://opengraph.b-cdn.net/production/images/f52c8273-3f88-45
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://astromaya.neuralcodelab.com"),
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   title: {
     default: "Astro Maya — Aprende los Idiomas Mayas de Guatemala",
     template: "%s | Astro Maya",

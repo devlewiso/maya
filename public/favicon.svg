@@ -1,0 +1,22 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo circular -->
+  <circle cx="16" cy="16" r="16" fill="#1b3a6b"/>
+
+  <!-- Sol maya (Kin) - símbolo sagrado del tiempo -->
+  <circle cx="16" cy="16" r="10" fill="#c8a217"/>
+
+  <!-- Rayos del sol en las 4 direcciones cardinales (cosmovisión maya) -->
+  <rect x="15" y="3" width="2" height="5" fill="#c8a217"/>
+  <rect x="15" y="24" width="2" height="5" fill="#c8a217"/>
+  <rect x="3" y="15" width="5" height="2" fill="#c8a217"/>
+  <rect x="24" y="15" width="5" height="2" fill="#c8a217"/>
+
+  <!-- Rayos diagonales -->
+  <rect x="5" y="5" width="2" height="5" fill="#c8a217" transform="rotate(45 6 7.5)"/>
+  <rect x="21.5" y="21.5" width="2" height="5" fill="#c8a217" transform="rotate(45 22.5 24)"/>
+  <rect x="21.5" y="5" width="2" height="5" fill="#c8a217" transform="rotate(-45 22.5 7.5)"/>
+  <rect x="5" y="21.5" width="2" height="5" fill="#c8a217" transform="rotate(-45 6 24)"/>
+
+  <!-- Punto central - representa el centro del universo maya -->
+  <circle cx="16" cy="16" r="2" fill="#1b3a6b"/>
+</svg>
