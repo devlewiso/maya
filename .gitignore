@@ -39,3 +39,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+GOOGLE_OAUTH_SETUP.md
+.neon

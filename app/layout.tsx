@@ -4,6 +4,8 @@ import Script from "next/script";
 import "./globals.css";
 import ScrollToTop from "./components/ScrollToTop";
 import CookieBanner from "./components/CookieBanner";
+import ChatWidget from "./components/ChatWidget";
+import ReferralBanner from "./components/ReferralBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -117,9 +119,11 @@ export default function RootLayout({
             }),
           }}
         />
+        <ReferralBanner />
         {children}
         <ScrollToTop />
         <CookieBanner />
+        <ChatWidget />
       </body>
     </html>
   );

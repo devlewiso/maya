@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
+import { getStreakStatus } from '@/app/actions/dashboard'
 
 export function StreakReminder() {
   const [showReminder, setShowReminder] = useState(false)
@@ -11,32 +11,22 @@ export function StreakReminder() {
 
   useEffect(() => {
     async function checkStreak() {
-      const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
+      try {
+        const streak = await getStreakStatus()
 
-      if (!user) {
-        setLoading(false)
-        return
-      }
+        if (streak && streak.currentDays > 0 && streak.lastActivity) {
+          const hoursSinceActivity =
+            (Date.now() - new Date(streak.lastActivity).getTime()) / (1000 * 60 * 60)
 
-      const { data: streak } = await supabase
-        .from('streaks')
-        .select('*')
-        .eq('user_id', user.id)
-        .single()
-
-      if (streak && streak.current_days > 0) {
-        const lastActivity = new Date(streak.last_activity)
-        const now = new Date()
-        const hoursSinceActivity = (now.getTime() - lastActivity.getTime()) / (1000 * 60 * 60)
-
-        // Show reminder if more than 20 hours since last activity
-        if (hoursSinceActivity > 20) {
-          setStreakDays(streak.current_days)
-          setShowReminder(true)
+          // Show reminder if more than 20 hours since last activity
+          if (hoursSinceActivity > 20) {
+            setStreakDays(streak.currentDays)
+            setShowReminder(true)
+          }
         }
+      } catch {
+        /* sin sesión: no mostramos nada */
       }
-
       setLoading(false)
     }
 

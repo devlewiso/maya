@@ -7,9 +7,14 @@ Astro Maya es una plataforma educativa para aprender idiomas mayas de Guatemala:
 - **Framework**: Next.js 15.5+ con App Router
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4
-- **Database**: Supabase (PostgreSQL)
-- **Auth**: Supabase Auth
-- **Package Manager**: npm/pnpm
+- **Database**: Neon (Postgres serverless) vía driver `@neondatabase/serverless`
+- **ORM**: Drizzle (`lib/db/schema.ts`, migraciones en `drizzle/`)
+- **Auth**: Better Auth (email+password y Google) — `lib/auth.ts` / `lib/auth-client.ts`
+- **Package Manager**: npm
+
+> Migrado desde Supabase (Auth + Postgres) en 2026-09. Ya no hay RLS: la
+> autorización se aplica en cada Server Action / Server Component filtrando por
+> `session.user.id` (helper `requireUser()` en `lib/session.ts`).
 
 ## Project Structure
 
@@ -48,11 +53,12 @@ Astro Maya es una plataforma educativa para aprender idiomas mayas de Guatemala:
 
 ```
 
-## Database Schema (Supabase)
+## Database Schema (Neon / Drizzle — `lib/db/schema.ts`)
 
 ### Tables
-- **profiles**: user_id, display_name, avatar_url
-- **projects**: id, user_id, title, description, language_id, type, status, created_at
+- **user / session / account / verification**: tablas de Better Auth. `user.name` es el
+  display_name y `user.image` el avatar (antes tabla `profiles`, ya eliminada).
+- **projects**: id, user_id (text), title, description, language_id, type, status, completed_at, created_at
 - **project_tasks**: id, project_id, lesson_id, title, description, order_index, xp_reward, completed, completed_at
 - **lesson_progress**: user_id, lesson_id, progress_percent, time_spent_seconds, sections_viewed, completed, completed_at, last_viewed_at
 - **user_xp_log**: id, user_id, xp, reason, ref_id, created_at
@@ -65,14 +71,19 @@ Astro Maya es una plataforma educativa para aprender idiomas mayas de Guatemala:
 ### Key Relationships
 - projects → languages (language_id)
 - project_tasks → projects (project_id), lessons (lesson_id)
-- lesson_progress → profiles (user_id), lessons (lesson_id)
-- user_skills → profiles (user_id), skills (skill_id)
+- lesson_progress / user_xp_log / streaks / user_skills / projects → user (user_id, text, ON DELETE CASCADE)
+- user_skills → skills (skill_id)
 
 ## Authentication Flow
-1. User logs in via Supabase Auth
-2. Middleware checks auth for /dashboard/* routes
-3. Client uses createClient() from @/lib/supabase/client
-4. Server uses createClient() from @/lib/supabase/server
+1. Login/signup vía Better Auth: `authClient` (`lib/auth-client.ts`) en componentes
+   cliente — `signIn.email`, `signUp.email`, `signIn.social({provider:'google'})`.
+2. Handler en `app/api/auth/[...all]/route.ts`. Callback de Google: `/api/auth/callback/google`.
+3. `middleware.ts` hace un chequeo optimista de cookie (`getSessionCookie`) para
+   `/dashboard/*`, `/login`, `/signup`.
+4. En el servidor: `getSession()` / `requireUser()` desde `lib/session.ts`.
+5. El "perfil" vive en la tabla `user` de Better Auth: `user.name` == display_name,
+   `user.image` == avatar_url. Al crear un usuario, un `databaseHook` inicializa su `streaks`.
+6. Todo acceso a datos del dashboard pasa por Server Actions en `app/actions/dashboard.ts`.
 
 ## Progress Tracking System
 - Auto-tracks time spent in lessons
@@ -95,14 +106,25 @@ Astro Maya es una plataforma educativa para aprender idiomas mayas de Guatemala:
 - TypeScript with strict types
 - Tailwind for styling (custom colors: #1b3a6b, #c8a217, #f5f7fc, #dde3f0)
 - Server components by default, 'use client' for interactivity
-- Supabase queries with RLS (Row Level Security)
+- Queries con Drizzle; autorización manual por `user.id` en cada Server Action
 
 ## Environment Variables
 ```
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
+DATABASE_URL=            # Neon pooled (runtime app)
+DATABASE_URL_UNPOOLED=   # Neon directo (migraciones drizzle-kit)
+BETTER_AUTH_SECRET=      # openssl rand -base64 32
+BETTER_AUTH_URL=         # http://localhost:3001 en dev, dominio en prod
+NEXT_PUBLIC_BETTER_AUTH_URL=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 ```
+Neon está linkeado con `neon link` (`.neon/`, proyecto `little-cake-70155363`).
+`neon env pull` refresca las DATABASE_URL en `.env.local`.
+
+## DB / Migraciones
+- Editar `lib/db/schema.ts` → `npm run db:generate` → `npm run db:migrate` (aplica a Neon).
+- `npm run db:seed` reinserta languages + skills.
+- `npm run db:studio` abre Drizzle Studio.
 
 ## Common Tasks
 

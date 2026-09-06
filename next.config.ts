@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https:",
               "font-src 'self'",
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://agentclaw.nosotros.space wss://agentclaw.nosotros.space https://www.google-analytics.com",
+              "connect-src 'self' https://agentclaw.nosotros.space wss://agentclaw.nosotros.space https://www.google-analytics.com",
               "frame-src 'self'",
               "base-uri 'self'",
               "form-action 'self'",

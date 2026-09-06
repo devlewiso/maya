@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { authClient } from '@/lib/auth-client'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -18,47 +18,12 @@ export default function LoginPage() {
     setLoading(true)
     setError('')
 
-    const supabase = createClient()
-    const { data: signInData, error } = await supabase.auth.signInWithPassword({ email, password })
+    const { error } = await authClient.signIn.email({ email, password })
 
     if (error) {
       setError('Correo o contraseña incorrectos.')
       setLoading(false)
       return
-    }
-
-    // Verificar y crear perfil si no existe (para usuarios antiguos)
-    if (signInData.user) {
-      const { data: existingProfile } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('id', signInData.user.id)
-        .single()
-
-      if (!existingProfile) {
-        // Crear perfil faltante
-        await supabase.from('profiles').insert({
-          id: signInData.user.id,
-          display_name: signInData.user.user_metadata?.full_name || email.split('@')[0],
-          email: email,
-        })
-      }
-
-      // Verificar y crear streak si no existe
-      const { data: existingStreak } = await supabase
-        .from('streaks')
-        .select('user_id')
-        .eq('user_id', signInData.user.id)
-        .single()
-
-      if (!existingStreak) {
-        await supabase.from('streaks').insert({
-          user_id: signInData.user.id,
-          current_days: 0,
-          longest_days: 0,
-          last_activity: null,
-        })
-      }
     }
 
     router.push('/dashboard')
@@ -69,25 +34,14 @@ export default function LoginPage() {
     setGoogleLoading(true)
     setError('')
 
-    const supabase = createClient()
-
-    // Usar URL de producción o la del browser actual
-    const origin = typeof window !== 'undefined'
-      ? window.location.origin
-      : process.env.NEXT_PUBLIC_SITE_URL || 'https://astromaya.neuralcodelab.com'
-
-    const redirectUrl = `${origin}/auth/callback`
-
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { error } = await authClient.signIn.social({
       provider: 'google',
-      options: {
-        redirectTo: redirectUrl,
-      },
+      callbackURL: '/dashboard',
     })
 
     if (error) {
       console.error('[GOOGLE LOGIN] Error:', error)
-      setError(`Error al iniciar con Google: ${error.message}`)
+      setError(`Error al iniciar con Google: ${error.message ?? ''}`)
       setGoogleLoading(false)
     }
   }

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { authClient } from '@/lib/auth-client'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -24,47 +24,18 @@ export default function SignupPage() {
       return
     }
 
-    const supabase = createClient()
-    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+    // El "perfil" (name) vive en la tabla `user`; el streak lo crea el
+    // databaseHook `user.create.after` de Better Auth.
+    const { error: signUpError } = await authClient.signUp.email({
+      name: name || email.split('@')[0],
       email,
       password,
-      options: { data: { full_name: name } },
     })
 
     if (signUpError) {
-      setError(signUpError.message)
+      setError(signUpError.message ?? 'No se pudo crear la cuenta.')
       setLoading(false)
       return
-    }
-
-    // Crear perfil en la tabla profiles
-    if (signUpData.user) {
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: signUpData.user.id,
-          display_name: name || email.split('@')[0],
-          email: email,
-        })
-
-      if (profileError) {
-        console.error('Error creating profile:', profileError)
-        // No bloqueamos el registro si falla la creación del perfil
-      }
-
-      // Inicializar streak para el nuevo usuario
-      const { error: streakError } = await supabase
-        .from('streaks')
-        .insert({
-          user_id: signUpData.user.id,
-          current_days: 0,
-          longest_days: 0,
-          last_activity: null,
-        })
-
-      if (streakError) {
-        console.error('Error creating streak:', streakError)
-      }
     }
 
     router.push('/dashboard')
