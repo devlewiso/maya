@@ -15,8 +15,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const OG_IMAGE = "https://opengraph.b-cdn.net/production/images/f52c8273-3f88-45dd-9aa3-b2ac122b7ee5.png?token=y2X_mrAmcrxqA-CQ51dmskTKc3q39MDY0xlCLA92Vsc&height=612&width=1200&expires=33281173115"
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://astromaya.neuralcodelab.com"),
   icons: {
@@ -56,7 +54,6 @@ export const metadata: Metadata = {
     description: "Aprende K'iche', Q'eqchi', Kaqchikel, Mam y Tz'utujil gratis. La plataforma educativa líder para preservar y enseñar las lenguas mayas de Guatemala.",
     url: "https://astromaya.neuralcodelab.com/",
     siteName: "Astro Maya",
-    images: [{ url: OG_IMAGE, width: 1200, height: 612, alt: "Astro Maya — Aprende los Idiomas Mayas de Guatemala" }],
     locale: "es_GT",
     type: "website",
   },
@@ -64,7 +61,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Astro Maya — Aprende los Idiomas Mayas de Guatemala",
     description: "Aprende K'iche', Q'eqchi', Kaqchikel, Mam y Tz'utujil gratis.",
-    images: [OG_IMAGE],
     site: "@astromaya",
   },
   robots: {
