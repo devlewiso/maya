@@ -72,7 +72,7 @@ La plataforma cubre los 5 idiomas mayas más hablados del país:
 - **Framework:** Next.js 15 (App Router)
 - **UI:** React 19 + TypeScript + Tailwind CSS 4
 - **Animaciones:** Framer Motion
-- **Deploy:** Netlify (astromaya.neuralcodelab.com)
+- **Deploy:** Cloudflare (Workers Builds, proyecto `astromaya`) → astromaya.neuralcodelab.com. Cada push a `main` se despliega solo.
 - **Repo:** github.com/devlewiso/maya
 - **Branches:** `main` (producción) · `staging` (desarrollo)
 

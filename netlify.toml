@@ -1,3 +1,5 @@
+# OBSOLETO: el sitio ya no se despliega en Netlify. Producción = Cloudflare (Workers Builds, proyecto astromaya),
+# automático en cada push a main. Este archivo quedó de antes y no se usa.
 [build]
   command = "npm run build"
   publish = ".next"

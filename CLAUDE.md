@@ -144,6 +144,9 @@ Neon está linkeado con `neon link` (`.neon/`, proyecto `little-cake-70155363`).
 - Save via saveProgress() function
 
 ## Deployment
-- Platform: Netlify/Vercel
+- Platform: **Cloudflare** (Workers Builds, proyecto `astromaya`), conectado a GitHub: cada push a `main`
+  se construye (con pnpm) y se publica solo en astromaya.neuralcodelab.com. El estado del build aparece
+  como check «Workers Builds: astromaya» en el commit de GitHub.
+- Ya NO se usa Netlify: `netlify.toml` quedó de antes y no se usa.
 - Branch main → Production
 - Branch staging → Staging environment
