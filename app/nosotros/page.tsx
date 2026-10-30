@@ -17,7 +17,7 @@ export default function Nosotros() {
       name: 'Gratuito',
       price: 'Q0',
       period: 'para siempre',
-      color: '#1b5e3b',
+      color: '#0e5c4a',
       description: 'Acceso básico para cualquier persona que quiera aprender.',
       audience: 'Individuos, estudiantes, comunidades',
       features: [
@@ -35,7 +35,7 @@ export default function Nosotros() {
       name: 'Institucional',
       price: 'Q500',
       period: 'por mes',
-      color: '#1b3a6b',
+      color: '#0e5c4a',
       description: 'Para escuelas, municipalidades, ONG y universidades de Guatemala.',
       audience: 'Instituciones educativas y gubernamentales',
       features: [
@@ -56,7 +56,7 @@ export default function Nosotros() {
       name: 'Enterprise',
       price: 'A medida',
       period: 'contrato anual',
-      color: '#c8a217',
+      color: '#d9a62b',
       description: 'Para organizaciones grandes, gobierno central e instituciones internacionales.',
       audience: 'Gobiernos, ONGs internacionales, universidades',
       features: [
@@ -95,13 +95,13 @@ export default function Nosotros() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f5f7fc]">
+    <div className="min-h-screen bg-[#f6f5f1]">
       <Header />
 
       {/* Hero */}
-      <section className="bg-[#1b3a6b] py-16 md:py-20">
+      <section className="bg-[#0e5c4a] py-16 md:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="text-[#c8a217] font-semibold text-xs uppercase tracking-widest mb-3">Sobre Nosotros</div>
+          <div className="text-[#8a6410] font-semibold text-xs uppercase tracking-widest mb-3">Sobre Nosotros</div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Preservando las lenguas mayas<br className="hidden md:block" /> de Guatemala
           </h1>
@@ -116,26 +116,26 @@ export default function Nosotros() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="text-[#c8a217] font-semibold text-xs uppercase tracking-widest mb-3">Nuestra Misión</div>
-              <h2 className="text-3xl font-bold text-[#1b3a6b] mb-5">
+              <div className="text-[#8a6410] font-semibold text-xs uppercase tracking-widest mb-3">Nuestra Misión</div>
+              <h2 className="text-3xl font-bold text-[#0e5c4a] mb-5">
                 El idioma como puente, no como barrera
               </h2>
-              <p className="text-[#6b7a9e] leading-relaxed mb-4">
+              <p className="text-[#5e6673] leading-relaxed mb-4">
                 Guatemala cuenta con 22 lenguas mayas reconocidas oficialmente, habladas por más de 3 millones de personas en todo el territorio nacional. Sin embargo, el acceso a recursos educativos de calidad para aprenderlas sigue siendo limitado.
               </p>
-              <p className="text-[#6b7a9e] leading-relaxed mb-4">
+              <p className="text-[#5e6673] leading-relaxed mb-4">
                 Astro Maya nace para cambiar eso. Creemos que la enseñanza primaria de lenguas mayas debe ser gratuita y accesible para cualquier persona — sea estudiante, maestro, funcionario público o ciudadano curioso.
               </p>
-              <p className="text-[#6b7a9e] leading-relaxed">
+              <p className="text-[#5e6673] leading-relaxed">
                 Para instituciones que necesitan currículos completos, herramientas de gestión y soporte profesional, ofrecemos planes institucionales y empresariales que financian la sostenibilidad del proyecto.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {values.map((v, i) => (
-                <div key={i} className="bg-[#f5f7fc] rounded-xl border border-[#dde3f0] p-5">
-                  <div className="w-6 h-0.5 bg-[#c8a217] mb-3"></div>
-                  <h3 className="font-bold text-[#1a2035] text-sm mb-2">{v.title}</h3>
-                  <p className="text-xs text-[#6b7a9e] leading-relaxed">{v.description}</p>
+                <div key={i} className="bg-[#f6f5f1] rounded-xl border border-[#e4e2da] p-5">
+                  <div className="w-6 h-0.5 bg-[#d9a62b] mb-3"></div>
+                  <h3 className="font-bold text-[#14181f] text-sm mb-2">{v.title}</h3>
+                  <p className="text-xs text-[#5e6673] leading-relaxed">{v.description}</p>
                 </div>
               ))}
             </div>
@@ -144,22 +144,22 @@ export default function Nosotros() {
       </section>
 
       {/* Pricing */}
-      <section className="py-16 md:py-20 bg-[#f5f7fc]">
+      <section className="py-16 md:py-20 bg-[#f6f5f1]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <div className="text-[#c8a217] font-semibold text-xs uppercase tracking-widest mb-3">Planes</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1b3a6b]">Acceso para todos, escala para instituciones</h2>
-            <p className="text-[#6b7a9e] mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
+            <div className="text-[#8a6410] font-semibold text-xs uppercase tracking-widest mb-3">Planes</div>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0e5c4a]">Acceso para todos, escala para instituciones</h2>
+            <p className="text-[#5e6673] mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
               La enseñanza básica siempre será gratuita. Los planes institucionales financian el desarrollo de más contenido y nuevos idiomas.
             </p>
           </div>
 
           {/* Free only notice */}
-          <div className="mb-8 p-4 bg-[#1b3a6b]/5 border border-[#1b3a6b]/20 rounded-xl flex items-start gap-3 max-w-3xl mx-auto">
-            <svg className="w-5 h-5 text-[#c8a217] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="mb-8 p-4 bg-[#0e5c4a]/5 border border-[#0e5c4a]/20 rounded-xl flex items-start gap-3 max-w-3xl mx-auto">
+            <svg className="w-5 h-5 text-[#8a6410] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <p className="text-sm text-[#1a2035]">
+            <p className="text-sm text-[#14181f]">
               <strong>Actualmente solo el plan Gratuito está disponible.</strong> Los planes Institucional y Enterprise son la visión futura del proyecto y están en desarrollo. No se realizan cobros ni se procesan pagos en esta plataforma.
             </p>
           </div>
@@ -170,34 +170,34 @@ export default function Nosotros() {
                 key={i}
                 className={`relative bg-white rounded-2xl border overflow-hidden flex flex-col ${
                   tier.featured
-                    ? 'border-[#1b3a6b] shadow-xl shadow-[#1b3a6b]/10'
-                    : 'border-[#dde3f0] shadow-sm'
+                    ? 'border-[#0e5c4a] shadow-xl shadow-[#0e5c4a]/10'
+                    : 'border-[#e4e2da] shadow-sm'
                 } ${(tier as {comingSoon?: boolean}).comingSoon ? 'opacity-60' : ''}`}
               >
                 {(tier as {comingSoon?: boolean}).comingSoon && (
-                  <div className="bg-[#6b7a9e] text-white text-xs font-bold text-center py-1.5 tracking-wider uppercase">
+                  <div className="bg-[#5e6673] text-white text-xs font-bold text-center py-1.5 tracking-wider uppercase">
                     Próximamente
                   </div>
                 )}
                 {!((tier as {comingSoon?: boolean}).comingSoon) && tier.featured && (
-                  <div className="bg-[#1b3a6b] text-white text-xs font-bold text-center py-1.5 tracking-wider uppercase">
+                  <div className="bg-[#0e5c4a] text-white text-xs font-bold text-center py-1.5 tracking-wider uppercase">
                     Más popular
                   </div>
                 )}
                 <div className="h-1" style={{ backgroundColor: tier.color }}></div>
                 <div className="p-7 flex flex-col flex-1">
                   <div className="mb-5">
-                    <h3 className="font-bold text-[#1a2035] text-lg mb-1">{tier.name}</h3>
-                    <p className="text-xs text-[#6b7a9e] mb-4">{tier.audience}</p>
+                    <h3 className="font-bold text-[#14181f] text-lg mb-1">{tier.name}</h3>
+                    <p className="text-xs text-[#5e6673] mb-4">{tier.audience}</p>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-bold text-[#1b3a6b]">{tier.price}</span>
-                      <span className="text-xs text-[#6b7a9e]">/{tier.period}</span>
+                      <span className="text-3xl font-bold text-[#0e5c4a]">{tier.price}</span>
+                      <span className="text-xs text-[#5e6673]">/{tier.period}</span>
                     </div>
                   </div>
-                  <p className="text-sm text-[#6b7a9e] mb-5 leading-relaxed">{tier.description}</p>
+                  <p className="text-sm text-[#5e6673] mb-5 leading-relaxed">{tier.description}</p>
                   <ul className="space-y-2.5 mb-7 flex-1">
                     {tier.features.map((f, j) => (
-                      <li key={j} className="flex items-start gap-2 text-sm text-[#1a2035]">
+                      <li key={j} className="flex items-start gap-2 text-sm text-[#14181f]">
                         <svg className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: tier.color }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                         </svg>
@@ -206,7 +206,7 @@ export default function Nosotros() {
                     ))}
                   </ul>
                   {(tier as {comingSoon?: boolean}).comingSoon ? (
-                    <div className="block text-center px-5 py-3 rounded font-semibold text-sm bg-[#f5f7fc] text-[#6b7a9e] cursor-not-allowed border border-[#dde3f0]">
+                    <div className="block text-center px-5 py-3 rounded font-semibold text-sm bg-[#f6f5f1] text-[#5e6673] cursor-not-allowed border border-[#e4e2da]">
                       No disponible aún
                     </div>
                   ) : (
@@ -214,7 +214,7 @@ export default function Nosotros() {
                       href={tier.href}
                       className="block text-center px-5 py-3 rounded font-semibold text-sm transition-colors"
                       style={{
-                        backgroundColor: tier.featured ? '#1b3a6b' : `${tier.color}15`,
+                        backgroundColor: tier.featured ? '#0e5c4a' : `${tier.color}15`,
                         color: tier.featured ? '#ffffff' : tier.color,
                       }}
                     >
@@ -231,17 +231,17 @@ export default function Nosotros() {
       {/* Team / Contact */}
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="text-[#c8a217] font-semibold text-xs uppercase tracking-widest mb-3">Equipo</div>
-          <h2 className="text-3xl font-bold text-[#1b3a6b] mb-5">Construido con propósito</h2>
-          <p className="text-[#6b7a9e] leading-relaxed max-w-2xl mx-auto mb-4">
+          <div className="text-[#8a6410] font-semibold text-xs uppercase tracking-widest mb-3">Equipo</div>
+          <h2 className="text-3xl font-bold text-[#0e5c4a] mb-5">Construido con propósito</h2>
+          <p className="text-[#5e6673] leading-relaxed max-w-2xl mx-auto mb-4">
             Somos un equipo de lingüistas, educadores y desarrolladores apasionados por las lenguas indígenas y la tecnología educativa. Colaboramos directamente con comunidades mayas para garantizar autenticidad y respeto cultural en cada lección.
           </p>
-          <p className="text-[#6b7a9e] leading-relaxed max-w-2xl mx-auto mb-8">
+          <p className="text-[#5e6673] leading-relaxed max-w-2xl mx-auto mb-8">
             Estamos abiertos a alianzas con instituciones educativas, municipalidades, ministerios y organizaciones culturales que compartan nuestra visión.
           </p>
           <a
             href="mailto:devlewiso@gmail.com"
-            className="inline-block px-8 py-3.5 bg-[#1b3a6b] text-white font-semibold rounded hover:bg-[#254d8f] transition-colors text-sm"
+            className="inline-block px-8 py-3.5 bg-[#0e5c4a] text-white font-semibold rounded hover:bg-[#0a4337] transition-colors text-sm"
           >
             Escribenos a devlewiso@gmail.com
           </a>

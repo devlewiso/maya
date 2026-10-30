@@ -13,10 +13,10 @@ export default function AccionesConstancia({ urlVerificar }: { urlVerificar: str
   }
   return (
     <div className="flex gap-2">
-      <button onClick={copiar} className="rounded-xl border border-[#dde3f0] bg-white px-4 py-2.5 text-sm font-semibold text-[#1b3a6b] hover:bg-[#f5f7fc] transition">
+      <button onClick={copiar} className="rounded-xl border border-[#e4e2da] bg-white px-4 py-2.5 text-sm font-semibold text-[#0e5c4a] hover:bg-[#f6f5f1] transition">
         Copiar enlace
       </button>
-      <button onClick={() => window.print()} className="rounded-xl bg-[#1b3a6b] px-4 py-2.5 text-sm font-bold text-white hover:bg-[#254d8f] transition">
+      <button onClick={() => window.print()} className="rounded-xl bg-[#0e5c4a] px-4 py-2.5 text-sm font-bold text-white hover:bg-[#0a4337] transition">
         Descargar PDF / Imprimir
       </button>
     </div>

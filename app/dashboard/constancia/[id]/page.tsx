@@ -39,9 +39,9 @@ export default async function ConstanciaPage({ params }: { params: Promise<{ id:
     <div className="p-6">
       <div className="no-print mx-auto mb-5 flex max-w-[1100px] flex-wrap items-center justify-between gap-3">
         <div>
-          <Link href={`/dashboard/proyectos/${project.id}`} className="text-xs text-[#6b7a9e] hover:text-[#1b3a6b]">← Volver a la ruta</Link>
-          <h1 className="mt-1 text-xl font-bold text-[#1a2035]">Tu constancia de logro 🏅</h1>
-          <p className="text-sm text-[#6b7a9e]">Un reconocimiento simbólico por tu esfuerzo. Guárdala en PDF o compártela con su enlace de verificación.</p>
+          <Link href={`/dashboard/proyectos/${project.id}`} className="text-xs text-[#5e6673] hover:text-[#0e5c4a]">← Volver a la ruta</Link>
+          <h1 className="mt-1 text-xl font-bold text-[#14181f]">Tu constancia de logro 🏅</h1>
+          <p className="text-sm text-[#5e6673]">Un reconocimiento simbólico por tu esfuerzo. Guárdala en PDF o compártela con su enlace de verificación.</p>
         </div>
         <AccionesConstancia urlVerificar={urlVerificar} />
       </div>

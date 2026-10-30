@@ -5,8 +5,8 @@ export default function DashboardLoading() {
     <div className="p-8 max-w-5xl">
       {/* Header skeleton */}
       <div className="mb-8">
-        <div className="h-8 w-64 bg-[#f5f7fc] rounded mb-2 animate-pulse" />
-        <div className="h-4 w-48 bg-[#f5f7fc] rounded animate-pulse" />
+        <div className="h-8 w-64 bg-[#f6f5f1] rounded mb-2 animate-pulse" />
+        <div className="h-4 w-48 bg-[#f6f5f1] rounded animate-pulse" />
       </div>
 
       {/* Stats skeleton */}
@@ -19,7 +19,7 @@ export default function DashboardLoading() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Projects skeleton */}
         <div className="lg:col-span-2">
-          <div className="h-6 w-32 bg-[#f5f7fc] rounded mb-4 animate-pulse" />
+          <div className="h-6 w-32 bg-[#f6f5f1] rounded mb-4 animate-pulse" />
           <div className="space-y-3">
             <SkeletonProject />
             <SkeletonProject />
@@ -28,7 +28,7 @@ export default function DashboardLoading() {
 
         {/* Skills skeleton */}
         <div>
-          <div className="h-6 w-24 bg-[#f5f7fc] rounded mb-4 animate-pulse" />
+          <div className="h-6 w-24 bg-[#f6f5f1] rounded mb-4 animate-pulse" />
           <div className="grid grid-cols-3 sm:grid-cols-2 gap-2">
             <SkeletonSkill />
             <SkeletonSkill />

@@ -29,22 +29,21 @@ export default function ReferralBanner() {
   if (!visible) return null;
 
   return (
-    <div className="relative z-[60] bg-gradient-to-r from-[#0f2347] via-[#1b3a6b] to-[#0f2347] text-white">
+    <div className="relative z-[60] bg-[#101418] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
         <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap text-center pr-8 sm:pr-10">
           <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-white/85">
-            <span className="text-base leading-none">✨</span>
             <span>
               ¿Creas contenido sobre cultura maya?{' '}
               <span className="hidden sm:inline">Genera videos e imágenes con IA en </span>
-              <strong className="text-[#e8be2c] font-semibold">Higgsfield</strong>
+              <strong className="text-[#e6b647] font-semibold">Higgsfield</strong>
             </span>
           </span>
           <a
             href={REFERRAL_URL}
             target="_blank"
             rel="sponsored noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#c8a217] text-[#0f2347] text-xs font-bold rounded-full hover:bg-[#e8be2c] transition-colors whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#d9a62b] text-[#101418] text-xs font-bold rounded-full hover:bg-[#e6b647] transition-colors whitespace-nowrap"
           >
             Probar gratis
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

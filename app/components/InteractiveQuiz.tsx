@@ -19,7 +19,7 @@ interface InteractiveQuizProps {
   onComplete?: (score: number, total: number) => void
 }
 
-export function InteractiveQuiz({ exercises, languageColor = '#1b3a6b', onComplete }: InteractiveQuizProps) {
+export function InteractiveQuiz({ exercises, languageColor = '#0e5c4a', onComplete }: InteractiveQuizProps) {
   const [currentExerciseIdx, setCurrentExerciseIdx] = useState(0)
   const [currentItemIdx, setCurrentItemIdx] = useState(0)
   const [userAnswer, setUserAnswer] = useState('')
@@ -105,15 +105,15 @@ export function InteractiveQuiz({ exercises, languageColor = '#1b3a6b', onComple
   if (completed) {
     const percentage = Math.round((score / totalItems) * 100)
     return (
-      <div className="bg-white rounded-xl border border-[#dde3f0] p-6 text-center">
+      <div className="bg-white rounded-xl border border-[#e4e2da] p-6 text-center">
         <div
           className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl"
           style={{ backgroundColor: `${languageColor}20` }}
         >
           {percentage >= 80 ? '🏆' : percentage >= 60 ? '⭐' : '📝'}
         </div>
-        <h3 className="font-bold text-[#1a2035] mb-2">¡Ejercicios completados!</h3>
-        <p className="text-sm text-[#6b7a9e] mb-4">
+        <h3 className="font-bold text-[#14181f] mb-2">¡Ejercicios completados!</h3>
+        <p className="text-sm text-[#5e6673] mb-4">
           Puntuación: {score}/{totalItems} ({percentage}%)
         </p>
         <div className="space-y-2 mb-4">
@@ -147,14 +147,14 @@ export function InteractiveQuiz({ exercises, languageColor = '#1b3a6b', onComple
   }
 
   return (
-    <div className="bg-white rounded-xl border border-[#dde3f0] p-5">
+    <div className="bg-white rounded-xl border border-[#e4e2da] p-5">
       {/* Progress */}
       <div className="mb-4">
-        <div className="flex items-center justify-between text-xs text-[#6b7a9e] mb-1">
+        <div className="flex items-center justify-between text-xs text-[#5e6673] mb-1">
           <span>Ejercicio {currentTotalIdx} de {totalItems}</span>
           <span>{score} correctas</span>
         </div>
-        <div className="h-2 bg-[#f5f7fc] rounded-full overflow-hidden border border-[#dde3f0]">
+        <div className="h-2 bg-[#f6f5f1] rounded-full overflow-hidden border border-[#e4e2da]">
           <div
             className="h-full rounded-full transition-all"
             style={{ width: `${(currentTotalIdx / totalItems) * 100}%`, backgroundColor: languageColor }}
@@ -164,7 +164,7 @@ export function InteractiveQuiz({ exercises, languageColor = '#1b3a6b', onComple
 
       {/* Question */}
       <div className="mb-4">
-        <p className="text-xs font-semibold uppercase tracking-wider text-[#6b7a9e] mb-2">
+        <p className="text-xs font-semibold uppercase tracking-wider text-[#5e6673] mb-2">
           {exercise.type === 'matching' && 'Emparejamiento'}
           {exercise.type === 'translation' && 'Traducción'}
           {exercise.type === 'fillBlank' && 'Completa la frase'}
@@ -173,12 +173,12 @@ export function InteractiveQuiz({ exercises, languageColor = '#1b3a6b', onComple
 
         {/* Different exercise types */}
         {exercise.type === 'fillBlank' ? (
-          <p className="text-lg font-medium text-[#1a2035]">
+          <p className="text-lg font-medium text-[#14181f]">
             {item.question.split('_____').map((part, i, arr) => (
               <span key={i}>
                 {part}
                 {i < arr.length - 1 && (
-                  <span className="inline-block w-20 h-8 mx-1 border-b-2 border-[#1b3a6b] bg-[#f5f7fc] rounded"
+                  <span className="inline-block w-20 h-8 mx-1 border-b-2 border-[#0e5c4a] bg-[#f6f5f1] rounded"
 />
                 )}
               </span>
@@ -186,7 +186,7 @@ export function InteractiveQuiz({ exercises, languageColor = '#1b3a6b', onComple
           </p>
         ) : exercise.type === 'matching' ? (
           <div className="space-y-3">
-            <p className="text-sm text-[#6b7a9e] mb-3">Empareja cada palabra con su significado:</p>
+            <p className="text-sm text-[#5e6673] mb-3">Empareja cada palabra con su significado:</p>
             <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
               {exercise.items.map((i, idx) => (
@@ -195,7 +195,7 @@ export function InteractiveQuiz({ exercises, languageColor = '#1b3a6b', onComple
                   className={`p-3 rounded-lg border text-sm font-medium cursor-pointer transition-colors ${
                     matchedPairs[i.question]
                       ? 'bg-green-50 border-green-200 text-green-700'
-                      : 'bg-[#f5f7fc] border-[#dde3f0] hover:border-[#1b3a6b]/30'
+                      : 'bg-[#f6f5f1] border-[#e4e2da] hover:border-[#0e5c4a]/30'
                   }`}
                   onClick={() => {
                     if (matchedPairs[i.question]) {
@@ -221,7 +221,7 @@ export function InteractiveQuiz({ exercises, languageColor = '#1b3a6b', onComple
                     className={`w-full p-3 rounded-lg border text-sm transition-colors ${
                       Object.values(matchedPairs).includes(i.answer)
                         ? 'bg-green-50 border-green-200 text-green-700'
-                        : 'bg-white border-[#dde3f0] hover:border-[#1b3a6b]/30'
+                        : 'bg-white border-[#e4e2da] hover:border-[#0e5c4a]/30'
                     }`}
                     onClick={() => {
                       // Find which question is selected (if any)
@@ -241,7 +241,7 @@ export function InteractiveQuiz({ exercises, languageColor = '#1b3a6b', onComple
           </div>
           </div>
         ) : (
-          <p className="text-lg font-medium text-[#1a2035]">{item.question}</p>
+          <p className="text-lg font-medium text-[#14181f]">{item.question}</p>
         )}
       </div>
 
@@ -256,8 +256,8 @@ export function InteractiveQuiz({ exercises, languageColor = '#1b3a6b', onComple
                   onClick={() => setSelectedOption(option)}
                   className={`w-full p-3 text-left rounded-lg border text-sm transition-colors ${
                     selectedOption === option
-                      ? 'border-[#1b3a6b] bg-[#f0f4ff]'
-                      : 'border-[#dde3f0] hover:border-[#1b3a6b]/30'
+                      ? 'border-[#0e5c4a] bg-[#e8f1ee]'
+                      : 'border-[#e4e2da] hover:border-[#0e5c4a]/30'
                   }`}
                 >
                   {option}
@@ -275,7 +275,7 @@ export function InteractiveQuiz({ exercises, languageColor = '#1b3a6b', onComple
                 }
               }}
               placeholder="Escribe tu respuesta..."
-              className="w-full px-4 py-3 rounded-lg border border-[#dde3f0] focus:outline-none focus:border-[#1b3a6b] focus:ring-1 focus:ring-[#1b3a6b]"
+              className="w-full px-4 py-3 rounded-lg border border-[#e4e2da] focus:outline-none focus:border-[#0e5c4a] focus:ring-1 focus:ring-[#0e5c4a]"
               autoFocus
             />
           )}

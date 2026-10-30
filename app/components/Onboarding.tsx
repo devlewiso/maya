@@ -10,13 +10,13 @@ const STEPS = [
     title: '¡Bienvenido a Astro Maya!',
     description: 'Tu viaje para aprender idiomas mayas de Guatemala comienza aquí. Descubre K\'iche\', Q\'eqchi\', Kaqchikel, Mam y Tz\'utujil.',
     icon: '🌟',
-    color: '#1b3a6b',
+    color: '#0e5c4a',
   },
   {
     title: 'Crea tu primer proyecto',
     description: 'Elige un idioma y el tipo de ruta que quieres seguir. Te ayudaremos a organizar tu aprendizaje paso a paso.',
     icon: '🎯',
-    color: '#c8a217',
+    color: '#d9a62b',
   },
   {
     title: 'Completa tu primera lección',
@@ -66,7 +66,7 @@ export function Onboarding() {
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
         {/* Progress bar */}
-        <div className="h-1 bg-[#f5f7fc]">
+        <div className="h-1 bg-[#f6f5f1]">
           <div
             className="h-full transition-all duration-300"
             style={{ width: `${progress}%`, backgroundColor: step.color }}
@@ -80,7 +80,7 @@ export function Onboarding() {
               <div
                 key={idx}
                 className={`w-2 h-2 rounded-full transition-colors ${
-                  idx === currentStep ? 'bg-[#1b3a6b]' : idx < currentStep ? 'bg-[#1b3a6b]/50' : 'bg-[#dde3f0]'
+                  idx === currentStep ? 'bg-[#0e5c4a]' : idx < currentStep ? 'bg-[#0e5c4a]/50' : 'bg-[#e4e2da]'
                 }`}
               />
             ))}
@@ -95,8 +95,8 @@ export function Onboarding() {
           </div>
 
           {/* Content */}
-          <h2 className="text-xl font-bold text-[#1a2035] mb-2">{step.title}</h2>
-          <p className="text-sm text-[#6b7a9e] leading-relaxed mb-6">{step.description}</p>
+          <h2 className="text-xl font-bold text-[#14181f] mb-2">{step.title}</h2>
+          <p className="text-sm text-[#5e6673] leading-relaxed mb-6">{step.description}</p>
 
           {/* Actions */}
           <div className="flex flex-col gap-3">
@@ -112,14 +112,14 @@ export function Onboarding() {
               <Link
                 href="/dashboard/proyectos"
                 onClick={completeOnboarding}
-                className="w-full py-2 text-[#6b7a9e] hover:text-[#1b3a6b] text-sm font-medium"
+                className="w-full py-2 text-[#5e6673] hover:text-[#0e5c4a] text-sm font-medium"
               >
                 Crear mi primer proyecto →
               </Link>
             ) : (
               <button
                 onClick={handleSkip}
-                className="text-sm text-[#6b7a9e] hover:text-[#1b3a6b] font-medium"
+                className="text-sm text-[#5e6673] hover:text-[#0e5c4a] font-medium"
               >
                 Saltar tutorial
               </button>
@@ -141,7 +141,7 @@ export function OnboardingReset() {
   return (
     <button
       onClick={handleReset}
-      className="text-sm text-[#6b7a9e] hover:text-[#1b3a6b] underline"
+      className="text-sm text-[#5e6673] hover:text-[#0e5c4a] underline"
     >
       Ver tutorial de bienvenida
     </button>

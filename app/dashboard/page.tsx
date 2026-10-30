@@ -10,7 +10,7 @@ export default async function DashboardPage() {
   const activeProjects = projects.filter(p => p.status === 'active')
 
   const langColors: Record<string, string> = {
-    kiche: '#c0392b', qeqchi: '#2471a3', kaqchikel: '#1e8449', mam: '#d68910', tzutujil: '#7d3c98'
+    kiche: '#a3362a', qeqchi: '#2c4a8c', kaqchikel: '#1e7a55', mam: '#b07a12', tzutujil: '#6a3f8c'
   }
 
   return (
@@ -20,26 +20,26 @@ export default async function DashboardPage() {
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[#1a2035] mb-1">Tu panel de aprendizaje</h1>
-        <p className="text-sm text-[#6b7a9e]">Sigue tu progreso y completa proyectos para ganar skills</p>
+        <h1 className="text-2xl font-bold text-[#14181f] mb-1">Tu panel de aprendizaje</h1>
+        <p className="text-sm text-[#5e6673]">Sigue tu progreso y completa proyectos para ganar skills</p>
       </div>
 
       {/* Stats rápidas */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <div className="bg-white rounded-xl border border-[#dde3f0] p-5">
-          <div className="text-2xl font-bold text-[#1b3a6b]">{progress?.length ?? 0}</div>
-          <div className="text-xs text-[#6b7a9e] mt-0.5">Lecciones completadas</div>
+        <div className="bg-white rounded-xl border border-[#e4e2da] p-5">
+          <div className="text-2xl font-bold text-[#0e5c4a]">{progress?.length ?? 0}</div>
+          <div className="text-xs text-[#5e6673] mt-0.5">Lecciones completadas</div>
         </div>
-        <div className="bg-white rounded-xl border border-[#dde3f0] p-5">
-          <div className="text-2xl font-bold text-[#1b3a6b]">{earnedSkills.length}</div>
-          <div className="text-xs text-[#6b7a9e] mt-0.5">Skills ganados</div>
+        <div className="bg-white rounded-xl border border-[#e4e2da] p-5">
+          <div className="text-2xl font-bold text-[#0e5c4a]">{earnedSkills.length}</div>
+          <div className="text-xs text-[#5e6673] mt-0.5">Skills ganados</div>
         </div>
-        <div className="bg-white rounded-xl border border-[#dde3f0] p-5">
+        <div className="bg-white rounded-xl border border-[#e4e2da] p-5">
           <div className="flex items-center gap-1.5">
-            <span className="text-2xl font-bold text-[#1b3a6b]">{streak?.current_days ?? 0}</span>
+            <span className="text-2xl font-bold text-[#0e5c4a]">{streak?.current_days ?? 0}</span>
             {(streak?.current_days ?? 0) > 0 && <span className="text-xl">🔥</span>}
           </div>
-          <div className="text-xs text-[#6b7a9e] mt-0.5">Días de racha</div>
+          <div className="text-xs text-[#5e6673] mt-0.5">Días de racha</div>
         </div>
       </div>
 
@@ -47,24 +47,24 @@ export default async function DashboardPage() {
         {/* Proyectos activos */}
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-bold text-[#1a2035]">Proyectos activos</h2>
-            <Link href="/dashboard/proyectos" className="text-xs text-[#1b3a6b] font-semibold hover:underline">
+            <h2 className="font-bold text-[#14181f]">Proyectos activos</h2>
+            <Link href="/dashboard/proyectos" className="text-xs text-[#0e5c4a] font-semibold hover:underline">
               Ver todos →
             </Link>
           </div>
 
           {activeProjects.length === 0 ? (
-            <div className="bg-white rounded-xl border border-dashed border-[#dde3f0] p-8 text-center">
-              <div className="w-20 h-20 bg-[#f5f7fc] rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-10 h-10 text-[#6b7a9e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="bg-white rounded-xl border border-dashed border-[#e4e2da] p-8 text-center">
+              <div className="w-20 h-20 bg-[#f6f5f1] rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-10 h-10 text-[#5e6673]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
               </div>
-              <h3 className="font-bold text-[#1a2035] mb-1">No tienes proyectos activos</h3>
-              <p className="text-sm text-[#6b7a9e] mb-4">Crea tu primer proyecto para empezar a aprender un idioma maya</p>
+              <h3 className="font-bold text-[#14181f] mb-1">No tienes proyectos activos</h3>
+              <p className="text-sm text-[#5e6673] mb-4">Crea tu primer proyecto para empezar a aprender un idioma maya</p>
               <Link
                 href="/dashboard/proyectos"
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1b3a6b] text-white text-xs font-semibold rounded-lg hover:bg-[#254d8f] transition"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#0e5c4a] text-white text-xs font-semibold rounded-lg hover:bg-[#0a4337] transition"
               >
                 + Crear proyecto
               </Link>
@@ -75,22 +75,22 @@ export default async function DashboardPage() {
                 <Link
                   key={project.id}
                   href={`/dashboard/proyectos/${project.id}`}
-                  className="block bg-white rounded-xl border border-[#dde3f0] p-4 hover:border-[#1b3a6b]/30 hover:shadow-sm transition-all"
+                  className="block bg-white rounded-xl border border-[#e4e2da] p-4 hover:border-[#0e5c4a]/30 hover:shadow-sm transition-all"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-semibold text-sm text-[#1a2035] break-words">{project.title}</p>
+                      <p className="font-semibold text-sm text-[#14181f] break-words">{project.title}</p>
                       {project.description && (
-                        <p className="text-xs text-[#6b7a9e] mt-0.5 line-clamp-1 break-words">{project.description}</p>
+                        <p className="text-xs text-[#5e6673] mt-0.5 line-clamp-1 break-words">{project.description}</p>
                       )}
                     </div>
-                    <span className="text-xs text-[#1b3a6b] font-medium">Ver →</span>
+                    <span className="text-xs text-[#0e5c4a] font-medium">Ver →</span>
                   </div>
                 </Link>
               ))}
               <Link
                 href="/dashboard/proyectos"
-                className="block text-center text-xs text-[#1b3a6b] font-semibold py-2 hover:underline"
+                className="block text-center text-xs text-[#0e5c4a] font-semibold py-2 hover:underline"
               >
                 + Nuevo proyecto
               </Link>
@@ -100,16 +100,16 @@ export default async function DashboardPage() {
 
         {/* Skills */}
         <div>
-          <h2 className="font-bold text-[#1a2035] mb-4">Skills ganados</h2>
+          <h2 className="font-bold text-[#14181f] mb-4">Skills ganados</h2>
           {earnedSkills.length === 0 ? (
-            <div className="bg-white rounded-xl border border-dashed border-[#dde3f0] p-6 text-center">
-              <div className="w-16 h-16 bg-[#f5f7fc] rounded-full flex items-center justify-center mx-auto mb-3">
-                <svg className="w-8 h-8 text-[#c8a217]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="bg-white rounded-xl border border-dashed border-[#e4e2da] p-6 text-center">
+              <div className="w-16 h-16 bg-[#f6f5f1] rounded-full flex items-center justify-center mx-auto mb-3">
+                <svg className="w-8 h-8 text-[#8a6410]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                 </svg>
               </div>
-              <h3 className="font-bold text-[#1a2035] text-sm mb-1">Sin skills aún</h3>
-              <p className="text-xs text-[#6b7a9e]">Completa tu primer proyecto para ganar tu primer skill</p>
+              <h3 className="font-bold text-[#14181f] text-sm mb-1">Sin skills aún</h3>
+              <p className="text-xs text-[#5e6673]">Completa tu primer proyecto para ganar tu primer skill</p>
             </div>
           ) : (
             <div className="grid grid-cols-3 sm:grid-cols-2 gap-2">
@@ -117,23 +117,23 @@ export default async function DashboardPage() {
                 <div
                   key={skill.id}
                   title={skill.description}
-                  className="bg-white rounded-xl border border-[#dde3f0] p-3 text-center hover:border-[#c8a217] transition-colors"
+                  className="bg-white rounded-xl border border-[#e4e2da] p-3 text-center hover:border-[#d9a62b] transition-colors"
                 >
                   <div className="text-2xl mb-1">{skill.icon}</div>
-                  <p className="text-[10px] font-semibold text-[#1a2035] leading-tight break-words">{skill.name}</p>
+                  <p className="text-[10px] font-semibold text-[#14181f] leading-tight break-words">{skill.name}</p>
                 </div>
               ))}
             </div>
           )}
           {earnedSkills.length > 6 && (
-            <p className="text-xs text-center text-[#6b7a9e] mt-2">+{earnedSkills.length - 6} más</p>
+            <p className="text-xs text-center text-[#5e6673] mt-2">+{earnedSkills.length - 6} más</p>
           )}
         </div>
       </div>
 
       {/* Idiomas disponibles */}
       <div className="mt-8">
-        <h2 className="font-bold text-[#1a2035] mb-4">Explorar idiomas</h2>
+        <h2 className="font-bold text-[#14181f] mb-4">Explorar idiomas</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {[
             { name: "K'iche'", slug: 'kiche' },
@@ -145,10 +145,10 @@ export default async function DashboardPage() {
             <Link
               key={lang.slug}
               href="/dashboard/proyectos"
-              className="bg-white rounded-xl border border-[#dde3f0] p-4 text-center hover:shadow-sm hover:border-transparent transition-all"
+              className="bg-white rounded-xl border border-[#e4e2da] p-4 text-center hover:shadow-sm hover:border-transparent transition-all"
             >
               <div className="h-1 rounded-full mb-3" style={{ backgroundColor: langColors[lang.slug] }} />
-              <p className="text-xs font-bold text-[#1a2035]">{lang.name}</p>
+              <p className="text-xs font-bold text-[#14181f]">{lang.name}</p>
             </Link>
           ))}
         </div>

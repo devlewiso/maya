@@ -30,14 +30,14 @@ export default function CookieBanner() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6">
-      <div className="max-w-4xl mx-auto bg-[#0f2347] border border-white/10 rounded-xl shadow-2xl p-5 md:p-6">
+      <div className="max-w-4xl mx-auto bg-[#101418] border border-white/10 rounded-xl shadow-2xl p-5 md:p-6">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex-1">
             <p className="text-white font-semibold text-sm mb-1">🍪 Usamos cookies</p>
             <p className="text-white/60 text-xs leading-relaxed">
               Utilizamos Google Analytics para mejorar la plataforma. No recopilamos datos personales identificables.
               Puede aceptar, rechazar o{' '}
-              <Link href="/cookies" className="text-[#c8a217] underline hover:text-[#e8be2c]">
+              <Link href="/cookies" className="text-[#8a6410] underline hover:text-[#e6b647]">
                 conocer más
               </Link>.
             </p>
@@ -51,7 +51,7 @@ export default function CookieBanner() {
             </button>
             <button
               onClick={accept}
-              className="px-5 py-2.5 bg-[#c8a217] text-[#0f2347] text-xs font-bold rounded hover:bg-[#e8be2c] transition-colors"
+              className="px-5 py-2.5 bg-[#d9a62b] text-[#101418] text-xs font-bold rounded hover:bg-[#e6b647] transition-colors"
             >
               Aceptar
             </button>

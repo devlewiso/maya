@@ -28,7 +28,7 @@ const CONTENT_MAP: Record<string, any[]> = {
 }
 
 const LANG_COLORS: Record<string, string> = {
-  kiche: '#c0392b', qeqchi: '#2471a3', kaqchikel: '#1e8449', mam: '#d68910', tzutujil: '#7d3c98'
+  kiche: '#a3362a', qeqchi: '#2c4a8c', kaqchikel: '#1e7a55', mam: '#b07a12', tzutujil: '#6a3f8c'
 }
 
 const LEVEL_LABELS: Record<string, string> = {
@@ -36,7 +36,7 @@ const LEVEL_LABELS: Record<string, string> = {
 }
 
 const LEVEL_COLORS: Record<string, string> = {
-  principiante: '#1e8449', intermedio: '#d68910', avanzado: '#c0392b'
+  principiante: '#1e7a55', intermedio: '#b07a12', avanzado: '#a3362a'
 }
 
 export default function ProyectoDetailPage() {
@@ -174,7 +174,7 @@ export default function ProyectoDetailPage() {
       particleCount: 60,
       spread: 70,
       origin: { y: 0.8 },
-      colors: ['#1b3a6b', '#c8a217', '#ffffff']
+      colors: ['#0e5c4a', '#d9a62b', '#ffffff']
     })
 
     // Toast notification for XP earned
@@ -197,7 +197,7 @@ export default function ProyectoDetailPage() {
           particleCount: 100,
           spread: 100,
           origin: { y: 0.6 },
-          colors: ['#1b3a6b', '#c8a217', '#ffffff', '#22c55e']
+          colors: ['#0e5c4a', '#d9a62b', '#ffffff', '#22c55e']
         })
         if (Date.now() < end) {
           requestAnimationFrame(frame)
@@ -215,13 +215,13 @@ export default function ProyectoDetailPage() {
     setCompleting(false)
   }
 
-  if (loading) return <div className="p-8 text-sm text-[#6b7a9e]">Cargando...</div>
+  if (loading) return <div className="p-8 text-sm text-[#5e6673]">Cargando...</div>
   if (!project) return <div className="p-8 text-sm text-red-500">Proyecto no encontrado</div>
 
   const completedCount = tasks.filter(t => t.completed).length
   const progress = tasks.length > 0 ? Math.round((completedCount / tasks.length) * 100) : 0
   const isCompleted = project.status === 'completed'
-  const color = LANG_COLORS[project.languages?.slug ?? ''] ?? '#1b3a6b'
+  const color = LANG_COLORS[project.languages?.slug ?? ''] ?? '#0e5c4a'
 
   const content = activeTask ? getLessonContent(activeTask) : null
   const mayaKey = content?.content?.vocabulary?.[0]
@@ -235,18 +235,18 @@ export default function ProyectoDetailPage() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-8 text-center max-w-sm shadow-2xl">
             <div className="text-6xl mb-3">{newSkill.icon}</div>
-            <h2 className="text-xl font-bold text-[#1a2035] mb-1">¡Skill desbloqueado!</h2>
-            <p className="text-2xl font-bold text-[#c8a217] mb-2">{newSkill.name}</p>
-            <p className="text-sm text-[#6b7a9e] mb-6">Completaste el proyecto. ¡Sigue aprendiendo!</p>
+            <h2 className="text-xl font-bold text-[#14181f] mb-1">¡Skill desbloqueado!</h2>
+            <p className="text-2xl font-bold text-[#8a6410] mb-2">{newSkill.name}</p>
+            <p className="text-sm text-[#5e6673] mb-6">Completaste el proyecto. ¡Sigue aprendiendo!</p>
             <button
               onClick={() => { setNewSkill(null); router.push(`/dashboard/constancia/${project.id}`) }}
-              className="w-full py-3 mb-2 bg-[#c8a217] text-white font-bold rounded-xl hover:bg-[#e8be2c] transition"
+              className="w-full py-3 mb-2 bg-[#d9a62b] text-white font-bold rounded-xl hover:bg-[#e6b647] transition"
             >
               🏅 Ver mi constancia de logro
             </button>
             <button
               onClick={() => { setNewSkill(null); router.push('/dashboard/proyectos') }}
-              className="w-full py-3 bg-[#1b3a6b] text-white font-bold rounded-xl hover:bg-[#254d8f] transition"
+              className="w-full py-3 bg-[#0e5c4a] text-white font-bold rounded-xl hover:bg-[#0a4337] transition"
             >
               ¡Genial! Ver proyectos
             </button>
@@ -262,7 +262,7 @@ export default function ProyectoDetailPage() {
             onClick={e => e.stopPropagation()}
           >
             {/* Header del panel con progreso */}
-            <div className="sticky top-0 bg-white border-b border-[#dde3f0] z-10">
+            <div className="sticky top-0 bg-white border-b border-[#e4e2da] z-10">
               <div className="px-6 py-4 flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
@@ -275,17 +275,17 @@ export default function ProyectoDetailPage() {
                     {activeTask.lessons?.level && (
                       <span
                         className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white"
-                        style={{ backgroundColor: LEVEL_COLORS[activeTask.lessons.level] ?? '#6b7a9e' }}
+                        style={{ backgroundColor: LEVEL_COLORS[activeTask.lessons.level] ?? '#5e6673' }}
                       >
                         {LEVEL_LABELS[activeTask.lessons.level] ?? activeTask.lessons.level}
                       </span>
                     )}
                   </div>
-                  <h2 className="text-lg font-bold text-[#1a2035] leading-tight">{activeTask.title}</h2>
+                  <h2 className="text-lg font-bold text-[#14181f] leading-tight">{activeTask.title}</h2>
                 </div>
                 <button
                   onClick={() => setActiveTask(null)}
-                  className="text-[#6b7a9e] hover:text-[#1a2035] text-2xl leading-none flex-shrink-0 mt-1"
+                  className="text-[#5e6673] hover:text-[#14181f] text-2xl leading-none flex-shrink-0 mt-1"
                 >
                   ×
                 </button>
@@ -293,11 +293,11 @@ export default function ProyectoDetailPage() {
               {/* Progress bar */}
               {!activeTask.completed && (
                 <div className="px-6 pb-3">
-                  <div className="flex items-center justify-between text-[10px] text-[#6b7a9e] mb-1">
+                  <div className="flex items-center justify-between text-[10px] text-[#5e6673] mb-1">
                     <span>Progreso: {lessonProgress}%</span>
                     <span>{Math.floor(timeSpent / 60)}:{String(timeSpent % 60).padStart(2, '0')} min</span>
                   </div>
-                  <div className="h-1.5 bg-[#f5f7fc] rounded-full overflow-hidden border border-[#dde3f0]">
+                  <div className="h-1.5 bg-[#f6f5f1] rounded-full overflow-hidden border border-[#e4e2da]">
                     <div
                       className="h-full rounded-full transition-all duration-500"
                       style={{ width: `${lessonProgress}%`, backgroundColor: color }}
@@ -324,10 +324,10 @@ export default function ProyectoDetailPage() {
                   {/* Vocabulario */}
                   {content.content?.vocabulary?.length > 0 && (
                     <div ref={(el) => { if (el) trackSection('vocab') }} data-section="vocab">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#6b7a9e] mb-3">
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#5e6673] mb-3">
                         Vocabulario
                       </h3>
-                      <div className="rounded-xl border border-[#dde3f0] overflow-hidden">
+                      <div className="rounded-xl border border-[#e4e2da] overflow-hidden">
                         <div
                           className="grid grid-cols-[1fr_auto_1fr] px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-white items-center"
                           style={{ backgroundColor: color }}
@@ -339,11 +339,11 @@ export default function ProyectoDetailPage() {
                         {content.content.vocabulary.map((item: any, i: number) => (
                           <div
                             key={i}
-                            className={`grid grid-cols-[1fr_auto_1fr] px-4 py-2.5 text-sm items-center gap-2 ${i % 2 === 0 ? 'bg-white' : 'bg-[#f5f7fc]'}`}
+                            className={`grid grid-cols-[1fr_auto_1fr] px-4 py-2.5 text-sm items-center gap-2 ${i % 2 === 0 ? 'bg-white' : 'bg-[#f6f5f1]'}`}
                           >
-                            <span className="font-semibold text-[#1a2035]">{item[mayaKey]}</span>
+                            <span className="font-semibold text-[#14181f]">{item[mayaKey]}</span>
                             <AudioButton text={item[mayaKey]} size="sm" color={color} />
-                            <span className="text-[#6b7a9e]">{item.spanish}</span>
+                            <span className="text-[#5e6673]">{item.spanish}</span>
                           </div>
                         ))}
                       </div>
@@ -353,18 +353,18 @@ export default function ProyectoDetailPage() {
                   {/* Frases */}
                   {content.content?.phrases?.length > 0 && (
                     <div ref={(el) => { if (el) trackSection('phrases') }} data-section="phrases">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#6b7a9e] mb-3">
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#5e6673] mb-3">
                         Frases clave
                       </h3>
                       <div className="space-y-2">
                         {content.content.phrases.map((p: any, i: number) => (
                           <div
                             key={i}
-                            className="bg-[#f5f7fc] rounded-lg px-4 py-3 border border-[#dde3f0] flex items-start gap-3"
+                            className="bg-[#f6f5f1] rounded-lg px-4 py-3 border border-[#e4e2da] flex items-start gap-3"
                           >
                             <div className="flex-1 min-w-0">
-                              <p className="font-semibold text-sm text-[#1a2035]">{p[mayaKey]}</p>
-                              <p className="text-xs text-[#6b7a9e] mt-0.5">{p.spanish}</p>
+                              <p className="font-semibold text-sm text-[#14181f]">{p[mayaKey]}</p>
+                              <p className="text-xs text-[#5e6673] mt-0.5">{p.spanish}</p>
                             </div>
                             <AudioButton text={p[mayaKey]} size="sm" color={color} />
                           </div>
@@ -376,10 +376,10 @@ export default function ProyectoDetailPage() {
                   {/* Gramática */}
                   {content.content?.grammar && (
                     <div ref={(el) => { if (el) trackSection('grammar') }} data-section="grammar">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#6b7a9e] mb-2">
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#5e6673] mb-2">
                         Gramática
                       </h3>
-                      <p className="text-sm text-[#3a4a6b] bg-[#f0f4ff] rounded-lg px-4 py-3 border border-[#dde3f0] leading-relaxed">
+                      <p className="text-sm text-[#3b4250] bg-[#e8f1ee] rounded-lg px-4 py-3 border border-[#e4e2da] leading-relaxed">
                         {content.content.grammar}
                       </p>
                     </div>
@@ -388,7 +388,7 @@ export default function ProyectoDetailPage() {
                   {/* Nota cultural */}
                   {content.content?.culturalNote && (
                     <div ref={(el) => { if (el) trackSection('cultural') }} data-section="cultural">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#6b7a9e] mb-2">
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#5e6673] mb-2">
                         Nota cultural
                       </h3>
                       <div
@@ -402,8 +402,8 @@ export default function ProyectoDetailPage() {
 
                   {/* Ejercicios interactivos */}
                   {content.content?.exercises && content.content.exercises.length > 0 && (
-                    <div className="mt-6 pt-6 border-t border-[#dde3f0]">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#6b7a9e] mb-4">
+                    <div className="mt-6 pt-6 border-t border-[#e4e2da]">
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#5e6673] mb-4">
                         Ejercicios
                       </h3>
                       <InteractiveQuiz
@@ -421,12 +421,12 @@ export default function ProyectoDetailPage() {
                   )}
                 </>
               ) : (
-                <p className="text-sm text-[#6b7a9e]">{activeTask.description ?? 'Completa esta lección para avanzar.'}</p>
+                <p className="text-sm text-[#5e6673]">{activeTask.description ?? 'Completa esta lección para avanzar.'}</p>
               )}
             </div>
 
             {/* Footer con acción */}
-            <div className="sticky bottom-0 bg-white border-t border-[#dde3f0] px-6 py-4">
+            <div className="sticky bottom-0 bg-white border-t border-[#e4e2da] px-6 py-4">
               {activeTask.completed ? (
                 <div className="flex items-center justify-center gap-2 py-2 text-green-600 font-semibold text-sm">
                   <span>✓</span> Lección completada · +{activeTask.xp_reward} XP
@@ -448,14 +448,14 @@ export default function ProyectoDetailPage() {
 
       {/* Header */}
       <div className="mb-6">
-        <Link href="/dashboard/proyectos" className="text-xs text-[#6b7a9e] hover:text-[#1b3a6b] mb-3 inline-flex items-center gap-1">
+        <Link href="/dashboard/proyectos" className="text-xs text-[#5e6673] hover:text-[#0e5c4a] mb-3 inline-flex items-center gap-1">
           ← Proyectos
         </Link>
         <div className="h-1 rounded-full mb-4 mt-2" style={{ backgroundColor: color }} />
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-[#1a2035]">{project.title}</h1>
-            {project.description && <p className="text-sm text-[#6b7a9e] mt-1">{project.description}</p>}
+            <h1 className="text-2xl font-bold text-[#14181f]">{project.title}</h1>
+            {project.description && <p className="text-sm text-[#5e6673] mt-1">{project.description}</p>}
             {project.languages && (
               <span className="inline-block mt-2 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white" style={{ backgroundColor: color }}>
                 {project.languages.name}
@@ -465,7 +465,7 @@ export default function ProyectoDetailPage() {
           {isCompleted && (
             <div className="flex flex-col items-end gap-2">
               <span className="text-xs bg-green-50 text-green-700 border border-green-100 rounded-full px-3 py-1 font-semibold">✓ Completado</span>
-              <Link href={`/dashboard/constancia/${project.id}`} className="text-xs font-bold text-white bg-[#c8a217] hover:bg-[#e8be2c] rounded-full px-3 py-1.5 transition">
+              <Link href={`/dashboard/constancia/${project.id}`} className="text-xs font-bold text-white bg-[#d9a62b] hover:bg-[#e6b647] rounded-full px-3 py-1.5 transition">
                 🏅 Ver mi constancia
               </Link>
             </div>
@@ -474,19 +474,19 @@ export default function ProyectoDetailPage() {
       </div>
 
       {/* Progreso */}
-      <div className="bg-white rounded-xl border border-[#dde3f0] p-5 mb-8">
+      <div className="bg-white rounded-xl border border-[#e4e2da] p-5 mb-8">
         <div className="flex items-center justify-between text-sm mb-2">
-          <span className="font-semibold text-[#1a2035]">Progreso del path</span>
+          <span className="font-semibold text-[#14181f]">Progreso del path</span>
           <span className="font-bold" style={{ color }}>{completedCount}/{tasks.length} lecciones · {progress}%</span>
         </div>
-        <div className="h-2 bg-[#f5f7fc] rounded-full overflow-hidden border border-[#dde3f0]">
+        <div className="h-2 bg-[#f6f5f1] rounded-full overflow-hidden border border-[#e4e2da]">
           <div
             className="h-full rounded-full transition-all duration-700"
             style={{ width: `${progress}%`, backgroundColor: color }}
           />
         </div>
         {!isCompleted && tasks.length > 0 && (
-          <p className="text-xs text-[#6b7a9e] mt-2">
+          <p className="text-xs text-[#5e6673] mt-2">
             Completa todas las lecciones para ganar +50 XP y un skill badge
           </p>
         )}
@@ -494,15 +494,15 @@ export default function ProyectoDetailPage() {
 
       {/* Learning path */}
       {tasks.length === 0 ? (
-        <div className="bg-white rounded-xl border border-dashed border-[#dde3f0] p-8 text-center">
-          <p className="text-sm text-[#6b7a9e]">Este proyecto no tiene lecciones asignadas.</p>
+        <div className="bg-white rounded-xl border border-dashed border-[#e4e2da] p-8 text-center">
+          <p className="text-sm text-[#5e6673]">Este proyecto no tiene lecciones asignadas.</p>
         </div>
       ) : (
         <div className="relative">
           {/* Línea vertical del path */}
           <div
             className="absolute left-5 top-5 bottom-5 w-0.5"
-            style={{ backgroundColor: '#dde3f0' }}
+            style={{ backgroundColor: '#e4e2da' }}
           />
 
           <div className="space-y-3">
@@ -520,7 +520,7 @@ export default function ProyectoDetailPage() {
                         ? 'bg-green-500 border-green-500 text-white'
                         : isCurrent
                         ? 'text-white border-transparent'
-                        : 'bg-[#f5f7fc] border-[#dde3f0] text-[#6b7a9e]'
+                        : 'bg-[#f6f5f1] border-[#e4e2da] text-[#5e6673]'
                     }`}
                     style={isCurrent ? { backgroundColor: color, borderColor: color } : undefined}
                   >
@@ -533,45 +533,45 @@ export default function ProyectoDetailPage() {
                       task.completed
                         ? 'border-green-100'
                         : locked
-                        ? 'border-[#dde3f0] opacity-40 cursor-not-allowed'
-                        : 'border-[#dde3f0] hover:border-[#1b3a6b]/30 hover:shadow-sm'
+                        ? 'border-[#e4e2da] opacity-40 cursor-not-allowed'
+                        : 'border-[#e4e2da] hover:border-[#0e5c4a]/30 hover:shadow-sm'
                     }`}
                     onClick={() => !locked && setActiveTask(task)}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
-                        <p className={`font-semibold text-sm leading-tight ${task.completed ? 'text-[#6b7a9e]' : 'text-[#1a2035]'}`}>
+                        <p className={`font-semibold text-sm leading-tight ${task.completed ? 'text-[#5e6673]' : 'text-[#14181f]'}`}>
                           {task.title}
                         </p>
                         <div className="flex items-center gap-2 mt-1.5">
                           {task.lessons?.level && (
                             <span
                               className="text-[10px] font-semibold px-1.5 py-0.5 rounded text-white"
-                              style={{ backgroundColor: LEVEL_COLORS[task.lessons.level] ?? '#6b7a9e' }}
+                              style={{ backgroundColor: LEVEL_COLORS[task.lessons.level] ?? '#5e6673' }}
                             >
                               {LEVEL_LABELS[task.lessons.level] ?? task.lessons.level}
                             </span>
                           )}
                           {lessonContent?.content?.vocabulary?.length > 0 && (
-                            <span className="text-[10px] text-[#6b7a9e]">
+                            <span className="text-[10px] text-[#5e6673]">
                               {lessonContent.content.vocabulary.length} palabras
                             </span>
                           )}
                           {lessonContent?.content?.phrases?.length > 0 && (
-                            <span className="text-[10px] text-[#6b7a9e]">
+                            <span className="text-[10px] text-[#5e6673]">
                               {lessonContent.content.phrases.length} frases
                             </span>
                           )}
                         </div>
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0">
-                        <span className="text-[10px] font-semibold text-[#c8a217]">+{task.xp_reward} XP</span>
+                        <span className="text-[10px] font-semibold text-[#8a6410]">+{task.xp_reward} XP</span>
                         {task.completed ? (
                           <span className="text-[10px] text-green-600 font-semibold">Completada</span>
                         ) : locked ? (
-                          <span className="text-[10px] text-[#6b7a9e]">🔒</span>
+                          <span className="text-[10px] text-[#5e6673]">🔒</span>
                         ) : (
-                          <span className="text-[10px] font-semibold text-[#1b3a6b]">Ver →</span>
+                          <span className="text-[10px] font-semibold text-[#0e5c4a]">Ver →</span>
                         )}
                       </div>
                     </div>

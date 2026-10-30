@@ -57,8 +57,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (loading || isPending || !user) {
     return (
-      <div className="min-h-screen bg-[#f5f7fc] flex items-center justify-center">
-        <div className="text-[#6b7a9e]">Cargando...</div>
+      <div className="min-h-screen bg-[#f6f5f1] flex items-center justify-center">
+        <div className="text-[#5e6673]">Cargando...</div>
       </div>
     )
   }
@@ -82,16 +82,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const streak = { current_days: stats?.currentDays ?? 0 }
 
   return (
-    <div className="min-h-screen bg-[#f5f7fc]">
+    <div className="min-h-screen bg-[#f6f5f1]">
       {/* Mobile Header */}
-      <header className="lg:hidden bg-white border-b border-[#dde3f0] sticky top-0 z-30">
+      <header className="lg:hidden bg-white border-b border-[#e4e2da] sticky top-0 z-30">
         <div className="flex items-center justify-between h-14 px-4">
-          <Link href="/" className="flex items-center gap-2 text-[#1b3a6b] font-bold">
-            <span className="text-[#c8a217]">◆</span> Astro Maya
+          <Link href="/" className="flex items-center gap-2 text-[#0e5c4a] font-bold">
+            <span className="text-[#8a6410]">◆</span> Astro Maya
           </Link>
           <button
             onClick={() => setIsMobileMenuOpen(true)}
-            className="p-2 -mr-2 text-[#1a2035] hover:bg-[#f5f7fc] rounded-lg transition-colors"
+            className="p-2 -mr-2 text-[#14181f] hover:bg-[#f6f5f1] rounded-lg transition-colors"
             aria-label="Abrir menú"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -103,31 +103,31 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       <div className="flex">
         {/* Desktop Sidebar */}
-        <aside className="hidden lg:flex w-60 bg-white border-r border-[#dde3f0] flex-col fixed h-full z-20">
+        <aside className="hidden lg:flex w-60 bg-white border-r border-[#e4e2da] flex-col fixed h-full z-20">
           {/* Logo */}
-          <div className="px-5 py-5 border-b border-[#dde3f0]">
-            <Link href="/" className="inline-flex items-center gap-2 text-[#1b3a6b] font-bold">
-              <span className="text-[#c8a217]">◆</span> Astro Maya
+          <div className="px-5 py-5 border-b border-[#e4e2da]">
+            <Link href="/" className="inline-flex items-center gap-2 text-[#0e5c4a] font-bold">
+              <span className="text-[#8a6410]">◆</span> Astro Maya
             </Link>
           </div>
 
           {/* User card */}
-          <div className="px-4 py-4 border-b border-[#dde3f0]">
+          <div className="px-4 py-4 border-b border-[#e4e2da]">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-9 h-9 rounded-full bg-[#1b3a6b] flex items-center justify-center text-white font-bold text-sm">
+              <div className="w-9 h-9 rounded-full bg-[#0e5c4a] flex items-center justify-center text-white font-bold text-sm">
                 {displayName.charAt(0).toUpperCase()}
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-[#1a2035] truncate">{displayName}</p>
-                <p className="text-[10px] text-[#6b7a9e]">{currentLevel.label}</p>
+                <p className="text-sm font-semibold text-[#14181f] truncate">{displayName}</p>
+                <p className="text-[10px] text-[#5e6673]">{currentLevel.label}</p>
               </div>
             </div>
-            <div className="flex items-center justify-between text-[10px] text-[#6b7a9e] mb-1">
+            <div className="flex items-center justify-between text-[10px] text-[#5e6673] mb-1">
               <span>{totalXp} XP</span>
               {nextLevel && <span>→ {nextLevel.min} XP</span>}
             </div>
-            <div className="h-1.5 bg-[#f5f7fc] rounded-full overflow-hidden border border-[#dde3f0]">
-              <div className="h-full bg-[#c8a217] rounded-full transition-all" style={{ width: `${progress}%` }} />
+            <div className="h-1.5 bg-[#f6f5f1] rounded-full overflow-hidden border border-[#e4e2da]">
+              <div className="h-full bg-[#d9a62b] rounded-full transition-all" style={{ width: `${progress}%` }} />
             </div>
             {(streak?.current_days ?? 0) > 0 && (
               <div className="mt-2 inline-flex items-center gap-1 text-[10px] font-medium text-orange-600 bg-orange-50 rounded px-2 py-0.5">
@@ -144,8 +144,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 href={item.href}
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   pathname === item.href
-                    ? 'text-[#1b3a6b] bg-[#f5f7fc]'
-                    : 'text-[#1a2035] hover:bg-[#f5f7fc] hover:text-[#1b3a6b]'
+                    ? 'text-[#0e5c4a] bg-[#f6f5f1]'
+                    : 'text-[#14181f] hover:bg-[#f6f5f1] hover:text-[#0e5c4a]'
                 }`}
               >
                 <span className="text-base">{item.icon}</span>
@@ -155,10 +155,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </nav>
 
           {/* Logout */}
-          <div className="px-3 py-4 border-t border-[#dde3f0]">
+          <div className="px-3 py-4 border-t border-[#e4e2da]">
             <button
               onClick={handleSignOut}
-              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-[#6b7a9e] hover:bg-[#f5f7fc] hover:text-red-600 transition-colors"
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-[#5e6673] hover:bg-[#f6f5f1] hover:text-red-600 transition-colors"
             >
               <span>↩</span> Cerrar sesión
             </button>
@@ -179,13 +179,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         }`}>
           <div className="flex flex-col h-full">
             {/* Mobile Sidebar Header */}
-            <div className="flex items-center justify-between px-4 py-4 border-b border-[#dde3f0]">
-              <Link href="/" className="flex items-center gap-2 text-[#1b3a6b] font-bold">
-                <span className="text-[#c8a217]">◆</span> Astro Maya
+            <div className="flex items-center justify-between px-4 py-4 border-b border-[#e4e2da]">
+              <Link href="/" className="flex items-center gap-2 text-[#0e5c4a] font-bold">
+                <span className="text-[#8a6410]">◆</span> Astro Maya
               </Link>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 -mr-2 text-[#1a2035] hover:bg-[#f5f7fc] rounded-lg transition-colors"
+                className="p-2 -mr-2 text-[#14181f] hover:bg-[#f6f5f1] rounded-lg transition-colors"
                 aria-label="Cerrar menú"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -195,22 +195,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
 
             {/* User card */}
-            <div className="px-4 py-4 border-b border-[#dde3f0]">
+            <div className="px-4 py-4 border-b border-[#e4e2da]">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full bg-[#1b3a6b] flex items-center justify-center text-white font-bold">
+                <div className="w-10 h-10 rounded-full bg-[#0e5c4a] flex items-center justify-center text-white font-bold">
                   {displayName.charAt(0).toUpperCase()}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-[#1a2035] truncate">{displayName}</p>
-                  <p className="text-xs text-[#6b7a9e]">{currentLevel.label}</p>
+                  <p className="text-sm font-semibold text-[#14181f] truncate">{displayName}</p>
+                  <p className="text-xs text-[#5e6673]">{currentLevel.label}</p>
                 </div>
               </div>
-              <div className="flex items-center justify-between text-xs text-[#6b7a9e] mb-1">
+              <div className="flex items-center justify-between text-xs text-[#5e6673] mb-1">
                 <span>{totalXp} XP</span>
                 {nextLevel && <span>→ {nextLevel.min} XP</span>}
               </div>
-              <div className="h-2 bg-[#f5f7fc] rounded-full overflow-hidden border border-[#dde3f0]">
-                <div className="h-full bg-[#c8a217] rounded-full transition-all" style={{ width: `${progress}%` }} />
+              <div className="h-2 bg-[#f6f5f1] rounded-full overflow-hidden border border-[#e4e2da]">
+                <div className="h-full bg-[#d9a62b] rounded-full transition-all" style={{ width: `${progress}%` }} />
               </div>
               {(streak?.current_days ?? 0) > 0 && (
                 <div className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-orange-600 bg-orange-50 rounded px-2 py-1">
@@ -227,8 +227,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   href={item.href}
                   className={`flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors ${
                     pathname === item.href
-                      ? 'text-[#1b3a6b] bg-[#f5f7fc]'
-                      : 'text-[#1a2035] hover:bg-[#f5f7fc] hover:text-[#1b3a6b]'
+                      ? 'text-[#0e5c4a] bg-[#f6f5f1]'
+                      : 'text-[#14181f] hover:bg-[#f6f5f1] hover:text-[#0e5c4a]'
                   }`}
                 >
                   <span className="text-lg">{item.icon}</span>
@@ -238,10 +238,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </nav>
 
             {/* Logout */}
-            <div className="px-3 py-4 border-t border-[#dde3f0]">
+            <div className="px-3 py-4 border-t border-[#e4e2da]">
               <button
                 onClick={handleSignOut}
-                className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-[#6b7a9e] hover:bg-[#f5f7fc] hover:text-red-600 transition-colors"
+                className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-[#5e6673] hover:bg-[#f6f5f1] hover:text-red-600 transition-colors"
               >
                 <span className="text-lg">↩</span> Cerrar sesión
               </button>

@@ -8,7 +8,7 @@ export function Toaster() {
       position="top-right"
       toastOptions={{
         style: {
-          background: '#1b3a6b',
+          background: '#0e5c4a',
           color: '#fff',
           border: 'none',
         },

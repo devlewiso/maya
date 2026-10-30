@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import { LANGUAGES, LogoMark } from './Tejido';
 
 interface FooterProps {
   mayaLanguages?: Array<{
@@ -10,118 +10,58 @@ interface FooterProps {
   }>;
 }
 
-const languages = [
-  { name: "K'iche'", href: '/kicheLeccion' },
-  { name: "Q'eqchi'", href: '/qeqchiLeccion' },
-  { name: 'Kaqchikel', href: '/kaqchikelLeccion' },
-  { name: 'Mam', href: '/mamLeccion' },
-  { name: "Tz'utujil", href: '/tzutujilLeccion' },
-];
+const linkClass = 'text-[#b9bfc9] hover:text-white text-sm transition-colors py-1 inline-block';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Footer = (_props: FooterProps) => {
   return (
-    <footer className="bg-[#0f2347] text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8">
-
-        {/* Main columns */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 border-b border-white/10">
-
-          {/* Col 1: Identity */}
+    <footer className="bg-[#101418] text-white border-t border-[#262d37]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-14 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr] gap-10 pb-10 border-b border-white/10">
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <Image
-                src="/astromaya-logo.svg"
-                alt="Astro Maya"
-                width={52}
-                height={52}
-                className="rounded-full"
-              />
-              <div>
-                <div className="text-white font-bold text-base">Astro Maya</div>
-                <div className="text-white/40 text-[10px] uppercase tracking-wider">Lenguas Mayas · Guatemala</div>
-              </div>
+            <div className="flex items-center gap-2.5 mb-4">
+              <LogoMark size={32} />
+              <span className="font-extrabold text-lg tracking-tight">Astro Maya</span>
             </div>
-            <p className="text-white/55 text-sm leading-relaxed mb-5">
-              Plataforma educativa para la preservación y difusión de las lenguas mayas de Guatemala. Conectamos comunidades a través del idioma.
+            <p className="text-[#b9bfc9] text-sm leading-relaxed mb-5 max-w-sm">
+              Plataforma educativa para aprender y preservar los idiomas mayas de Guatemala.
             </p>
-            <a
-              href="mailto:devlewiso@gmail.com"
-              className="text-[#c8a217] text-sm hover:text-[#e8be2c] transition-colors"
-            >
+            <a href="mailto:devlewiso@gmail.com" className="text-[#d9a62b] text-sm hover:text-[#e6b647] transition-colors">
               devlewiso@gmail.com
             </a>
           </div>
 
-          {/* Col 2: Languages */}
           <div>
-            <h3 className="font-bold text-xs uppercase tracking-widest text-[#c8a217] mb-5">
-              Idiomas Mayas
-            </h3>
-            <ul className="space-y-2.5">
-              {languages.map((lang) => (
+            <h3 className="font-mono text-xs uppercase tracking-widest text-[#d9a62b] mb-4">Idiomas</h3>
+            <ul className="space-y-1">
+              {LANGUAGES.map((lang) => (
                 <li key={lang.href}>
-                  <Link
-                    href={lang.href}
-                    className="text-white/55 hover:text-white text-sm transition-colors"
-                  >
-                    {lang.name}
-                  </Link>
+                  <Link href={lang.href} className={linkClass}>{lang.name}</Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Col 3: Institution */}
           <div>
-            <h3 className="font-bold text-xs uppercase tracking-widest text-[#c8a217] mb-5">
-              Institución
-            </h3>
-            <ul className="space-y-2.5">
-              <li>
-                <Link href="/" className="text-white/55 hover:text-white text-sm transition-colors">
-                  Inicio
-                </Link>
-              </li>
-              <li>
-                <Link href="/lecciones" className="text-white/55 hover:text-white text-sm transition-colors">
-                  Lecciones
-                </Link>
-              </li>
-              <li>
-                <Link href="/nosotros" className="text-white/55 hover:text-white text-sm transition-colors">
-                  Nosotros
-                </Link>
-              </li>
-              <li>
-                <Link href="/herramientas" className="text-white/55 hover:text-white text-sm transition-colors">
-                  Herramientas
-                </Link>
-              </li>
-              <li>
-                <a href="mailto:devlewiso@gmail.com" className="text-white/55 hover:text-white text-sm transition-colors">
-                  Contacto
-                </a>
-              </li>
+            <h3 className="font-mono text-xs uppercase tracking-widest text-[#d9a62b] mb-4">Astro Maya</h3>
+            <ul className="space-y-1">
+              <li><Link href="/lecciones" className={linkClass}>Lecciones</Link></li>
+              <li><Link href="/herramientas" className={linkClass}>Herramientas</Link></li>
+              <li><Link href="/nosotros" className={linkClass}>Nosotros</Link></li>
+              <li><a href="mailto:devlewiso@gmail.com" className={linkClass}>Contacto</a></li>
             </ul>
           </div>
         </div>
 
-        {/* Legal links */}
-        <div className="pt-6 pb-4 flex flex-wrap gap-4 justify-center border-b border-white/10">
-          <Link href="/privacidad" className="text-white/35 hover:text-white/60 text-xs transition-colors">Política de Privacidad</Link>
-          <Link href="/cookies" className="text-white/35 hover:text-white/60 text-xs transition-colors">Política de Cookies</Link>
-          <Link href="/terminos" className="text-white/35 hover:text-white/60 text-xs transition-colors">Términos de Uso</Link>
-        </div>
-
-        {/* Bottom bar */}
-        <div className="pt-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white/35 text-xs">
-            © {new Date().getFullYear()} Astro Maya. Todos los derechos reservados.
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-[#8a919c] text-xs">
+            © {new Date().getFullYear()} Astro Maya · Guatemala
           </p>
-          <p className="text-white/35 text-xs">
-            Guatemala · Preservando el patrimonio lingüístico maya
-          </p>
+          <nav aria-label="Legal" className="flex flex-wrap gap-5 justify-center">
+            <Link href="/privacidad" className="text-[#8a919c] hover:text-white text-xs transition-colors">Privacidad</Link>
+            <Link href="/cookies" className="text-[#8a919c] hover:text-white text-xs transition-colors">Cookies</Link>
+            <Link href="/terminos" className="text-[#8a919c] hover:text-white text-xs transition-colors">Términos</Link>
+          </nav>
         </div>
       </div>
     </footer>

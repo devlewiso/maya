@@ -9,7 +9,7 @@ interface AudioButtonProps {
   color?: string
 }
 
-export function AudioButton({ text, lang = 'es-GT', size = 'md', color = '#1b3a6b' }: AudioButtonProps) {
+export function AudioButton({ text, lang = 'es-GT', size = 'md', color = '#0e5c4a' }: AudioButtonProps) {
   const [isPlaying, setIsPlaying] = useState(false)
 
   const sizeClasses = {

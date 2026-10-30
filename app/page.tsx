@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Footer from "./components/footer";
 import Header from './components/Header';
 import Link from 'next/link';
+import { LANGUAGES, MayaNumeral, TejidoBand } from './components/Tejido';
+import { kicheLessons } from './content/kicheLeccion';
+import { qeqchiLessons } from './content/qeqchiLeccion';
+import { kaqchikelLessons } from './content/kaqchikelLeccion';
+import { mamLessons } from './content/mamLeccion';
+import { tzutujilLessons } from './content/tzutujilLeccion';
 
 export const metadata: Metadata = {
   title: "Astro Maya — Aprende los 5 Idiomas Mayas de Guatemala Gratis",
@@ -28,220 +33,147 @@ export const metadata: Metadata = {
   },
 };
 
+const lessonCounts: Record<string, number> = {
+  "K'iche'": kicheLessons.length,
+  "Q'eqchi'": qeqchiLessons.length,
+  "Kaqchikel": kaqchikelLessons.length,
+  "Mam": mamLessons.length,
+  "Tz'utujil": tzutujilLessons.length,
+};
+const totalLessons = Object.values(lessonCounts).reduce((a, b) => a + b, 0);
+
+const steps = [
+  { title: 'Elige un idioma', text: 'Empieza por el idioma de tu familia, de tu región o el que te llame.' },
+  { title: 'Aprende con lecciones breves', text: 'Vocabulario, frases, gramática y una nota cultural en cada lección.' },
+  { title: 'Practica', text: 'Ejercicios para afianzar cada palabra antes de pasar a la siguiente.' },
+  { title: 'Obtén tu constancia', text: 'Completa una ruta y recibe una constancia de logro verificable.' },
+];
+
+const values = [
+  { title: 'Respeto', text: "Como en la cultura K'iche', saludamos primero a los mayores: aprendemos de quienes guardan la lengua." },
+  { title: 'Comunidad', text: 'Puentes entre hablantes de español y de idiomas mayas, aprendiendo unos de otros.' },
+  { title: 'Acceso libre', text: 'Gratis para todas las personas, en Guatemala y fuera de ella.' },
+  { title: 'Preservación', text: 'Cada lección ayuda a que la lengua llegue a la siguiente generación.' },
+];
+
+const eyebrow = 'font-mono text-[13px] tracking-[0.08em] uppercase text-[#5e6673]';
+
 export default function Home() {
-  const mayaLanguages = [
-    { name: "K'iche'", color: "#c0392b", speakers: "1,000,000+", region: "Guatemala Central", href: "/kicheLeccion" },
-    { name: "Q'eqchi'", color: "#2471a3", speakers: "800,000+", region: "Alta Verapaz, Petén", href: "/qeqchiLeccion" },
-    { name: "Kaqchikel", color: "#1e8449", speakers: "500,000+", region: "Altiplano Central", href: "/kaqchikelLeccion" },
-    { name: "Mam", color: "#d68910", speakers: "500,000+", region: "Occidente de Guatemala", href: "/mamLeccion" },
-    { name: "Tz'utujil", color: "#7d3c98", speakers: "100,000+", region: "Lago de Atitlán", href: "/tzutujilLeccion" },
-  ];
-
-  const stats = [
-    { value: "5", label: "Idiomas Mayas" },
-    { value: "3M+", label: "Hablantes" },
-    { value: "22", label: "Departamentos" },
-    { value: "50+", label: "Lecciones" },
-  ];
-
-  const features = [
-    {
-      title: "Lecciones Interactivas",
-      description: "Actividades diseñadas por expertos en lenguas y cultura maya.",
-      icon: (
-        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-      ),
-    },
-    {
-      title: "Contexto Cultural",
-      description: "Comprende el patrimonio e historia detrás de cada idioma.",
-      icon: (
-        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-        </svg>
-      ),
-    },
-    {
-      title: "Pronunciación",
-      description: "Guías fonéticas detalladas para dominar los sonidos únicos del maya.",
-      icon: (
-        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-        </svg>
-      ),
-    },
-    {
-      title: "Alcance Nacional",
-      description: "Diseñado para los 22 departamentos de Guatemala y la comunidad internacional.",
-      icon: (
-        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-    },
-  ];
-
-  const mission = [
-    {
-      title: "Preservación Cultural",
-      description: "Mantenemos vivas las lenguas mayas y promovemos su uso activo entre las nuevas generaciones de Guatemala.",
-    },
-    {
-      title: "Puentes Lingüísticos",
-      description: "Creamos conexiones entre comunidades hispanohablantes y mayas a través del aprendizaje mutuo del idioma.",
-    },
-    {
-      title: "Cobertura Nacional",
-      description: "Llegamos a los 22 departamentos de Guatemala con contenido educativo accesible y culturalmente relevante.",
-    },
-  ];
-
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#f6f5f1] text-[#14181f]">
       <Header />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#1b3a6b]" style={{ minHeight: '520px' }}>
-        <div className="absolute inset-0">
-          <Image
-            src="/hero-image.jpg"
-            alt="Guatemala"
-            fill
-            className="object-cover opacity-20"
-            priority
-          />
-        </div>
-        <div className="absolute inset-0 opacity-5">
-          <Image
-            src="/patterns/maya-pattern.svg"
-            alt=""
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#c8a217]/20 border border-[#c8a217]/40 rounded text-[#e8be2c] text-sm font-medium mb-6">
-              <span className="w-2 h-2 rounded-full bg-[#c8a217] flex-shrink-0"></span>
-              Plataforma educativa · Guatemala
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              Aprende las{' '}
-              <span className="text-[#e8be2c]">Lenguas Mayas</span>{' '}
-              de Guatemala
+      <section className="bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-16 md:pt-24 md:pb-20 grid gap-14 lg:grid-cols-[1.25fr_1fr] items-center">
+          <div>
+            <p className={`${eyebrow} mb-5`}>Plataforma educativa · Guatemala</p>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6">
+              Las lenguas mayas, vivas en cada palabra.
             </h1>
-            <p className="text-lg md:text-xl text-white/75 mb-10 max-w-2xl leading-relaxed">
-              Una plataforma educativa para preservar y difundir los cinco idiomas mayas más hablados. Diseñada para Guatemala y el mundo.
+            <p className="text-lg md:text-xl leading-relaxed text-[#4a5260] mb-9 max-w-xl">
+              Aprende K&apos;iche&apos;, Q&apos;eqchi&apos;, Kaqchikel, Mam y Tz&apos;utujil con lecciones breves y contexto cultural. Gratis, para Guatemala y para el mundo.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="/lecciones"
-                className="px-8 py-3.5 bg-[#c8a217] text-[#0f2347] font-bold rounded hover:bg-[#e8be2c] transition-colors text-center text-sm"
-              >
-                Explorar Idiomas
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link href="/signup" className="px-7 py-4 bg-[#0e5c4a] text-white font-bold rounded-xl hover:bg-[#0a4337] transition-colors text-center">
+                Empezar gratis
               </Link>
-              <Link
-                href="/nosotros"
-                className="px-8 py-3.5 bg-white/10 text-white font-semibold rounded border border-white/30 hover:bg-white/20 transition-colors text-center text-sm"
-              >
-                Sobre Nosotros
+              <Link href="#idiomas" className="px-7 py-4 bg-white text-[#14181f] font-semibold rounded-xl border border-[#cfccc2] hover:border-[#14181f] transition-colors text-center">
+                Explorar los 5 idiomas
               </Link>
+            </div>
+          </div>
+
+          {/* Tarjeta de palabra */}
+          <div className="w-full max-w-md mx-auto lg:mx-0 lg:justify-self-end bg-[#101418] text-white rounded-2xl overflow-hidden">
+            <TejidoBand />
+            <div className="p-8">
+              <div className="flex justify-between items-center mb-9">
+                <span className="font-mono text-xs tracking-[0.08em] uppercase text-[#b9bfc9]">K&apos;iche&apos; · Lección 1</span>
+                <span className="inline-flex items-center gap-1.5 text-xs text-[#b9bfc9]">
+                  <span className="w-2 h-2 rounded-full bg-[#e0604f]" />Saludos
+                </span>
+              </div>
+              <p className="text-5xl font-extrabold tracking-tight mb-1.5">Saqarik</p>
+              <p className="text-lg font-semibold text-[#d9a62b] mb-8">Buenos días</p>
+              <div className="p-4 bg-[#1b2129] rounded-xl">
+                <p className="text-base font-semibold mb-1">Saqarik. Achike ab&apos;i&apos;?</p>
+                <p className="text-sm text-[#b9bfc9]">Buenos días. ¿Cómo te llamas?</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats strip */}
-      <div className="bg-white border-b border-[#dde3f0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {stats.map((stat, i) => (
-              <div key={i} className={`text-center py-2 ${i > 0 ? 'border-l border-[#dde3f0]' : ''}`}>
-                <div className="text-3xl font-bold text-[#1b3a6b]">{stat.value}</div>
-                <div className="text-xs text-[#6b7a9e] mt-1 font-medium">{stat.label}</div>
-              </div>
-            ))}
-          </div>
+      {/* Cifras reales */}
+      <section aria-label="Astro Maya en cifras" className="bg-white border-y border-[#e4e2da]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-7 grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div><p className="text-3xl font-extrabold">{LANGUAGES.length}</p><p className="text-sm text-[#5e6673] mt-1">idiomas mayas</p></div>
+          <div><p className="text-3xl font-extrabold">{totalLessons}</p><p className="text-sm text-[#5e6673] mt-1">lecciones disponibles</p></div>
+          <div><p className="text-3xl font-extrabold">Gratis</p><p className="text-sm text-[#5e6673] mt-1">para todas las personas</p></div>
         </div>
-      </div>
+      </section>
 
-      {/* Languages */}
-      <section className="py-16 md:py-20 bg-[#f5f7fc]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="text-[#c8a217] font-semibold text-xs uppercase tracking-widest mb-2">Lenguas Mayas</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1b3a6b]">Los 5 Idiomas Mayas de Guatemala</h2>
-            <p className="text-[#6b7a9e] mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
-              Cada idioma representa una comunidad única con su propia historia, cosmovisión y patrimonio cultural milenario.
-            </p>
+      {/* Idiomas */}
+      <section id="idiomas" className="py-20 md:py-24 px-4 sm:px-6 scroll-mt-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-wrap justify-between items-end gap-6 mb-10">
+            <div className="max-w-2xl">
+              <p className={`${eyebrow} mb-3`}>Idiomas</p>
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-3">Cinco idiomas, cinco pueblos</h2>
+              <p className="text-[17px] leading-relaxed text-[#4a5260]">Cada idioma es una comunidad con su propia historia y cosmovisión. Elige por dónde empezar.</p>
+            </div>
+            <Link href="/lecciones" className="font-semibold text-[#0e5c4a] hover:text-[#0a4337] py-2">Ver todas las lecciones →</Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {mayaLanguages.map((lang, i) => (
+            {LANGUAGES.map((lang) => (
               <Link
-                key={i}
+                key={lang.href}
                 href={lang.href}
-                className="group bg-white rounded-xl border border-[#dde3f0] overflow-hidden hover:shadow-lg hover:border-transparent transition-all duration-300"
+                className="group bg-white border border-[#e4e2da] rounded-2xl p-6 flex flex-col gap-1.5 hover:border-[#14181f] transition-colors"
               >
-                <div className="h-1.5" style={{ backgroundColor: lang.color }}></div>
-                <div className="p-5">
-                  <h3 className="font-bold text-[#1a2035] text-base mb-2">{lang.name}</h3>
-                  <p className="text-xs text-[#6b7a9e] mb-0.5">{lang.speakers} hablantes</p>
-                  <p className="text-xs text-[#6b7a9e] mb-4">{lang.region}</p>
-                  <div className="flex items-center text-xs font-semibold text-[#1b3a6b] group-hover:text-[#c8a217] transition-colors">
-                    Ver lecciones
-                    <svg className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </div>
-                </div>
+                <span className="w-9 h-1 rounded-sm mb-4" style={{ background: lang.color }} />
+                <span className="text-xl font-extrabold">{lang.name}</span>
+                <span className="text-sm text-[#5e6673]">{lang.region}</span>
+                <span className="mt-5 text-sm font-semibold text-[#0e5c4a]">
+                  {lessonCounts[lang.name]} lecciones <span className="inline-block group-hover:translate-x-1 transition-transform">→</span>
+                </span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-16 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="text-[#c8a217] font-semibold text-xs uppercase tracking-widest mb-2">Plataforma</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1b3a6b]">¿Por qué elegir Astro Maya?</h2>
-            <p className="text-[#6b7a9e] mt-4 max-w-xl mx-auto text-sm leading-relaxed">
-              Diseñada para hacer el aprendizaje de idiomas efectivo, atractivo y culturalmente relevante.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {features.map((feature, i) => (
-              <div key={i} className="p-6 bg-[#f5f7fc] rounded-xl border border-[#dde3f0] hover:border-[#1b3a6b]/20 transition-colors">
-                <div className="w-9 h-9 bg-[#1b3a6b] rounded-lg flex items-center justify-center mb-4">
-                  {feature.icon}
-                </div>
-                <h3 className="font-bold text-[#1a2035] mb-2 text-sm">{feature.title}</h3>
-                <p className="text-xs text-[#6b7a9e] leading-relaxed">{feature.description}</p>
-              </div>
+      {/* Cómo funciona */}
+      <section className="bg-white border-y border-[#e4e2da] py-20 md:py-24 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <p className={`${eyebrow} mb-3`}>Cómo funciona</p>
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-12 max-w-2xl">Una ruta clara, de la primera palabra a tu constancia</h2>
+          <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {steps.map((step, i) => (
+              <li key={step.title} className="border-t-2 border-[#14181f] pt-6">
+                <div className="h-7 flex items-center mb-5"><MayaNumeral value={i + 1} /></div>
+                <h3 className="text-lg font-bold mb-2">{step.title}</h3>
+                <p className="text-[15px] leading-relaxed text-[#4a5260]">{step.text}</p>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
-      {/* Mission */}
-      <section className="py-16 md:py-20 bg-[#f5f7fc]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="text-[#c8a217] font-semibold text-xs uppercase tracking-widest mb-2">Misión</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1b3a6b]">Nuestra Misión</h2>
-            <p className="text-[#6b7a9e] mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
-              Comprometidos con la preservación y difusión de las lenguas mayas de Guatemala para las generaciones actuales y futuras.
-            </p>
+      {/* Valores */}
+      <section className="py-20 md:py-24 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto grid gap-12 lg:grid-cols-[1fr_2fr]">
+          <div>
+            <p className={`${eyebrow} mb-3`}>Nuestros valores</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-5">Enseñar una lengua es cuidar a su gente</h2>
+            <p className="text-[17px] leading-relaxed text-[#4a5260]">Astro Maya nace en Guatemala para que las lenguas mayas se hablen, se escriban y se hereden.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {mission.map((item, i) => (
-              <div key={i} className="bg-white rounded-xl border border-[#dde3f0] p-8 hover:shadow-md transition-shadow">
-                <div className="w-8 h-0.5 bg-[#c8a217] mb-5"></div>
-                <h3 className="font-bold text-[#1a2035] mb-3 text-base">{item.title}</h3>
-                <p className="text-sm text-[#6b7a9e] leading-relaxed">{item.description}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {values.map((v) => (
+              <div key={v.title} className="bg-white border border-[#e4e2da] rounded-2xl p-7">
+                <h3 className="text-lg font-bold mb-2">{v.title}</h3>
+                <p className="text-[15px] leading-relaxed text-[#4a5260]">{v.text}</p>
               </div>
             ))}
           </div>
@@ -249,19 +181,15 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 md:py-20 bg-[#1b3a6b]">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            ¿Listo para comenzar tu viaje lingüístico?
-          </h2>
-          <p className="text-white/65 mb-8 text-base leading-relaxed max-w-xl mx-auto">
-            Únete a miles de estudiantes que descubren la riqueza cultural de las lenguas mayas de Guatemala.
-          </p>
-          <Link
-            href="/lecciones"
-            className="inline-block px-10 py-4 bg-[#c8a217] text-[#0f2347] font-bold rounded hover:bg-[#e8be2c] transition-colors"
-          >
-            Ver todos los cursos
+      <section className="bg-[#101418] text-white">
+        <TejidoBand />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-20 flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div className="max-w-2xl">
+            <p className="text-lg font-semibold text-[#d9a62b] mb-3">Matyox — gracias</p>
+            <h2 className="text-3xl md:text-[44px] font-extrabold leading-tight tracking-tight">Tu primera palabra en idioma maya está a un clic.</h2>
+          </div>
+          <Link href="/signup" className="shrink-0 px-7 py-4 bg-[#d9a62b] text-[#101418] font-bold rounded-xl hover:bg-[#e6b647] transition-colors text-center">
+            Crear cuenta gratis
           </Link>
         </div>
       </section>

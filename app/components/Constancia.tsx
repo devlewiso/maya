@@ -13,9 +13,9 @@ type Props = {
   urlVerificar: string
 }
 
-const AZUL = '#1b3a6b'
-const ORO = '#c8a217'
-const JADE = '#1b5e3b'
+const AZUL = '#0e5c4a'
+const ORO = '#d9a62b'
+const JADE = '#0e5c4a'
 const PAPEL = '#fbf7ec'
 
 // Greca escalonada (motivo geométrico de grecas mayas), repetida a lo largo del marco.
@@ -57,14 +57,14 @@ export default function Constancia(p: Props) {
         <Sol x={1142} y={794} />
       </svg>
 
-      <div className="absolute inset-0 flex flex-col items-center text-center" style={{ padding: '7% 10% 8%', color: '#1a2035' }}>
+      <div className="absolute inset-0 flex flex-col items-center text-center" style={{ padding: '7% 10% 8%', color: '#14181f' }}>
         <p className="tracking-[0.45em] text-[clamp(9px,1.2vw,13px)] font-bold" style={{ color: JADE }}>ASTRO MAYA</p>
         <h1 className="mt-[1.5%] text-[clamp(22px,4.2vw,48px)] leading-tight" style={{ fontFamily: 'Georgia, "Times New Roman", serif', color: AZUL }}>
           Constancia de Logro
         </h1>
         <div className="my-[1.6%] h-[2px] w-[22%]" style={{ background: ORO }} />
-        <p className="text-[clamp(10px,1.4vw,16px)]" style={{ color: '#6b7a9e' }}>Se reconoce con alegría a</p>
-        <p className="mt-[1.2%] text-[clamp(22px,4vw,46px)] font-semibold leading-tight" style={{ fontFamily: 'Georgia, "Times New Roman", serif', color: '#1a2035' }}>
+        <p className="text-[clamp(10px,1.4vw,16px)]" style={{ color: '#5e6673' }}>Se reconoce con alegría a</p>
+        <p className="mt-[1.2%] text-[clamp(22px,4vw,46px)] font-semibold leading-tight" style={{ fontFamily: 'Georgia, "Times New Roman", serif', color: '#14181f' }}>
           {p.nombre}
         </p>
         <p className="mt-[1.6%] max-w-[78%] text-[clamp(10px,1.45vw,17px)] leading-relaxed">
@@ -73,25 +73,25 @@ export default function Constancia(p: Props) {
         </p>
 
         <div className="mt-[2.4%] flex gap-[6%] text-[clamp(9px,1.25vw,15px)]">
-          <div><p className="font-bold text-[clamp(14px,2.2vw,26px)]" style={{ color: AZUL }}>{p.lecciones}</p><p style={{ color: '#6b7a9e' }}>lecciones</p></div>
-          <div><p className="font-bold text-[clamp(14px,2.2vw,26px)]" style={{ color: ORO }}>{p.xp}</p><p className="whitespace-nowrap" style={{ color: '#6b7a9e' }}>XP ganados</p></div>
-          <div><p className="whitespace-nowrap font-bold text-[clamp(14px,2.2vw,26px)]" style={{ color: JADE }}>{p.fecha}</p><p style={{ color: '#6b7a9e' }}>fecha</p></div>
+          <div><p className="font-bold text-[clamp(14px,2.2vw,26px)]" style={{ color: AZUL }}>{p.lecciones}</p><p style={{ color: '#5e6673' }}>lecciones</p></div>
+          <div><p className="font-bold text-[clamp(14px,2.2vw,26px)]" style={{ color: ORO }}>{p.xp}</p><p className="whitespace-nowrap" style={{ color: '#5e6673' }}>XP ganados</p></div>
+          <div><p className="whitespace-nowrap font-bold text-[clamp(14px,2.2vw,26px)]" style={{ color: JADE }}>{p.fecha}</p><p style={{ color: '#5e6673' }}>fecha</p></div>
         </div>
 
         <div className="mt-auto flex w-full items-end justify-between text-left text-[clamp(8px,1.05vw,13px)]">
           <div>
             <div className="mb-1 h-px w-[220px] max-w-[30vw]" style={{ background: AZUL }} />
             <p className="font-semibold" style={{ color: AZUL }}>Equipo Astro Maya</p>
-            <p style={{ color: '#6b7a9e' }}>astromaya.neuralcodelab.com</p>
+            <p style={{ color: '#5e6673' }}>astromaya.neuralcodelab.com</p>
           </div>
           <div className="text-right">
-            <p style={{ color: '#6b7a9e' }}>Código de verificación</p>
+            <p style={{ color: '#5e6673' }}>Código de verificación</p>
             <p className="font-mono font-bold tracking-wider" style={{ color: AZUL }}>{p.codigo}</p>
-            <p style={{ color: '#6b7a9e' }}>{p.urlVerificar.replace(/^https?:\/\//, '')}</p>
+            <p style={{ color: '#5e6673' }}>{p.urlVerificar.replace(/^https?:\/\//, '')}</p>
           </div>
         </div>
 
-        <p className="mt-[1.6%] max-w-[85%] text-[clamp(7px,0.85vw,11px)] leading-snug" style={{ color: '#8a93ad' }}>
+        <p className="mt-[1.6%] max-w-[85%] text-[clamp(7px,0.85vw,11px)] leading-snug" style={{ color: '#6b7280' }}>
           Reconocimiento simbólico de Astro Maya por el aprendizaje realizado en la plataforma. No es un certificado académico
           oficial ni está avalado por la Academia de Lenguas Mayas de Guatemala (ALMG), el MINEDUC u otra institución.
         </p>

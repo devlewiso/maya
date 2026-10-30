@@ -47,11 +47,11 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f7fc] flex flex-col">
+    <div className="min-h-screen bg-[#f6f5f1] flex flex-col">
       {/* Header mínimo */}
-      <div className="px-6 py-5 border-b border-[#dde3f0] bg-white">
-        <Link href="/" className="inline-flex items-center gap-2 text-[#1b3a6b] font-bold text-lg">
-          <span className="text-[#c8a217]">◆</span> Astro Maya
+      <div className="px-6 py-5 border-b border-[#e4e2da] bg-white">
+        <Link href="/" className="inline-flex items-center gap-2 text-[#0e5c4a] font-bold text-lg">
+          <span className="text-[#8a6410]">◆</span> Astro Maya
         </Link>
       </div>
 
@@ -65,11 +65,11 @@ export default function LoginPage() {
           </div>
 
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-[#1a2035] mb-1">Bienvenido de nuevo</h1>
-            <p className="text-sm text-[#6b7a9e]">Continúa tu aprendizaje</p>
+            <h1 className="text-2xl font-bold text-[#14181f] mb-1">Bienvenido de nuevo</h1>
+            <p className="text-sm text-[#5e6673]">Continúa tu aprendizaje</p>
           </div>
 
-          <form onSubmit={handleLogin} className="bg-white rounded-xl border border-[#dde3f0] p-6 space-y-4">
+          <form onSubmit={handleLogin} className="bg-white rounded-xl border border-[#e4e2da] p-6 space-y-4">
             {error && (
               <div className="text-xs text-red-600 bg-red-50 border border-red-100 rounded-lg px-3 py-2">
                 {error}
@@ -77,33 +77,33 @@ export default function LoginPage() {
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-[#1a2035] mb-1.5">Correo electrónico</label>
+              <label className="block text-xs font-semibold text-[#14181f] mb-1.5">Correo electrónico</label>
               <input
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
                 placeholder="tu@correo.com"
-                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[#dde3f0] bg-[#f5f7fc] focus:outline-none focus:border-[#1b3a6b] focus:ring-1 focus:ring-[#1b3a6b] transition"
+                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[#e4e2da] bg-[#f6f5f1] focus:outline-none focus:border-[#0e5c4a] focus:ring-1 focus:ring-[#0e5c4a] transition"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#1a2035] mb-1.5">Contraseña</label>
+              <label className="block text-xs font-semibold text-[#14181f] mb-1.5">Contraseña</label>
               <input
                 type="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
-                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[#dde3f0] bg-[#f5f7fc] focus:outline-none focus:border-[#1b3a6b] focus:ring-1 focus:ring-[#1b3a6b] transition"
+                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[#e4e2da] bg-[#f6f5f1] focus:outline-none focus:border-[#0e5c4a] focus:ring-1 focus:ring-[#0e5c4a] transition"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 bg-[#1b3a6b] text-white font-semibold rounded-lg text-sm hover:bg-[#254d8f] transition disabled:opacity-60"
+              className="w-full py-2.5 bg-[#0e5c4a] text-white font-semibold rounded-lg text-sm hover:bg-[#0a4337] transition disabled:opacity-60"
             >
               {loading ? 'Entrando...' : 'Iniciar sesión'}
             </button>
@@ -112,10 +112,10 @@ export default function LoginPage() {
           {/* Divider */}
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-[#dde3f0]"></div>
+              <div className="w-full border-t border-[#e4e2da]"></div>
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="px-4 bg-[#f5f7fc] text-[#6b7a9e]">o continúa con</span>
+              <span className="px-4 bg-[#f6f5f1] text-[#5e6673]">o continúa con</span>
             </div>
           </div>
 
@@ -123,7 +123,7 @@ export default function LoginPage() {
           <button
             onClick={handleGoogleLogin}
             disabled={googleLoading}
-            className="w-full py-2.5 bg-white text-[#1a2035] font-semibold rounded-lg text-sm border border-[#dde3f0] hover:bg-[#f5f7fc] transition disabled:opacity-60 flex items-center justify-center gap-3"
+            className="w-full py-2.5 bg-white text-[#14181f] font-semibold rounded-lg text-sm border border-[#e4e2da] hover:bg-[#f6f5f1] transition disabled:opacity-60 flex items-center justify-center gap-3"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -146,9 +146,9 @@ export default function LoginPage() {
             {googleLoading ? 'Conectando...' : 'Continuar con Google'}
           </button>
 
-          <p className="text-center text-xs text-[#6b7a9e] mt-5">
+          <p className="text-center text-xs text-[#5e6673] mt-5">
             ¿No tienes cuenta?{' '}
-            <Link href="/signup" className="text-[#1b3a6b] font-semibold hover:underline">
+            <Link href="/signup" className="text-[#0e5c4a] font-semibold hover:underline">
               Regístrate gratis
             </Link>
           </p>

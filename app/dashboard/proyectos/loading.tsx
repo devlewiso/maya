@@ -6,10 +6,10 @@ export default function ProyectosLoading() {
       {/* Header skeleton */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <div className="h-8 w-32 bg-[#f5f7fc] rounded mb-2 animate-pulse" />
-          <div className="h-4 w-48 bg-[#f5f7fc] rounded animate-pulse" />
+          <div className="h-8 w-32 bg-[#f6f5f1] rounded mb-2 animate-pulse" />
+          <div className="h-4 w-48 bg-[#f6f5f1] rounded animate-pulse" />
         </div>
-        <div className="h-10 w-32 bg-[#f5f7fc] rounded animate-pulse" />
+        <div className="h-10 w-32 bg-[#f6f5f1] rounded animate-pulse" />
       </div>
 
       {/* Projects grid skeleton */}

@@ -32,21 +32,21 @@ export default async function VerificarPage({ params }: { params: Promise<{ codi
       <Header />
       <main className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center px-4 py-16 text-center">
         {r ? (
-          <div className="w-full rounded-2xl border border-[#dde3f0] bg-white p-8 shadow-sm">
+          <div className="w-full rounded-2xl border border-[#e4e2da] bg-white p-8 shadow-sm">
             <div className="text-5xl">🏅</div>
-            <h1 className="mt-3 text-2xl font-bold text-[#1b5e3b]">Constancia válida</h1>
-            <p className="mt-4 text-[#1a2035]"><b>{r.nombre}</b> completó la <b>{r.ruta}</b> de <b>{r.idioma}</b> en Astro Maya el {r.fecha}.</p>
-            <p className="mt-4 font-mono text-sm text-[#1b3a6b]">{decodeURIComponent(codigo).toUpperCase()}</p>
-            <p className="mt-6 text-xs text-[#6b7a9e]">Reconocimiento simbólico de Astro Maya. No es un certificado académico oficial ni está avalado por la ALMG, el MINEDUC u otra institución.</p>
+            <h1 className="mt-3 text-2xl font-bold text-[#0e5c4a]">Constancia válida</h1>
+            <p className="mt-4 text-[#14181f]"><b>{r.nombre}</b> completó la <b>{r.ruta}</b> de <b>{r.idioma}</b> en Astro Maya el {r.fecha}.</p>
+            <p className="mt-4 font-mono text-sm text-[#0e5c4a]">{decodeURIComponent(codigo).toUpperCase()}</p>
+            <p className="mt-6 text-xs text-[#5e6673]">Reconocimiento simbólico de Astro Maya. No es un certificado académico oficial ni está avalado por la ALMG, el MINEDUC u otra institución.</p>
           </div>
         ) : (
-          <div className="w-full rounded-2xl border border-[#dde3f0] bg-white p-8 shadow-sm">
+          <div className="w-full rounded-2xl border border-[#e4e2da] bg-white p-8 shadow-sm">
             <div className="text-5xl">❔</div>
-            <h1 className="mt-3 text-2xl font-bold text-[#1a2035]">No encontramos esa constancia</h1>
-            <p className="mt-3 text-sm text-[#6b7a9e]">Revisa que el código esté completo, por ejemplo <span className="font-mono">AM-128-3F9A0C51D2</span>.</p>
+            <h1 className="mt-3 text-2xl font-bold text-[#14181f]">No encontramos esa constancia</h1>
+            <p className="mt-3 text-sm text-[#5e6673]">Revisa que el código esté completo, por ejemplo <span className="font-mono">AM-128-3F9A0C51D2</span>.</p>
           </div>
         )}
-        <Link href="/" className="mt-8 text-sm font-semibold text-[#1b3a6b] hover:underline">Aprender idiomas mayas en Astro Maya →</Link>
+        <Link href="/" className="mt-8 text-sm font-semibold text-[#0e5c4a] hover:underline">Aprender idiomas mayas en Astro Maya →</Link>
       </main>
       <Footer />
     </>
