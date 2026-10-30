@@ -12,7 +12,7 @@ import { LogoMark, MayaNumeral } from '@/app/components/Tejido'
 const navItems = [
   { href: '/dashboard', label: 'Inicio', icon: 'M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z' },
   { href: '/dashboard/proyectos', label: 'Proyectos', icon: 'M12 3l9 9-9 9-9-9z' },
-  { href: '/dashboard/constancias', label: 'Constancias', icon: 'M12 3a6 6 0 1 1 0 12a6 6 0 0 1 0-12zM8.5 14 7 21l5-3 5 3-1.5-7' },
+  { href: '/dashboard/insignias', label: 'Insignias', icon: 'M12 2l7 7-7 7-7-7zM12 6l3 3-3 3-3-3zM8.5 15.5 7 22l5-3 5 3-1.5-6.5' },
 ]
 
 function NavIcon({ d }: { d: string }) {

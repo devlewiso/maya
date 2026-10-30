@@ -3,6 +3,7 @@ import Footer from "./components/footer";
 import Header from './components/Header';
 import Link from 'next/link';
 import { LANGUAGES, MayaNumeral, TejidoBand } from './components/Tejido';
+import { InsigniaBanner } from './components/InsigniaBanner';
 import { kicheLessons } from './content/kicheLeccion';
 import { qeqchiLessons } from './content/qeqchiLeccion';
 import { kaqchikelLessons } from './content/kaqchikelLeccion';
@@ -46,7 +47,7 @@ const steps = [
   { title: 'Elige un idioma', text: 'Empieza por el idioma de tu familia, de tu región o el que te llame.' },
   { title: 'Aprende con lecciones breves', text: 'Vocabulario, frases, gramática y una nota cultural en cada lección.' },
   { title: 'Practica', text: 'Ejercicios para afianzar cada palabra antes de pasar a la siguiente.' },
-  { title: 'Obtén tu constancia', text: 'Completa una ruta y recibe una constancia de logro verificable.' },
+  { title: 'Gana tu insignia', text: 'Completa una ruta y descarga una insignia de logro para compartir.' },
 ];
 
 const values = [
@@ -148,7 +149,7 @@ export default function Home() {
       <section className="bg-white border-y border-[#e4e2da] py-20 md:py-24 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <p className={`${eyebrow} mb-3`}>Cómo funciona</p>
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-12 max-w-2xl">Una ruta clara, de la primera palabra a tu constancia</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-12 max-w-2xl">Una ruta clara, de la primera palabra a tu insignia</h2>
           <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {steps.map((step, i) => (
               <li key={step.title} className="border-t-2 border-[#14181f] pt-6">
@@ -158,6 +159,13 @@ export default function Home() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      {/* Insignia de logro */}
+      <section className="py-16 md:py-20 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <InsigniaBanner variante="invitado" />
         </div>
       </section>
 

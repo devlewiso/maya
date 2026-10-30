@@ -2,6 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: __dirname,
+  // La constancia de logro se reemplazó por la insignia (oct 2026): los enlaces viejos llevan a su equivalente.
+  async redirects() {
+    return [
+      { source: '/dashboard/constancias', destination: '/dashboard/insignias', permanent: true },
+      { source: '/dashboard/constancia/:id', destination: '/dashboard/insignia/:id', permanent: true },
+      { source: '/verificar/:codigo', destination: '/', permanent: true },
+    ]
+  },
   async headers() {
     return [
       {

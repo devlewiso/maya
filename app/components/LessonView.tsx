@@ -180,7 +180,7 @@ export default function LessonView({ language, field, color, intro, lessons }: L
           <section className="bg-white border border-[#e4e2da] rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
             <div>
               <h3 className="text-lg font-extrabold mb-1">Guarda tu progreso</h3>
-              <p className="text-[15px] text-[#4a5260]">Crea una cuenta gratis para seguir tu ruta y obtener tu constancia.</p>
+              <p className="text-[15px] text-[#4a5260]">Crea una cuenta gratis para seguir tu ruta y ganar tu insignia de logro.</p>
             </div>
             <Link href="/signup" className="shrink-0 px-6 py-3.5 bg-[#0e5c4a] text-white font-bold rounded-xl hover:bg-[#0a4337] transition-colors text-center">
               Crear cuenta gratis

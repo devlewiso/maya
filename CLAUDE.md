@@ -44,7 +44,8 @@ maya/
 ├── app/components/               # Shared components
 │   ├── Header.tsx / footer.tsx
 │   ├── ChatWidget.tsx            # Ix'im AI assistant
-│   ├── Constancia.tsx            # Constancia de logro
+│   ├── Insignia.tsx              # Insignia de logro (canvas → PNG); no es un certificado
+│   ├── InsigniaBanner.tsx        # Banner animado: cómo ganarla (CSS ib-* en globals.css)
 │   ├── CookieBanner.tsx
 │   └── ...
 ├── app/actions/                  # Server Actions (dashboard)
@@ -52,7 +53,7 @@ maya/
 ├── lib/
 │   ├── auth.ts / auth-client.ts  # Better Auth (server / client)
 │   ├── session.ts                # getSession() / requireUser()
-│   ├── constancia.ts
+│   ├── insignia.ts               # Nombres de ruta, colores por idioma, fecha
 │   └── db/                       # Drizzle: schema, cliente, seeds
 ├── drizzle/                      # Migraciones
 └── public/                       # Static assets

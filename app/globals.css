@@ -28,12 +28,38 @@ body {
   font-family: var(--font-sans, system-ui, sans-serif);
 }
 
-/* Constancia de logro: al imprimir solo queda la hoja, en una sola página A4 horizontal.
-   Lo que no contiene la hoja desaparece (display:none, no ocupa lugar) y sus contenedores pierden márgenes y rellenos. */
-@media print {
-  @page { size: A4 landscape; margin: 0; }
-  html, body { margin: 0 !important; padding: 0 !important; background: #fbf7ec !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  body *:not(:has(.constancia-hoja)):not(.constancia-hoja):not(.constancia-hoja *) { display: none !important; }
-  body *:has(.constancia-hoja) { margin: 0 !important; padding: 0 !important; border: 0 !important; transform: none !important; position: static !important; min-height: 0 !important; box-shadow: none !important; }
-  .constancia-hoja { width: 297mm !important; height: 209mm !important; max-width: none !important; aspect-ratio: auto !important; margin: 0 !important; box-shadow: none !important; break-inside: avoid; }
+/* Banner de la insignia de logro (app/components/InsigniaBanner.tsx): ciclo de 9 s.
+   Los pasos se iluminan uno por uno mientras el rombo se teje, toma color y baja como imagen. */
+.ib-paso { color: #9aa2ad; animation: ib-paso 9s infinite; }
+.ib-paso:nth-child(2) { animation-delay: 3s; }
+.ib-paso:nth-child(3) { animation-delay: 6s; }
+@keyframes ib-paso { 0%, 30% { background: #1b2129; color: #fff; } 33.3%, 100% { background: transparent; color: #9aa2ad; } }
+.ib-trazo { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: ib-trazo 9s infinite ease-out; }
+.ib-t2 { animation-delay: .3s; }
+@keyframes ib-trazo { 0%, 3% { stroke-dashoffset: 1000; opacity: 1; } 20%, 88% { stroke-dashoffset: 0; opacity: 1; } 95%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+.ib-relleno { transform-box: fill-box; transform-origin: center; animation: ib-relleno 9s infinite cubic-bezier(.3,1.5,.5,1); }
+@keyframes ib-relleno { 0%, 22% { opacity: 0; transform: scale(.4); } 30%, 88% { opacity: 1; transform: scale(1); } 95%, 100% { opacity: 0; transform: scale(1); } }
+.ib-color { animation: ib-color 9s infinite; }
+@keyframes ib-color { 0%, 24% { fill: #a3362a; } 28% { fill: #2c4a8c; } 31% { fill: #1e7a55; } 34% { fill: #b07a12; } 37%, 100% { fill: #a3362a; } }
+.ib-texto { animation: ib-texto 9s infinite; }
+.ib-x2 { animation-delay: .25s; }
+@keyframes ib-texto { 0%, 38% { opacity: 0; transform: translateY(6px); } 46%, 88% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; } }
+.ib-brillo { transform-box: fill-box; transform-origin: center; animation: ib-brillo 9s infinite ease-out; }
+@keyframes ib-brillo { 0%, 46% { opacity: 0; transform: scale(.8); } 50% { opacity: .8; } 60%, 100% { opacity: 0; transform: scale(1.6); } }
+.ib-chispa { animation: ib-chispa 9s infinite; }
+.ib-c2 { animation-delay: .15s; }
+.ib-c3 { animation-delay: .3s; }
+@keyframes ib-chispa { 0%, 48% { opacity: 0; } 52% { opacity: 1; } 60%, 100% { opacity: 0; } }
+.ib-img { animation: ib-img 9s infinite cubic-bezier(.2,.8,.2,1); }
+@keyframes ib-img { 0%, 66% { opacity: 0; transform: translateY(-36px); } 72%, 80% { opacity: 1; transform: none; } 86%, 100% { opacity: 0; transform: translateY(24px); } }
+.ib-bandeja { animation: ib-bandeja 9s infinite; }
+@keyframes ib-bandeja { 0%, 64% { opacity: 0; } 68%, 90% { opacity: 1; } 96%, 100% { opacity: 0; } }
+.ib-check { stroke-dasharray: 40; stroke-dashoffset: 40; animation: ib-check 9s infinite; }
+@keyframes ib-check { 0%, 80% { stroke-dashoffset: 40; } 85%, 92% { stroke-dashoffset: 0; opacity: 1; } 97%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .ib-paso, .ib-trazo, .ib-relleno, .ib-color, .ib-texto, .ib-brillo, .ib-chispa, .ib-img, .ib-bandeja, .ib-check { animation: none; }
+  .ib-trazo { stroke-dashoffset: 0; }
+  .ib-paso { color: #dce0e6; }
+  .ib-brillo, .ib-chispa, .ib-img, .ib-bandeja { opacity: 0; }
 }
+

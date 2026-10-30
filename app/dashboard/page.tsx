@@ -1,16 +1,16 @@
 import Link from 'next/link'
 import { StreakReminder } from '@/app/components/StreakReminder'
 import { LANGUAGES } from '@/app/components/Tejido'
-import { ConstanciasList } from '@/app/components/ConstanciasList'
-import { getConstancias, getDashboardData } from '@/app/actions/dashboard'
+import { InsigniasList } from '@/app/components/InsigniasList'
+import { getDashboardData, getInsignias } from '@/app/actions/dashboard'
 
 const card = 'bg-white rounded-2xl border border-[#e4e2da]'
 const eyebrow = 'font-mono text-[12px] tracking-[0.08em] uppercase text-[#5e6673]'
 
 export default async function DashboardPage() {
-  const [{ projects, earnedSkills, completedCount, currentDays }, constancias] = await Promise.all([
+  const [{ projects, earnedSkills, completedCount, currentDays }, insignias] = await Promise.all([
     getDashboardData(),
-    getConstancias(),
+    getInsignias(),
   ])
 
   const activeProjects = projects.filter(p => p.status === 'active')
@@ -114,17 +114,15 @@ export default async function DashboardPage() {
         </section>
       </div>
 
-      {/* Constancias */}
+      {/* Insignias */}
       <section className="mb-10">
         <div className="flex items-end justify-between mb-4">
-          <h2 className="text-xl font-extrabold text-[#14181f]">Mis constancias</h2>
-          {constancias.length > 2 && (
-            <Link href="/dashboard/constancias" className="text-sm text-[#0e5c4a] font-semibold hover:text-[#0a4337]">
-              Ver todas →
-            </Link>
-          )}
+          <h2 className="text-xl font-extrabold text-[#14181f]">Mis insignias</h2>
+          <Link href="/dashboard/insignias" className="text-sm text-[#0e5c4a] font-semibold hover:text-[#0a4337]">
+            {insignias.length > 2 ? 'Ver todas →' : 'Cómo ganarlas →'}
+          </Link>
         </div>
-        <ConstanciasList constancias={constancias.slice(0, 2)} />
+        <InsigniasList insignias={insignias.slice(0, 2)} />
       </section>
 
       {/* Idiomas */}
