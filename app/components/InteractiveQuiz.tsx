@@ -13,6 +13,14 @@ interface Exercise {
   items: ExerciseItem[]
 }
 
+// Orden fijo pero distinto del original: si se barajara con Math.random() en cada render,
+// las opciones cambiarían de lugar con cada clic.
+function mezclar(textos: string[]) {
+  const peso = (t: string) => [...t].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7)
+  const out = [...textos].sort((a, b) => peso(a) - peso(b))
+  return out.every((t, i) => t === textos[i]) && out.length > 1 ? [...out.slice(1), out[0]] : out
+}
+
 interface InteractiveQuizProps {
   exercises: Exercise[]
   languageColor?: string
@@ -25,6 +33,7 @@ export function InteractiveQuiz({ exercises, languageColor = '#0e5c4a', onComple
   const [userAnswer, setUserAnswer] = useState('')
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
   const [matchedPairs, setMatchedPairs] = useState<Record<string, string>>({})
+  const [selectedLeft, setSelectedLeft] = useState<string | null>(null)
   const [showResult, setShowResult] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
   const [score, setScore] = useState(0)
@@ -59,13 +68,19 @@ export function InteractiveQuiz({ exercises, languageColor = '#0e5c4a', onComple
         correct = selectedOption === item.answer
         break
 
-      case 'matching':
-        // For matching, check if all pairs are matched
-        const allMatched = exercise.items.every(
-          (i) => matchedPairs[i.question] === i.answer
-        )
-        correct = allMatched
-        break
+      case 'matching': {
+        // Cada par cuenta como un acierto; el ejercicio completo es un solo paso.
+        const results = exercise.items.map((i) => ({
+          correct: matchedPairs[i.question] === i.answer,
+          question: `${i.question} → ${i.answer}`,
+        }))
+        const hits = results.filter((r) => r.correct).length
+        setIsCorrect(hits === results.length)
+        setShowResult(true)
+        setScore(score + hits)
+        setHistory([...history, ...results])
+        return
+      }
     }
 
     setIsCorrect(correct)
@@ -76,20 +91,22 @@ export function InteractiveQuiz({ exercises, languageColor = '#0e5c4a', onComple
   }
 
   const nextQuestion = () => {
-    if (currentItemIdx < exercise.items.length - 1) {
+    if (exercise.type !== 'matching' && currentItemIdx < exercise.items.length - 1) {
       setCurrentItemIdx(currentItemIdx + 1)
     } else if (currentExerciseIdx < exercises.length - 1) {
       setCurrentExerciseIdx(currentExerciseIdx + 1)
       setCurrentItemIdx(0)
     } else {
       setCompleted(true)
-      onComplete?.(score + (isCorrect ? 1 : 0), totalItems)
+      // `score` ya incluye el acierto de esta pregunta (se sumó en checkAnswer).
+      onComplete?.(score, totalItems)
     }
     setUserAnswer('')
     setSelectedOption(null)
     setShowResult(false)
     setIsCorrect(false)
     setMatchedPairs({})
+    setSelectedLeft(null)
   }
 
   const getShuffledOptions = () => {
@@ -98,8 +115,28 @@ export function InteractiveQuiz({ exercises, languageColor = '#0e5c4a', onComple
       .filter((_, i) => i !== currentItemIdx)
       .map((i) => i.answer)
       .slice(0, 3)
-    const options = [item.answer, ...otherAnswers]
-    return options.sort(() => Math.random() - 0.5)
+    return mezclar([item.answer, ...otherAnswers])
+  }
+
+  const matchedAnswers = Object.values(matchedPairs)
+  const pairNumber = (question: string) => Object.keys(matchedPairs).indexOf(question) + 1
+
+  const pickRight = (answer: string) => {
+    if (!selectedLeft || matchedAnswers.includes(answer)) return
+    setMatchedPairs({ ...matchedPairs, [selectedLeft]: answer })
+    // Pasa sola a la siguiente palabra sin pareja.
+    const next = exercise.items.find((i) => i.question !== selectedLeft && !matchedPairs[i.question])
+    setSelectedLeft(next?.question ?? null)
+  }
+
+  const pickLeft = (question: string) => {
+    if (showResult) return
+    if (matchedPairs[question]) {
+      const newPairs = { ...matchedPairs }
+      delete newPairs[question]
+      setMatchedPairs(newPairs)
+    }
+    setSelectedLeft(question)
   }
 
   if (completed) {
@@ -136,6 +173,8 @@ export function InteractiveQuiz({ exercises, languageColor = '#0e5c4a', onComple
             setHistory([])
             setUserAnswer('')
             setShowResult(false)
+            setMatchedPairs({})
+            setSelectedLeft(null)
           }}
           className="px-6 py-2.5 text-white text-sm font-bold rounded-lg transition hover:opacity-90"
           style={{ backgroundColor: languageColor }}
@@ -185,60 +224,75 @@ export function InteractiveQuiz({ exercises, languageColor = '#0e5c4a', onComple
             ))}
           </p>
         ) : exercise.type === 'matching' ? (
-          <div className="space-y-3">
-            <p className="text-sm text-[#5e6673] mb-3">Empareja cada palabra con su significado:</p>
+          <div>
+            <ol className="text-sm text-[#4a5260] mb-4 space-y-0.5 list-decimal list-inside">
+              <li>Toca una palabra de la <strong className="text-[#14181f]">izquierda</strong>.</li>
+              <li>Toca su significado a la <strong className="text-[#14181f]">derecha</strong>. Quedan unidos con el mismo número.</li>
+              <li>¿Te equivocaste? Toca la palabra otra vez para deshacer el par.</li>
+            </ol>
             <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-2">
-              {exercise.items.map((i, idx) => (
-                <div
-                  key={idx}
-                  className={`p-3 rounded-lg border text-sm font-medium cursor-pointer transition-colors ${
-                    matchedPairs[i.question]
-                      ? 'bg-green-50 border-green-200 text-green-700'
-                      : 'bg-[#f6f5f1] border-[#e4e2da] hover:border-[#0e5c4a]/30'
-                  }`}
-                  onClick={() => {
-                    if (matchedPairs[i.question]) {
-                      const newPairs = { ...matchedPairs }
-                      delete newPairs[i.question]
-                      setMatchedPairs(newPairs)
-                    }
-                  }}
-                >
-                  {i.question}
-                  {matchedPairs[i.question] && (
-                    <span className="block text-xs text-green-600 mt-1">→ {matchedPairs[i.question]}</span>
-                  )}
-                </div>
-              ))}
+              <div className="space-y-2">
+                {exercise.items.map((i) => {
+                  const n = pairNumber(i.question)
+                  const selected = selectedLeft === i.question
+                  return (
+                    <button
+                      key={i.question}
+                      type="button"
+                      onClick={() => pickLeft(i.question)}
+                      aria-pressed={selected}
+                      className={`w-full flex items-center justify-between gap-2 p-3 rounded-lg border-2 text-left text-sm font-semibold transition-colors ${
+                        selected
+                          ? 'border-[#0e5c4a] bg-[#e8f1ee] text-[#0a4337]'
+                          : n
+                            ? 'border-[#e4e2da] bg-[#f6f5f1] text-[#14181f]'
+                            : 'border-[#e4e2da] bg-white text-[#14181f] hover:border-[#0e5c4a]/40'
+                      }`}
+                    >
+                      {i.question}
+                      {n > 0 && (
+                        <span className="w-6 h-6 shrink-0 rounded-full bg-[#0e5c4a] text-white text-xs flex items-center justify-center">{n}</span>
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
+              <div className="space-y-2">
+                {mezclar(exercise.items.map((i) => i.answer)).map((answer) => {
+                  const owner = Object.keys(matchedPairs).find((q) => matchedPairs[q] === answer)
+                  const n = owner ? pairNumber(owner) : 0
+                  return (
+                    <button
+                      key={answer}
+                      type="button"
+                      onClick={() => pickRight(answer)}
+                      disabled={n > 0 || !selectedLeft || showResult}
+                      className={`w-full flex items-center justify-between gap-2 p-3 rounded-lg border-2 text-left text-sm transition-colors ${
+                        n
+                          ? 'border-[#e4e2da] bg-[#f6f5f1] text-[#14181f]'
+                          : selectedLeft
+                            ? 'border-[#e4e2da] bg-white text-[#14181f] hover:border-[#0e5c4a] cursor-pointer'
+                            : 'border-[#e4e2da] bg-white text-[#5e6673]'
+                      }`}
+                    >
+                      {answer}
+                      {n > 0 && (
+                        <span className="w-6 h-6 shrink-0 rounded-full bg-[#0e5c4a] text-white text-xs flex items-center justify-center">{n}</span>
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-            <div className="space-y-2">
-              {[...exercise.items]
-                .sort(() => Math.random() - 0.5)
-                .map((i, idx) => (
-                  <button
-                    key={idx}
-                    className={`w-full p-3 rounded-lg border text-sm transition-colors ${
-                      Object.values(matchedPairs).includes(i.answer)
-                        ? 'bg-green-50 border-green-200 text-green-700'
-                        : 'bg-white border-[#e4e2da] hover:border-[#0e5c4a]/30'
-                    }`}
-                    onClick={() => {
-                      // Find which question is selected (if any)
-                      const selectedQuestion = Object.keys(matchedPairs).find(
-                        k => matchedPairs[k] === undefined
-                      )
-                      if (selectedQuestion) {
-                        setMatchedPairs({ ...matchedPairs, [selectedQuestion]: i.answer })
-                      }
-                    }}
-                    disabled={Object.values(matchedPairs).includes(i.answer)}
-                  >
-                    {i.answer}
-                  </button>
-                ))}
-            </div>
-          </div>
+            {!showResult && (
+              <p className="text-xs text-[#5e6673] mt-3" aria-live="polite">
+                {selectedLeft
+                  ? <>Ahora elige el significado de <strong className="text-[#14181f]">{selectedLeft}</strong>.</>
+                  : matchedAnswers.length === exercise.items.length
+                    ? 'Listo. Pulsa «Verificar» para ver cuántos acertaste.'
+                    : 'Empieza tocando una palabra de la izquierda.'}
+              </p>
+            )}
           </div>
         ) : (
           <p className="text-lg font-medium text-[#14181f]">{item.question}</p>
@@ -299,9 +353,22 @@ export function InteractiveQuiz({ exercises, languageColor = '#0e5c4a', onComple
             </div>
             <div>
               <p className={`font-semibold ${isCorrect ? 'text-green-800' : 'text-red-800'}`}>
-                {isCorrect ? '¡Correcto!' : 'Respuesta incorrecta'}
+                {exercise.type === 'matching'
+                  ? isCorrect
+                    ? '¡Todos los pares son correctos!'
+                    : `${exercise.items.filter((i) => matchedPairs[i.question] === i.answer).length} de ${exercise.items.length} pares correctos`
+                  : isCorrect ? '¡Correcto!' : 'Respuesta incorrecta'}
               </p>
-              {!isCorrect && (
+              {!isCorrect && exercise.type === 'matching' && (
+                <ul className="text-sm mt-1 text-red-600 space-y-0.5">
+                  {exercise.items
+                    .filter((i) => matchedPairs[i.question] !== i.answer)
+                    .map((i) => (
+                      <li key={i.question}><strong>{i.question}</strong> = {i.answer}</li>
+                    ))}
+                </ul>
+              )}
+              {!isCorrect && exercise.type !== 'matching' && (
                 <p className={`text-sm mt-1 ${isCorrect ? 'text-green-600' : 'text-red-600'}`}>
                   La respuesta correcta es: <strong>{item.answer}</strong>
                 </p>
@@ -319,7 +386,7 @@ export function InteractiveQuiz({ exercises, languageColor = '#0e5c4a', onComple
             className="flex-1 py-3 text-white font-bold rounded-lg text-sm transition hover:opacity-90"
             style={{ backgroundColor: languageColor }}
           >
-            {currentItemIdx < exercise.items.length - 1 || currentExerciseIdx < exercises.length - 1
+            {(exercise.type !== 'matching' && currentItemIdx < exercise.items.length - 1) || currentExerciseIdx < exercises.length - 1
               ? 'Siguiente'
               : 'Ver resultados'}
           </button>
