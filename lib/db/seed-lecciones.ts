@@ -8,7 +8,7 @@
  */
 import { and, eq, sql } from 'drizzle-orm'
 import { db } from './index'
-import { languages, lessons, projects, projectTasks, skills } from './schema'
+import { languages, lessons, projectTasks, skills } from './schema'
 import { kicheLessons } from '../../app/content/kicheLeccion'
 import { qeqchiLessons } from '../../app/content/qeqchiLeccion'
 import { kaqchikelLessons } from '../../app/content/kaqchikelLeccion'
