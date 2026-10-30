@@ -1,4 +1,6 @@
-# Astro Maya - Claude Context
+# Astro Maya — contexto del proyecto
+
+> `AGENTS.md` es un symlink a este archivo (Claude Code y Codex leen lo mismo).
 
 ## Project Overview
 Astro Maya es una plataforma educativa para aprender idiomas mayas de Guatemala: K'iche', Q'eqchi', Kaqchikel, Mam y Tz'utujil.
@@ -10,7 +12,8 @@ Astro Maya es una plataforma educativa para aprender idiomas mayas de Guatemala:
 - **Database**: Neon (Postgres serverless) vía driver `@neondatabase/serverless`
 - **ORM**: Drizzle (`lib/db/schema.ts`, migraciones en `drizzle/`)
 - **Auth**: Better Auth (email+password y Google) — `lib/auth.ts` / `lib/auth-client.ts`
-- **Package Manager**: npm
+- **Package Manager**: npm en local; Cloudflare construye con pnpm. Si cambian dependencias,
+  actualizar `package-lock.json` **y** `pnpm-lock.yaml`.
 
 > Migrado desde Supabase (Auth + Postgres) en 2026-09. Ya no hay RLS: la
 > autorización se aplica en cada Server Action / Server Component filtrando por
@@ -19,7 +22,7 @@ Astro Maya es una plataforma educativa para aprender idiomas mayas de Guatemala:
 ## Project Structure
 
 ```
-/home/devlewiso/Downloads/github/maya/
+maya/
 ├── app/                          # Next.js App Router
 │   ├── page.tsx                  # Landing page
 │   ├── layout.tsx                # Root layout con metadata
@@ -39,16 +42,19 @@ Astro Maya es una plataforma educativa para aprender idiomas mayas de Guatemala:
 ├── app/api/                      # API Routes
 │   └── auth/signout/route.ts
 ├── app/components/               # Shared components
-│   ├── Header.tsx
+│   ├── Header.tsx / footer.tsx
 │   ├── ChatWidget.tsx            # Ix'im AI assistant
+│   ├── Constancia.tsx            # Constancia de logro
 │   ├── CookieBanner.tsx
-│   └── ScrollToTop.tsx
-├── lib/                          # Utilities
-│   └── supabase/                 # Supabase clients
-│       ├── client.ts             # Browser client
-│       └── server.ts             # Server client
-├── supabase/                     # Supabase config
-│   └── config.toml
+│   └── ...
+├── app/actions/                  # Server Actions (dashboard)
+├── app/content/                  # Contenido de lecciones por idioma (*Leccion.js)
+├── lib/
+│   ├── auth.ts / auth-client.ts  # Better Auth (server / client)
+│   ├── session.ts                # getSession() / requireUser()
+│   ├── constancia.ts
+│   └── db/                       # Drizzle: schema, cliente, seeds
+├── drizzle/                      # Migraciones
 └── public/                       # Static assets
 
 ```
@@ -124,6 +130,7 @@ Neon está linkeado con `neon link` (`.neon/`, proyecto `little-cake-70155363`).
 ## DB / Migraciones
 - Editar `lib/db/schema.ts` → `npm run db:generate` → `npm run db:migrate` (aplica a Neon).
 - `npm run db:seed` reinserta languages + skills.
+- `npm run db:seed:lecciones` carga las lecciones de `app/content/` (idempotente, `-- --dry-run`).
 - `npm run db:studio` abre Drizzle Studio.
 
 ## Common Tasks
@@ -147,6 +154,4 @@ Neon está linkeado con `neon link` (`.neon/`, proyecto `little-cake-70155363`).
 - Platform: **Cloudflare** (Workers Builds, proyecto `astromaya`), conectado a GitHub: cada push a `main`
   se construye (con pnpm) y se publica solo en astromaya.neuralcodelab.com. El estado del build aparece
   como check «Workers Builds: astromaya» en el commit de GitHub.
-- Ya NO se usa Netlify: `netlify.toml` quedó de antes y no se usa.
-- Branch main → Production
-- Branch staging → Staging environment
+- Ramas: `dev` → desarrollo; `main` → producción.

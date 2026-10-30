@@ -96,6 +96,8 @@ export default function ProyectoDetailPage() {
         saveProgress(true)
       }
     }
+    // saveProgress cambia en cada render: incluirlo reiniciaría el intervalo de autoguardado
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTask, userId])
 
   // Track time spent

@@ -57,13 +57,6 @@ export function Onboarding() {
     setShowOnboarding(false)
   }
 
-  // Reset onboarding (useful for testing or if user wants to see it again)
-  const resetOnboarding = () => {
-    localStorage.removeItem(ONBOARDING_KEY)
-    setCurrentStep(0)
-    setShowOnboarding(true)
-  }
-
   if (!isClient || !showOnboarding) return null
 
   const step = STEPS[currentStep]

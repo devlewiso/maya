@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 
 interface AudioButtonProps {
   text: string
@@ -11,7 +11,6 @@ interface AudioButtonProps {
 
 export function AudioButton({ text, lang = 'es-GT', size = 'md', color = '#1b3a6b' }: AudioButtonProps) {
   const [isPlaying, setIsPlaying] = useState(false)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const sizeClasses = {
     sm: 'w-6 h-6',

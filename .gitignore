@@ -41,3 +41,7 @@ yarn-error.log*
 next-env.d.ts
 GOOGLE_OAUTH_SETUP.md
 .neon
+
+# agentes locales (Codex)
+.agents/
+.codex/
