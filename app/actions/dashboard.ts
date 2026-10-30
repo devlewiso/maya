@@ -15,6 +15,7 @@ import {
   userXpLog,
 } from '@/lib/db/schema'
 import { requireUser } from '@/lib/session'
+import { codigoConstancia, fechaLarga, nombreRuta } from '@/lib/constancia'
 
 /* ------------------------------------------------------------------ */
 /* Helpers internos                                                     */
@@ -404,4 +405,24 @@ export async function getDashboardData() {
     completedCount: completedRows.length,
     currentDays: streak?.currentDays ?? 0,
   }
+}
+
+/** Constancias de logro del usuario: una por cada ruta (proyecto) completada. */
+export async function getConstancias() {
+  const user = await requireUser()
+  const rows = await db.query.projects.findMany({
+    where: and(eq(projects.userId, user.id), eq(projects.status, 'completed')),
+    with: { language: { columns: { name: true } } },
+    orderBy: desc(projects.completedAt),
+  })
+  return rows
+    .filter((p) => p.completedAt)
+    .map((p) => ({
+      id: p.id,
+      titulo: p.title,
+      idioma: p.language?.name ?? 'maya',
+      ruta: nombreRuta(p.type),
+      fecha: fechaLarga(p.completedAt!),
+      codigo: codigoConstancia(p.id, user.id, p.completedAt!),
+    }))
 }

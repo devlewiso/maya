@@ -1,13 +1,17 @@
 import Link from 'next/link'
 import { StreakReminder } from '@/app/components/StreakReminder'
 import { LANGUAGES } from '@/app/components/Tejido'
-import { getDashboardData } from '@/app/actions/dashboard'
+import { ConstanciasList } from '@/app/components/ConstanciasList'
+import { getConstancias, getDashboardData } from '@/app/actions/dashboard'
 
 const card = 'bg-white rounded-2xl border border-[#e4e2da]'
 const eyebrow = 'font-mono text-[12px] tracking-[0.08em] uppercase text-[#5e6673]'
 
 export default async function DashboardPage() {
-  const { projects, earnedSkills, completedCount, currentDays } = await getDashboardData()
+  const [{ projects, earnedSkills, completedCount, currentDays }, constancias] = await Promise.all([
+    getDashboardData(),
+    getConstancias(),
+  ])
 
   const activeProjects = projects.filter(p => p.status === 'active')
 
@@ -109,6 +113,19 @@ export default async function DashboardPage() {
           )}
         </section>
       </div>
+
+      {/* Constancias */}
+      <section className="mb-10">
+        <div className="flex items-end justify-between mb-4">
+          <h2 className="text-xl font-extrabold text-[#14181f]">Mis constancias</h2>
+          {constancias.length > 2 && (
+            <Link href="/dashboard/constancias" className="text-sm text-[#0e5c4a] font-semibold hover:text-[#0a4337]">
+              Ver todas →
+            </Link>
+          )}
+        </div>
+        <ConstanciasList constancias={constancias.slice(0, 2)} />
+      </section>
 
       {/* Idiomas */}
       <section>
