@@ -36,31 +36,28 @@ export function StreakReminder() {
   if (loading || !showReminder) return null
 
   return (
-    <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 mb-6 animate-pulse">
-      <div className="flex items-start gap-3">
-        <span className="text-2xl">🔥</span>
-        <div className="flex-1">
-          <h3 className="font-bold text-orange-800 text-sm">
-            ¡Tu racha de {streakDays} días está en riesgo!
-          </h3>
-          <p className="text-orange-700 text-xs mt-1">
-            No has estudiado hoy. Completa una lección para mantener tu racha.
-          </p>
-          <Link
-            href="/dashboard/proyectos"
-            className="inline-block mt-2 px-3 py-1.5 bg-orange-500 text-white text-xs font-semibold rounded-lg hover:bg-orange-600 transition"
-          >
-            Continuar aprendiendo →
-          </Link>
-        </div>
-        <button
-          onClick={() => setShowReminder(false)}
-          className="text-orange-400 hover:text-orange-600 text-lg leading-none"
-          aria-label="Cerrar recordatorio"
+    <div role="status" className="bg-white border border-[#e4e2da] border-l-4 border-l-[#d9a62b] rounded-2xl p-5 mb-8 flex items-start gap-4">
+      <div className="flex-1">
+        <h3 className="font-bold text-[#14181f]">
+          Tu racha de {streakDays} día{streakDays !== 1 ? 's' : ''} está en riesgo
+        </h3>
+        <p className="text-sm text-[#4a5260] mt-1">
+          No has estudiado hoy. Completa una lección para mantener tu racha.
+        </p>
+        <Link
+          href="/dashboard/proyectos"
+          className="inline-block mt-3 px-4 py-2 bg-[#0e5c4a] text-white text-sm font-bold rounded-xl hover:bg-[#0a4337] transition-colors"
         >
-          ×
-        </button>
+          Continuar aprendiendo
+        </Link>
       </div>
+      <button
+        onClick={() => setShowReminder(false)}
+        className="text-[#5e6673] hover:text-[#14181f] text-xl leading-none p-1"
+        aria-label="Cerrar recordatorio"
+      >
+        ×
+      </button>
     </div>
   )
 }

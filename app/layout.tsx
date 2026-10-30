@@ -82,7 +82,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es" className={`${jakarta.variable} ${plexMono.variable}`} suppressHydrationWarning>
       <head>
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-1Q9GZKZF0V" />
         <Script id="google-analytics">
@@ -94,7 +94,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className={`${jakarta.variable} ${plexMono.variable} antialiased`} suppressHydrationWarning>
+      <body className="antialiased" suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

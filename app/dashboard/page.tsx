@@ -1,158 +1,132 @@
 import Link from 'next/link'
 import { StreakReminder } from '@/app/components/StreakReminder'
+import { LANGUAGES } from '@/app/components/Tejido'
 import { getDashboardData } from '@/app/actions/dashboard'
+
+const card = 'bg-white rounded-2xl border border-[#e4e2da]'
+const eyebrow = 'font-mono text-[12px] tracking-[0.08em] uppercase text-[#5e6673]'
 
 export default async function DashboardPage() {
   const { projects, earnedSkills, completedCount, currentDays } = await getDashboardData()
 
-  const streak = { current_days: currentDays }
-  const progress = { length: completedCount }
   const activeProjects = projects.filter(p => p.status === 'active')
 
-  const langColors: Record<string, string> = {
-    kiche: '#a3362a', qeqchi: '#2c4a8c', kaqchikel: '#1e7a55', mam: '#b07a12', tzutujil: '#6a3f8c'
-  }
+  const stats = [
+    { value: completedCount, label: 'Lecciones completadas' },
+    { value: earnedSkills.length, label: 'Skills ganados' },
+    { value: currentDays, label: currentDays === 1 ? 'Día de racha' : 'Días de racha' },
+  ]
 
   return (
-    <div className="p-8 max-w-5xl">
-      {/* Streak Reminder */}
+    <div className="px-4 sm:px-8 py-8 lg:py-10 max-w-6xl mx-auto">
       <StreakReminder />
 
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[#14181f] mb-1">Tu panel de aprendizaje</h1>
-        <p className="text-sm text-[#5e6673]">Sigue tu progreso y completa proyectos para ganar skills</p>
-      </div>
+      <header className="mb-8">
+        <p className={`${eyebrow} mb-2`}>Tu panel</p>
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#14181f] mb-2">Tu ruta de aprendizaje</h1>
+        <p className="text-[15px] text-[#4a5260]">Sigue tu progreso y completa proyectos para ganar skills.</p>
+      </header>
 
-      {/* Stats rápidas */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <div className="bg-white rounded-xl border border-[#e4e2da] p-5">
-          <div className="text-2xl font-bold text-[#0e5c4a]">{progress?.length ?? 0}</div>
-          <div className="text-xs text-[#5e6673] mt-0.5">Lecciones completadas</div>
-        </div>
-        <div className="bg-white rounded-xl border border-[#e4e2da] p-5">
-          <div className="text-2xl font-bold text-[#0e5c4a]">{earnedSkills.length}</div>
-          <div className="text-xs text-[#5e6673] mt-0.5">Skills ganados</div>
-        </div>
-        <div className="bg-white rounded-xl border border-[#e4e2da] p-5">
-          <div className="flex items-center gap-1.5">
-            <span className="text-2xl font-bold text-[#0e5c4a]">{streak?.current_days ?? 0}</span>
-            {(streak?.current_days ?? 0) > 0 && <span className="text-xl">🔥</span>}
+      <section aria-label="Tu progreso" className={`${card} grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e2da] mb-10`}>
+        {stats.map(s => (
+          <div key={s.label} className="px-6 py-5">
+            <p className="text-3xl font-extrabold text-[#14181f]">{s.value}</p>
+            <p className="text-sm text-[#5e6673] mt-1">{s.label}</p>
           </div>
-          <div className="text-xs text-[#5e6673] mt-0.5">Días de racha</div>
-        </div>
-      </div>
+        ))}
+      </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
         {/* Proyectos activos */}
-        <div className="lg:col-span-2">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-bold text-[#14181f]">Proyectos activos</h2>
-            <Link href="/dashboard/proyectos" className="text-xs text-[#0e5c4a] font-semibold hover:underline">
+        <section className="lg:col-span-2">
+          <div className="flex items-end justify-between mb-4">
+            <h2 className="text-xl font-extrabold text-[#14181f]">Proyectos activos</h2>
+            <Link href="/dashboard/proyectos" className="text-sm text-[#0e5c4a] font-semibold hover:text-[#0a4337]">
               Ver todos →
             </Link>
           </div>
 
           {activeProjects.length === 0 ? (
-            <div className="bg-white rounded-xl border border-dashed border-[#e4e2da] p-8 text-center">
-              <div className="w-20 h-20 bg-[#f6f5f1] rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-10 h-10 text-[#5e6673]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-              </div>
+            <div className={`${card} border-dashed p-8 text-center`}>
               <h3 className="font-bold text-[#14181f] mb-1">No tienes proyectos activos</h3>
-              <p className="text-sm text-[#5e6673] mb-4">Crea tu primer proyecto para empezar a aprender un idioma maya</p>
+              <p className="text-sm text-[#5e6673] mb-5">Crea tu primer proyecto para empezar a aprender un idioma maya.</p>
               <Link
                 href="/dashboard/proyectos"
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#0e5c4a] text-white text-xs font-semibold rounded-lg hover:bg-[#0a4337] transition"
+                className="inline-flex px-5 py-2.5 bg-[#0e5c4a] text-white text-sm font-bold rounded-xl hover:bg-[#0a4337] transition-colors"
               >
-                + Crear proyecto
+                Crear proyecto
               </Link>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="flex flex-col gap-3">
               {activeProjects.map((project: any) => (
                 <Link
                   key={project.id}
                   href={`/dashboard/proyectos/${project.id}`}
-                  className="block bg-white rounded-xl border border-[#e4e2da] p-4 hover:border-[#0e5c4a]/30 hover:shadow-sm transition-all"
+                  className={`${card} group px-5 py-4 flex items-center justify-between gap-4 hover:border-[#14181f] transition-colors`}
                 >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-semibold text-sm text-[#14181f] break-words">{project.title}</p>
-                      {project.description && (
-                        <p className="text-xs text-[#5e6673] mt-0.5 line-clamp-1 break-words">{project.description}</p>
-                      )}
-                    </div>
-                    <span className="text-xs text-[#0e5c4a] font-medium">Ver →</span>
+                  <div className="min-w-0">
+                    <p className="font-bold text-[#14181f] break-words">{project.title}</p>
+                    {project.description && (
+                      <p className="text-sm text-[#5e6673] mt-0.5 line-clamp-1 break-words">{project.description}</p>
+                    )}
                   </div>
+                  <span className="shrink-0 text-sm text-[#0e5c4a] font-semibold">
+                    Continuar <span className="inline-block group-hover:translate-x-1 transition-transform">→</span>
+                  </span>
                 </Link>
               ))}
               <Link
                 href="/dashboard/proyectos"
-                className="block text-center text-xs text-[#0e5c4a] font-semibold py-2 hover:underline"
+                className="rounded-2xl border border-dashed border-[#cfccc2] px-5 py-3.5 text-center text-sm text-[#0e5c4a] font-semibold hover:border-[#0e5c4a] transition-colors"
               >
                 + Nuevo proyecto
               </Link>
             </div>
           )}
-        </div>
+        </section>
 
         {/* Skills */}
-        <div>
-          <h2 className="font-bold text-[#14181f] mb-4">Skills ganados</h2>
+        <section>
+          <h2 className="text-xl font-extrabold text-[#14181f] mb-4">Skills ganados</h2>
           {earnedSkills.length === 0 ? (
-            <div className="bg-white rounded-xl border border-dashed border-[#e4e2da] p-6 text-center">
-              <div className="w-16 h-16 bg-[#f6f5f1] rounded-full flex items-center justify-center mx-auto mb-3">
-                <svg className="w-8 h-8 text-[#8a6410]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                </svg>
-              </div>
+            <div className={`${card} border-dashed p-6 text-center`}>
               <h3 className="font-bold text-[#14181f] text-sm mb-1">Sin skills aún</h3>
-              <p className="text-xs text-[#5e6673]">Completa tu primer proyecto para ganar tu primer skill</p>
+              <p className="text-sm text-[#5e6673]">Completa tu primer proyecto para ganar tu primer skill.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-3 sm:grid-cols-2 gap-2">
+            <ul className={`${card} divide-y divide-[#efede6]`}>
               {earnedSkills.slice(0, 6).map((skill: any) => (
-                <div
-                  key={skill.id}
-                  title={skill.description}
-                  className="bg-white rounded-xl border border-[#e4e2da] p-3 text-center hover:border-[#d9a62b] transition-colors"
-                >
-                  <div className="text-2xl mb-1">{skill.icon}</div>
-                  <p className="text-[10px] font-semibold text-[#14181f] leading-tight break-words">{skill.name}</p>
-                </div>
+                <li key={skill.id} title={skill.description} className="flex items-center gap-3 px-4 py-3">
+                  <span className="w-9 h-9 shrink-0 rounded-lg bg-[#f6f5f1] flex items-center justify-center text-lg" aria-hidden="true">{skill.icon}</span>
+                  <span className="text-sm font-semibold text-[#14181f] break-words">{skill.name}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           )}
           {earnedSkills.length > 6 && (
-            <p className="text-xs text-center text-[#5e6673] mt-2">+{earnedSkills.length - 6} más</p>
+            <p className="text-sm text-[#5e6673] mt-2">+{earnedSkills.length - 6} más</p>
           )}
-        </div>
+        </section>
       </div>
 
-      {/* Idiomas disponibles */}
-      <div className="mt-8">
-        <h2 className="font-bold text-[#14181f] mb-4">Explorar idiomas</h2>
+      {/* Idiomas */}
+      <section>
+        <h2 className="text-xl font-extrabold text-[#14181f] mb-4">Explorar idiomas</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-          {[
-            { name: "K'iche'", slug: 'kiche' },
-            { name: "Q'eqchi'", slug: 'qeqchi' },
-            { name: 'Kaqchikel', slug: 'kaqchikel' },
-            { name: 'Mam', slug: 'mam' },
-            { name: "Tz'utujil", slug: 'tzutujil' },
-          ].map(lang => (
+          {LANGUAGES.map(lang => (
             <Link
-              key={lang.slug}
-              href="/dashboard/proyectos"
-              className="bg-white rounded-xl border border-[#e4e2da] p-4 text-center hover:shadow-sm hover:border-transparent transition-all"
+              key={lang.href}
+              href={lang.href}
+              className={`${card} p-5 flex flex-col gap-1 hover:border-[#14181f] transition-colors`}
             >
-              <div className="h-1 rounded-full mb-3" style={{ backgroundColor: langColors[lang.slug] }} />
-              <p className="text-xs font-bold text-[#14181f]">{lang.name}</p>
+              <span className="w-8 h-1 rounded-sm mb-3" style={{ background: lang.color }} />
+              <span className="font-extrabold text-[#14181f]">{lang.name}</span>
+              <span className="text-xs text-[#5e6673]">{lang.region}</span>
             </Link>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   )
 }

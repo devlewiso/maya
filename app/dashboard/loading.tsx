@@ -2,7 +2,7 @@ import { SkeletonCard, SkeletonProject, SkeletonSkill } from '@/app/components/S
 
 export default function DashboardLoading() {
   return (
-    <div className="p-8 max-w-5xl">
+    <div className="px-4 sm:px-8 py-8 lg:py-10 max-w-6xl mx-auto">
       {/* Header skeleton */}
       <div className="mb-8">
         <div className="h-8 w-64 bg-[#f6f5f1] rounded mb-2 animate-pulse" />
