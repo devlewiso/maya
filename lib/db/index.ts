@@ -8,7 +8,9 @@ if (!connectionString) {
   console.error('[DB] Falta la variable de entorno DATABASE_URL')
 }
 
-const sql = neon(connectionString || 'postgres://invalid')
+// En el build de Cloudflare los secretos todavía no existen (solo están en runtime): con una URL válida pero falsa
+// el módulo se puede importar sin conectarse; neon() no abre conexión hasta la primera consulta.
+const sql = neon(connectionString || 'postgresql://build:build@localhost/build')
 
 export const db = drizzle(sql, { schema })
 export { schema }
