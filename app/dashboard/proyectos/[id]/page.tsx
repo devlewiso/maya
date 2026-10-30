@@ -237,6 +237,12 @@ export default function ProyectoDetailPage() {
             <p className="text-2xl font-bold text-[#c8a217] mb-2">{newSkill.name}</p>
             <p className="text-sm text-[#6b7a9e] mb-6">Completaste el proyecto. ¡Sigue aprendiendo!</p>
             <button
+              onClick={() => { setNewSkill(null); router.push(`/dashboard/constancia/${project.id}`) }}
+              className="w-full py-3 mb-2 bg-[#c8a217] text-white font-bold rounded-xl hover:bg-[#e8be2c] transition"
+            >
+              🏅 Ver mi constancia de logro
+            </button>
+            <button
               onClick={() => { setNewSkill(null); router.push('/dashboard/proyectos') }}
               className="w-full py-3 bg-[#1b3a6b] text-white font-bold rounded-xl hover:bg-[#254d8f] transition"
             >
@@ -455,7 +461,12 @@ export default function ProyectoDetailPage() {
             )}
           </div>
           {isCompleted && (
-            <span className="text-xs bg-green-50 text-green-700 border border-green-100 rounded-full px-3 py-1 font-semibold">✓ Completado</span>
+            <div className="flex flex-col items-end gap-2">
+              <span className="text-xs bg-green-50 text-green-700 border border-green-100 rounded-full px-3 py-1 font-semibold">✓ Completado</span>
+              <Link href={`/dashboard/constancia/${project.id}`} className="text-xs font-bold text-white bg-[#c8a217] hover:bg-[#e8be2c] rounded-full px-3 py-1.5 transition">
+                🏅 Ver mi constancia
+              </Link>
+            </div>
           )}
         </div>
       </div>

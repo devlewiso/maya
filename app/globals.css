@@ -25,3 +25,13 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans, system-ui, sans-serif);
 }
+
+/* Constancia de logro: al imprimir solo queda la hoja, en una sola página A4 horizontal.
+   Lo que no contiene la hoja desaparece (display:none, no ocupa lugar) y sus contenedores pierden márgenes y rellenos. */
+@media print {
+  @page { size: A4 landscape; margin: 0; }
+  html, body { margin: 0 !important; padding: 0 !important; background: #fbf7ec !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body *:not(:has(.constancia-hoja)):not(.constancia-hoja):not(.constancia-hoja *) { display: none !important; }
+  body *:has(.constancia-hoja) { margin: 0 !important; padding: 0 !important; border: 0 !important; transform: none !important; position: static !important; min-height: 0 !important; box-shadow: none !important; }
+  .constancia-hoja { width: 297mm !important; height: 209mm !important; max-width: none !important; aspect-ratio: auto !important; margin: 0 !important; box-shadow: none !important; break-inside: avoid; }
+}
