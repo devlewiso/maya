@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
+import { getProjectsPageData, createProject as createProjectAction } from '@/app/actions/dashboard'
 import { SkeletonProject } from '@/app/components/Skeleton'
 
 const PROJECT_TYPES = [
@@ -18,7 +18,6 @@ const LANG_COLORS: Record<string, string> = {
 }
 
 export default function ProyectosPage() {
-  const supabase = createClient()
   const [projects, setProjects] = useState<any[]>([])
   const [filteredProjects, setFilteredProjects] = useState<any[]>([])
   const [languages, setLanguages] = useState<any[]>([])
@@ -37,16 +36,14 @@ export default function ProyectosPage() {
 
   useEffect(() => {
     async function load() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-
-      const [{ data: proj }, { data: langs }] = await Promise.all([
-        supabase.from('projects').select('*, languages(name, slug)').eq('user_id', user.id).order('created_at', { ascending: false }),
-        supabase.from('languages').select('*').eq('is_active', true).order('name'),
-      ])
-      setProjects(proj ?? [])
-      setFilteredProjects(proj ?? [])
-      setLanguages(langs ?? [])
+      try {
+        const { projects: proj, languages: langs } = await getProjectsPageData()
+        setProjects(proj ?? [])
+        setFilteredProjects(proj ?? [])
+        setLanguages(langs ?? [])
+      } catch {
+        /* sin sesión */
+      }
       setLoading(false)
     }
     load()
@@ -67,7 +64,7 @@ export default function ProyectosPage() {
 
     // Filter by language
     if (filterLanguage) {
-      filtered = filtered.filter(p => p.language_id?.toString() === filterLanguage)
+      filtered = filtered.filter(p => p.languageId?.toString() === filterLanguage)
     }
 
     // Filter by status
@@ -81,60 +78,19 @@ export default function ProyectosPage() {
   async function createProject(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
-
-    // Crear proyecto
-    const { data: project, error } = await supabase
-      .from('projects')
-      .insert({
-        user_id: user.id,
+    try {
+      const project = await createProjectAction({
         title: form.title,
         description: form.description || null,
-        language_id: form.language_id ? parseInt(form.language_id) : null,
+        language_id: form.language_id || null,
         type: form.type,
       })
-      .select('*, languages(name, slug)')
-      .single()
-
-    if (error || !project) { setSaving(false); return }
-
-    // Generar tareas automáticas según el tipo
-    if (form.language_id) {
-      let query = supabase.from('lessons').select('*').eq('language_id', parseInt(form.language_id))
-
-      if (form.type === 'ruta_basica') query = query.eq('level', 'principiante')
-      else if (form.type === 'vocabulario_express') query = query.in('level', ['principiante']).limit(3)
-
-      const { data: lessons } = await query.order('order_index')
-
-      if (lessons && lessons.length > 0) {
-        await supabase.from('project_tasks').insert(
-          lessons.map((lesson: any, idx: number) => ({
-            project_id: project.id,
-            lesson_id: lesson.id,
-            title: lesson.title,
-            description: lesson.description,
-            order_index: idx + 1,
-            xp_reward: 10,
-          }))
-        )
-      }
+      setProjects(prev => [project, ...prev])
+      setShowForm(false)
+      setForm({ title: '', description: '', language_id: '', type: 'ruta_basica' })
+    } catch {
+      /* no-op: se mantiene el modal abierto */
     }
-
-    // Dar skill "Ajtikonel" (primer proyecto)
-    const { data: existingProjects } = await supabase
-      .from('projects').select('id').eq('user_id', user.id)
-    if (existingProjects?.length === 1) {
-      const { data: skill } = await supabase.from('skills').select('id').eq('slug', 'first-project').single()
-      if (skill) {
-        await supabase.from('user_skills').upsert({ user_id: user.id, skill_id: skill.id })
-      }
-    }
-
-    setProjects(prev => [project, ...prev])
-    setShowForm(false)
-    setForm({ title: '', description: '', language_id: '', type: 'ruta_basica' })
     setSaving(false)
   }
 
@@ -350,13 +306,13 @@ export default function ProyectosPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {active.map((p: any) => (
                   <Link key={p.id} href={`/dashboard/proyectos/${p.id}`} className="block bg-white rounded-xl border border-[#dde3f0] p-5 hover:shadow-md hover:border-[#1b3a6b]/20 transition-all">
-                    {p.languages && (
-                      <div className="h-1 rounded-full mb-4" style={{ backgroundColor: LANG_COLORS[p.languages.slug] ?? '#1b3a6b' }} />
+                    {p.language && (
+                      <div className="h-1 rounded-full mb-4" style={{ backgroundColor: LANG_COLORS[p.language.slug] ?? '#1b3a6b' }} />
                     )}
                     <h3 className="font-bold text-[#1a2035] mb-1">{p.title}</h3>
                     {p.description && <p className="text-xs text-[#6b7a9e] line-clamp-2 mb-3">{p.description}</p>}
                     <div className="flex items-center justify-between">
-                      {p.languages && <span className="text-[10px] font-semibold text-[#6b7a9e] uppercase tracking-wide">{p.languages.name}</span>}
+                      {p.language && <span className="text-[10px] font-semibold text-[#6b7a9e] uppercase tracking-wide">{p.language.name}</span>}
                       <span className="text-xs text-[#1b3a6b] font-semibold">Ver tareas →</span>
                     </div>
                   </Link>
@@ -375,7 +331,7 @@ export default function ProyectosPage() {
                       <h3 className="font-bold text-[#1a2035]">{p.title}</h3>
                       <span className="text-[10px] bg-green-50 text-green-700 border border-green-100 rounded-full px-2 py-0.5 font-semibold">✓ Completado</span>
                     </div>
-                    {p.languages && <span className="text-[10px] font-semibold text-[#6b7a9e] uppercase tracking-wide">{p.languages.name}</span>}
+                    {p.language && <span className="text-[10px] font-semibold text-[#6b7a9e] uppercase tracking-wide">{p.language.name}</span>}
                   </Link>
                 ))}
               </div>

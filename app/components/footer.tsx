@@ -94,6 +94,11 @@ const Footer = (_props: FooterProps) => {
                 </Link>
               </li>
               <li>
+                <Link href="/herramientas" className="text-white/55 hover:text-white text-sm transition-colors">
+                  Herramientas
+                </Link>
+              </li>
+              <li>
                 <a href="mailto:devlewiso@gmail.com" className="text-white/55 hover:text-white text-sm transition-colors">
                   Contacto
                 </a>

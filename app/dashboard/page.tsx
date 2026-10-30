@@ -1,30 +1,13 @@
-import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { StreakReminder } from '@/app/components/StreakReminder'
-import { SkeletonCard, SkeletonProject, SkeletonSkill } from '@/app/components/Skeleton'
+import { getDashboardData } from '@/app/actions/dashboard'
 
 export default async function DashboardPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { projects, earnedSkills, completedCount, currentDays } = await getDashboardData()
 
-  const [
-    { data: projects },
-    { data: userSkills },
-    { data: skills },
-    { data: progress },
-    { data: streak },
-  ] = await Promise.all([
-    supabase.from('projects').select('*').eq('user_id', user!.id).order('created_at', { ascending: false }).limit(3),
-    supabase.from('user_skills').select('skill_id, earned_at').eq('user_id', user!.id),
-    supabase.from('skills').select('*'),
-    supabase.from('lesson_progress').select('id').eq('user_id', user!.id).eq('completed', true),
-    supabase.from('streaks').select('*').eq('user_id', user!.id).single(),
-  ])
-
-  const earnedSkillIds = new Set(userSkills?.map(s => s.skill_id) ?? [])
-  const earnedSkills = skills?.filter(s => earnedSkillIds.has(s.id)) ?? []
-  const activeProjects = projects?.filter(p => p.status === 'active') ?? []
-  // removed unused
+  const streak = { current_days: currentDays }
+  const progress = { length: completedCount }
+  const activeProjects = projects.filter(p => p.status === 'active')
 
   const langColors: Record<string, string> = {
     kiche: '#c0392b', qeqchi: '#2471a3', kaqchikel: '#1e8449', mam: '#d68910', tzutujil: '#7d3c98'
@@ -53,8 +36,8 @@ export default async function DashboardPage() {
         </div>
         <div className="bg-white rounded-xl border border-[#dde3f0] p-5">
           <div className="flex items-center gap-1.5">
-            <span className="text-2xl font-bold text-[#1b3a6b]">{streak?.data?.current_days ?? 0}</span>
-            {(streak?.data?.current_days ?? 0) > 0 && <span className="text-xl">🔥</span>}
+            <span className="text-2xl font-bold text-[#1b3a6b]">{streak?.current_days ?? 0}</span>
+            {(streak?.current_days ?? 0) > 0 && <span className="text-xl">🔥</span>}
           </div>
           <div className="text-xs text-[#6b7a9e] mt-0.5">Días de racha</div>
         </div>

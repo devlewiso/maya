@@ -1,11 +1,16 @@
 'use client'
 
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import confetti from 'canvas-confetti'
-import { createClient } from '@/lib/supabase/client'
+import { authClient } from '@/lib/auth-client'
+import {
+  getProjectDetail,
+  saveLessonProgress,
+  completeTask as completeTaskAction,
+} from '@/app/actions/dashboard'
 import { AudioButton } from '@/app/components/AudioButton'
 import { InteractiveQuiz } from '@/app/components/InteractiveQuiz'
 import { kicheLessons } from '@/app/content/kicheLeccion'
@@ -37,7 +42,9 @@ const LEVEL_COLORS: Record<string, string> = {
 export default function ProyectoDetailPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
-  const supabase = createClient()
+
+  const { data: session } = authClient.useSession()
+  const userId = session?.user?.id ?? null
 
   const [project, setProject] = useState<any>(null)
   const [tasks, setTasks] = useState<any[]>([])
@@ -45,7 +52,6 @@ export default function ProyectoDetailPage() {
   const [completing, setCompleting] = useState(false)
   const [newSkill, setNewSkill] = useState<any>(null)
   const [activeTask, setActiveTask] = useState<any>(null)
-  const [userId, setUserId] = useState<string | null>(null)
   const [lessonProgress, setLessonProgress] = useState(0)
   const [timeSpent, setTimeSpent] = useState(0)
   const [viewedSections, setViewedSections] = useState<Set<string>>(new Set())
@@ -57,23 +63,13 @@ export default function ProyectoDetailPage() {
 
   useEffect(() => {
     async function load() {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUserId(user?.id ?? null)
-
-      const { data: proj } = await supabase
-        .from('projects')
-        .select('*, languages(name, slug)')
-        .eq('id', id)
-        .single()
-
-      const { data: taskList } = await supabase
-        .from('project_tasks')
-        .select('*, lessons(title, level, description, order_index)')
-        .eq('project_id', id)
-        .order('order_index')
-
-      setProject(proj)
-      setTasks(taskList ?? [])
+      try {
+        const { project: proj, tasks: taskList } = await getProjectDetail(parseInt(id, 10))
+        setProject(proj)
+        setTasks(taskList ?? [])
+      } catch {
+        setProject(null)
+      }
       setLoading(false)
     }
     load()
@@ -113,51 +109,23 @@ export default function ProyectoDetailPage() {
   }, [activeTask])
 
   async function saveProgress(isFinal: boolean = false) {
-    if (!userId || !activeTask) return
+    if (!userId || !activeTask || !activeTask.lesson_id) return
 
     const elapsed = Math.floor((Date.now() - lessonStartTime.current) / 1000)
     const sections = Array.from(sectionsRef.current)
     const totalSections = 4
     const progress = Math.min(Math.round((sections.length / totalSections) * 100), 100)
 
-    await supabase.from('lesson_progress').upsert({
-      user_id: userId,
-      lesson_id: activeTask.lesson_id,
-      progress_percent: progress,
-      time_spent_seconds: elapsed,
-      sections_viewed: sections,
-      last_viewed_at: new Date().toISOString(),
+    // La racha se actualiza server-side dentro de saveLessonProgress.
+    await saveLessonProgress({
+      lessonId: activeTask.lesson_id,
+      progressPercent: progress,
+      timeSpentSeconds: elapsed,
+      sectionsViewed: sections,
       completed: isFinal && progress >= 75,
-    }, {
-      onConflict: 'user_id,lesson_id'
-    })
+    }).catch(() => {})
 
     setLessonProgress(progress)
-
-    if (progress > 50) {
-      await updateStreak()
-    }
-  }
-
-  async function updateStreak() {
-    if (!userId) return
-    const today = new Date().toISOString().split('T')[0]
-    const { data: streak } = await supabase.from('streaks').select('*').eq('user_id', userId).single()
-
-    if (streak) {
-      const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
-      const newDays = streak.last_activity === yesterday
-        ? streak.current_days + 1
-        : streak.last_activity === today
-          ? streak.current_days
-          : 1
-
-      await supabase.from('streaks').update({
-        current_days: newDays,
-        longest_days: Math.max(newDays, streak.longest_days || 0),
-        last_activity: today,
-      }).eq('user_id', userId)
-    }
   }
 
   function trackSection(sectionId: string) {
@@ -179,47 +147,20 @@ export default function ProyectoDetailPage() {
   }
 
   async function completeTask(taskId: number, lessonId: number | null, xpReward: number) {
+    if (!userId) return
     setCompleting(true)
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
 
-    await supabase.from('project_tasks')
-      .update({ completed: true, completed_at: new Date().toISOString() })
-      .eq('id', taskId)
-
-    if (lessonId) {
-      await supabase.from('lesson_progress').upsert({
-        user_id: user.id,
-        lesson_id: lessonId,
-        completed: true,
-        completed_at: new Date().toISOString(),
-        score: 100,
+    let result: { projectCompleted: boolean; newSkill: any } | null = null
+    try {
+      result = await completeTaskAction({
+        taskId,
+        lessonId,
+        xpReward,
+        projectId: parseInt(id, 10),
       })
-    }
-
-    await supabase.from('user_xp_log').insert({
-      user_id: user.id,
-      xp: xpReward,
-      reason: 'task_complete',
-      ref_id: taskId.toString(),
-    })
-
-    const today = new Date().toISOString().split('T')[0]
-    const { data: streak } = await supabase.from('streaks').select('*').eq('user_id', user.id).single()
-    if (streak) {
-      const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
-      const newDays = streak.last_activity === yesterday ? streak.current_days + 1
-        : streak.last_activity === today ? streak.current_days : 1
-      await supabase.from('streaks').update({
-        current_days: newDays,
-        longest_days: Math.max(newDays, streak.longest_days),
-        last_activity: today,
-      }).eq('user_id', user.id)
-    }
-
-    const { data: firstSkill } = await supabase.from('skills').select('id').eq('slug', 'first-lesson').single()
-    if (firstSkill) {
-      await supabase.from('user_skills').upsert({ user_id: user.id, skill_id: firstSkill.id })
+    } catch {
+      setCompleting(false)
+      return
     }
 
     const updatedTasks = tasks.map(t => t.id === taskId ? { ...t, completed: true } : t)
@@ -240,26 +181,8 @@ export default function ProyectoDetailPage() {
       duration: 4000,
     })
 
-    const allDone = updatedTasks.every(t => t.completed)
-    if (allDone) {
-      await supabase.from('projects')
-        .update({ status: 'completed', completed_at: new Date().toISOString() })
-        .eq('id', id)
-
-      await supabase.from('user_xp_log').insert({
-        user_id: user.id, xp: 50, reason: 'project_complete', ref_id: id
-      })
-
-      if (project?.language_id) {
-        const { data: levelSkill } = await supabase.from('skills').select('id, name, icon')
-          .eq('language_id', project.language_id)
-          .eq('level', 'principiante')
-          .single()
-        if (levelSkill) {
-          await supabase.from('user_skills').upsert({ user_id: user.id, skill_id: levelSkill.id })
-          setNewSkill(levelSkill)
-        }
-      }
+    if (result.projectCompleted) {
+      if (result.newSkill) setNewSkill(result.newSkill)
 
       setProject((p: any) => ({ ...p, status: 'completed' }))
 

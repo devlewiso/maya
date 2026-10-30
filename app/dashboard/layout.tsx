@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { authClient } from '@/lib/auth-client'
+import { getShellStats } from '@/app/actions/dashboard'
 import { Toaster } from '@/app/components/Toaster'
 import { Onboarding } from '@/app/components/Onboarding'
 
@@ -14,36 +15,30 @@ const navItems = [
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [user, setUser] = useState<any>(null)
-  const [profile, setProfile] = useState<any>(null)
-  const [xpData, setXpData] = useState<any[]>([])
-  const [streak, setStreak] = useState<any>(null)
+  const [stats, setStats] = useState<{
+    displayName: string
+    email: string
+    totalXp: number
+    currentDays: number
+  } | null>(null)
   const [loading, setLoading] = useState(true)
   const pathname = usePathname()
   const router = useRouter()
 
+  const { data: session, isPending } = authClient.useSession()
+  const user = session?.user ?? null
+
   useEffect(() => {
-    const supabase = createClient()
-
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (!user) {
-        router.push('/login')
-        return
-      }
-      setUser(user)
-
-      Promise.all([
-        supabase.from('profiles').select('display_name').eq('id', user.id).single(),
-        supabase.from('user_xp_log').select('xp').eq('user_id', user.id),
-        supabase.from('streaks').select('current_days').eq('user_id', user.id).single(),
-      ]).then(([profileRes, xpRes, streakRes]) => {
-        setProfile(profileRes.data)
-        setXpData(xpRes.data || [])
-        setStreak(streakRes.data)
-        setLoading(false)
-      })
-    })
-  }, [router])
+    if (isPending) return
+    if (!user) {
+      router.push('/login')
+      return
+    }
+    getShellStats()
+      .then((s) => setStats(s))
+      .catch(() => setStats(null))
+      .finally(() => setLoading(false))
+  }, [isPending, user, router])
 
   useEffect(() => {
     setIsMobileMenuOpen(false)
@@ -55,13 +50,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }, [isMobileMenuOpen])
 
   async function handleSignOut() {
-    const supabase = createClient()
-    await supabase.auth.signOut()
+    await authClient.signOut()
     router.push('/')
     router.refresh()
   }
 
-  if (loading || !user) {
+  if (loading || isPending || !user) {
     return (
       <div className="min-h-screen bg-[#f5f7fc] flex items-center justify-center">
         <div className="text-[#6b7a9e]">Cargando...</div>
@@ -69,7 +63,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     )
   }
 
-  const totalXp = xpData?.reduce((acc, r) => acc + r.xp, 0) ?? 0
+  const totalXp = stats?.totalXp ?? 0
   const xpLevels = [
     { level: 1, label: 'Explorador', min: 0 },
     { level: 2, label: 'Aprendiz', min: 100 },
@@ -83,7 +77,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     ? Math.round(((totalXp - currentLevel.min) / (nextLevel.min - currentLevel.min)) * 100)
     : 100
 
-  const displayName = profile?.display_name ?? user.email?.split('@')[0] ?? 'Explorador'
+  const displayName =
+    stats?.displayName ?? user?.name ?? user?.email?.split('@')[0] ?? 'Explorador'
+  const streak = { current_days: stats?.currentDays ?? 0 }
 
   return (
     <div className="min-h-screen bg-[#f5f7fc]">

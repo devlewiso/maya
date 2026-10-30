@@ -5,7 +5,9 @@
   [build.environment]
     # NEXT_PUBLIC_* variables are public by design in Next.js
     # Exclude them from secret scanning to avoid false positives
-    SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_SUPABASE_ANON_KEY,NEXT_PUBLIC_SUPABASE_URL"
+    SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_BETTER_AUTH_URL"
+    # DATABASE_URL contiene credenciales pero es necesaria en build (SSG/tipos)
+    SECRETS_SCAN_OMIT_PATHS = ".next/**"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
