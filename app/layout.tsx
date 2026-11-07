@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, IBM_Plex_Mono } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import ScrollToTop from "./components/ScrollToTop";
 import CookieBanner from "./components/CookieBanner";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 import ChatWidget from "./components/ChatWidget";
 import ReferralBanner from "./components/ReferralBanner";
 
@@ -83,36 +83,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${jakarta.variable} ${plexMono.variable}`} suppressHydrationWarning>
-      <head>
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-1Q9GZKZF0V" />
-        <Script id="google-analytics">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-1Q9GZKZF0V');
-          `}
-        </Script>
-      </head>
+      <head />
+
       <body className="antialiased" suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "EducationalOrganization",
+              // WebSite y no EducationalOrganization: Astro Maya es un proyecto personal, no una institución.
+              "@type": "WebSite",
               name: "Astro Maya",
               url: "https://astromaya.neuralcodelab.com",
-              logo: "https://astromaya.neuralcodelab.com/astromaya-logo.svg",
+              image: "https://astromaya.neuralcodelab.com/astromaya-logo.svg",
               description: "Plataforma educativa para aprender y preservar los idiomas mayas de Guatemala: K'iche', Q'eqchi', Kaqchikel, Mam y Tz'utujil.",
-              areaServed: [
-                { "@type": "Country", name: "Guatemala" },
-                { "@type": "Country", name: "Mexico" },
-                { "@type": "Country", name: "United States" },
-              ],
-              knowsAbout: ["K'iche'", "Q'eqchi'", "Kaqchikel", "Mam", "Tz'utujil", "Maya languages", "Guatemalan indigenous languages"],
               inLanguage: "es",
-              sameAs: [],
+              about: ["K'iche'", "Q'eqchi'", "Kaqchikel", "Mam", "Tz'utujil", "Maya languages", "Guatemalan indigenous languages"],
+              author: { "@type": "Person", name: "Iran Lewis Ortiz" },
+              publisher: { "@type": "Organization", name: "NeuralCodeLab", url: "https://neuralcodelab.com" },
             }),
           }}
         />
@@ -120,6 +108,7 @@ export default function RootLayout({
         {children}
         <ScrollToTop />
         <CookieBanner />
+        <GoogleAnalytics />
         <ChatWidget />
       </body>
     </html>

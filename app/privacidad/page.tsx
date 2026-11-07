@@ -90,7 +90,7 @@ export default function Privacidad() {
 
             <h3 className={h3}>f) Datos de navegación</h3>
             <ul className={ul}>
-              <li>Mediante <strong>Google Analytics</strong> se recopilan datos de uso del sitio: páginas visitadas, tiempo en el sitio, país o región aproximada, tipo de dispositivo y navegador.</li>
+              <li>Si usted acepta las cookies de análisis, mediante <strong>Google Analytics</strong> se recopilan datos de uso del sitio: páginas visitadas, tiempo en el sitio, país o región aproximada, tipo de dispositivo y navegador.</li>
               <li>Los proveedores de alojamiento procesan datos técnicos como la dirección IP para entregar el sitio y protegerlo contra abusos.</li>
             </ul>
 
@@ -119,7 +119,7 @@ export default function Privacidad() {
             <h2 className={h2}>4. Su consentimiento</h2>
             <p className={p}>
               Al crear una cuenta, usted acepta que sus datos se traten como se describe en esta política, porque son necesarios para darle el servicio.
-              Las cookies de análisis se pueden rechazar en el aviso de cookies sin perder ninguna función del sitio.
+              Google Analytics solo se activa si usted lo acepta en el aviso de cookies; si lo rechaza, no se carga y no pierde ninguna función del sitio.
               Puede retirar su consentimiento en cualquier momento solicitando la eliminación de su cuenta.
             </p>
           </section>
@@ -147,7 +147,7 @@ export default function Privacidad() {
           <section>
             <h2 className={h2}>6. Cookies y almacenamiento en su navegador</h2>
             <p className={p}>
-              Usamos una cookie de sesión para mantenerlo con la sesión iniciada, cookies de Google Analytics para medir el uso del sitio y el almacenamiento local del navegador
+              Usamos una cookie de sesión para mantenerlo con la sesión iniciada, cookies de Google Analytics para medir el uso del sitio (solo si usted las acepta) y el almacenamiento local del navegador
               para recordar preferencias (por ejemplo, si ya respondió el aviso de cookies). El detalle está en la{' '}
               <Link href="/cookies" className={a}>Política de Cookies</Link>.
             </p>

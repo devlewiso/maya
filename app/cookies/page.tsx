@@ -141,8 +141,8 @@ export default function Cookies() {
           <section>
             <h2 className="text-xl font-bold text-[#0e5c4a] mb-3">Sobre el aviso de cookies</h2>
             <p className="text-sm text-[#5e6673] leading-relaxed">
-              El script de Google Analytics se carga al abrir el sitio. Si usted elige «Rechazar» en el aviso, se desactiva la medición de Google Analytics en esa visita y su respuesta queda guardada en su navegador.
-              Si desea bloquear Google Analytics de forma permanente en todas sus visitas, le recomendamos usar el complemento de inhabilitación de Google o configurar su navegador para bloquear cookies de terceros.
+              Google Analytics no se carga hasta que usted elige «Aceptar» en el aviso. Si elige «Rechazar», no se carga en ninguna visita y su respuesta queda guardada en su navegador.
+              Para cambiar su decisión, borre los datos del sitio en su navegador y el aviso volverá a aparecer.
             </p>
           </section>
 

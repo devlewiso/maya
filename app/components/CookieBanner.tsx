@@ -2,27 +2,25 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-
-const COOKIE_KEY = 'astromaya_cookies';
+import { COOKIE_KEY, CONSENT_EVENT } from './GoogleAnalytics';
 
 export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const consent = localStorage.getItem(COOKIE_KEY);
-    if (!consent) setVisible(true);
+    try {
+      if (!localStorage.getItem(COOKIE_KEY)) setVisible(true);
+    } catch {
+      setVisible(true);
+    }
   }, []);
 
-  const accept = () => {
-    localStorage.setItem(COOKIE_KEY, 'accepted');
-    setVisible(false);
-  };
-
-  const decline = () => {
-    localStorage.setItem(COOKIE_KEY, 'declined');
-    // Disable Google Analytics
-    // @ts-expect-error GA disable property
-    window['ga-disable-G-1Q9GZKZF0V'] = true;
+  // Guarda la respuesta y avisa a <GoogleAnalytics/>, que solo carga GA si fue «accepted».
+  const answer = (value: 'accepted' | 'declined') => {
+    try {
+      localStorage.setItem(COOKIE_KEY, value);
+    } catch {}
+    window.dispatchEvent(new Event(CONSENT_EVENT));
     setVisible(false);
   };
 
@@ -35,7 +33,7 @@ export default function CookieBanner() {
           <div className="flex-1">
             <p className="text-white font-semibold text-sm mb-1">🍪 Usamos cookies</p>
             <p className="text-white/60 text-xs leading-relaxed">
-              Utilizamos Google Analytics para mejorar la plataforma. No recopilamos datos personales identificables.
+              Si acepta, usamos Google Analytics para medir cómo se usa la plataforma. Si rechaza, no se carga.
               Puede aceptar, rechazar o{' '}
               <Link href="/cookies" className="text-[#8a6410] underline hover:text-[#e6b647]">
                 conocer más
@@ -44,13 +42,13 @@ export default function CookieBanner() {
           </div>
           <div className="flex gap-3 flex-shrink-0">
             <button
-              onClick={decline}
+              onClick={() => answer('declined')}
               className="px-5 py-2.5 bg-white/10 text-white text-xs font-semibold rounded border border-white/20 hover:bg-white/20 transition-colors"
             >
               Rechazar
             </button>
             <button
-              onClick={accept}
+              onClick={() => answer('accepted')}
               className="px-5 py-2.5 bg-[#d9a62b] text-[#101418] text-xs font-bold rounded hover:bg-[#e6b647] transition-colors"
             >
               Aceptar
