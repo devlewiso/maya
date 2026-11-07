@@ -18,7 +18,7 @@ export default function Cookies() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-[#8a6410] font-semibold text-xs uppercase tracking-widest mb-2">Legal</div>
           <h1 className="text-3xl md:text-4xl font-bold text-white">Política de Cookies</h1>
-          <p className="text-white/60 mt-2 text-sm">Última actualización: marzo 2026</p>
+          <p className="text-white/60 mt-2 text-sm">Última actualización: 6 de noviembre de 2026</p>
         </div>
       </section>
 
@@ -28,7 +28,7 @@ export default function Cookies() {
           <section>
             <h2 className="text-xl font-bold text-[#0e5c4a] mb-3">¿Qué son las cookies?</h2>
             <p className="text-sm text-[#5e6673] leading-relaxed">
-              Las cookies son pequeños archivos de texto que los sitios web almacenan en su dispositivo para recordar preferencias, analizar el uso del sitio y mejorar la experiencia del usuario.
+              Las cookies son pequeños archivos de texto que los sitios web guardan en su dispositivo para mantener la sesión iniciada, recordar preferencias o medir el uso del sitio. Astro Maya también usa el almacenamiento local del navegador (localStorage), que funciona de forma parecida pero no se envía al servidor.
             </p>
           </section>
 
@@ -62,11 +62,46 @@ export default function Cookies() {
                     <td className="p-3 border border-[#e4e2da]"><span className="px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-xs">Analítica</span></td>
                   </tr>
                   <tr>
-                    <td className="p-3 border border-[#e4e2da] text-[#5e6673] font-mono text-xs">astromaya_cookies</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673] font-mono text-xs">better-auth.session_token<br />(con prefijo __Secure- en HTTPS)</td>
                     <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Astro Maya</td>
-                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Guardar preferencia de consentimiento</td>
-                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">1 año</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Mantener su sesión iniciada (solo si tiene cuenta)</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Unos días; se borra al cerrar sesión</td>
                     <td className="p-3 border border-[#e4e2da]"><span className="px-2 py-0.5 bg-green-50 text-green-700 rounded text-xs">Necesaria</span></td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673] font-mono text-xs">Cookies temporales de inicio de sesión</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Astro Maya</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Proteger el inicio de sesión con Google mientras se completa</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Minutos</td>
+                    <td className="p-3 border border-[#e4e2da]"><span className="px-2 py-0.5 bg-green-50 text-green-700 rounded text-xs">Necesaria</span></td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673] font-mono text-xs">astromaya_cookies</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Astro Maya (localStorage)</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Recordar si aceptó o rechazó las cookies de análisis</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Hasta que borre los datos del navegador</td>
+                    <td className="p-3 border border-[#e4e2da]"><span className="px-2 py-0.5 bg-green-50 text-green-700 rounded text-xs">Necesaria</span></td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673] font-mono text-xs">astromaya_chat_session</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Astro Maya (localStorage)</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Identificador aleatorio de la conversación con el asistente Ix&#39;im</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Hasta que borre los datos del navegador</td>
+                    <td className="p-3 border border-[#e4e2da]"><span className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded text-xs">Preferencia</span></td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673] font-mono text-xs">astro-maya-onboarding-completed</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Astro Maya (localStorage)</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Recordar que ya vio la guía de bienvenida</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Hasta que borre los datos del navegador</td>
+                    <td className="p-3 border border-[#e4e2da]"><span className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded text-xs">Preferencia</span></td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673] font-mono text-xs">astromaya_referral_banner</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Astro Maya (localStorage)</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Recordar que cerró el anuncio superior</td>
+                    <td className="p-3 border border-[#e4e2da] text-[#5e6673]">Hasta que borre los datos del navegador</td>
+                    <td className="p-3 border border-[#e4e2da]"><span className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded text-xs">Preferencia</span></td>
                   </tr>
                 </tbody>
               </table>
@@ -79,13 +114,13 @@ export default function Cookies() {
               <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
                 <h3 className="font-semibold text-green-800 text-sm mb-2">Necesarias</h3>
                 <p className="text-xs text-green-700 leading-relaxed">
-                  Imprescindibles para el funcionamiento del sitio. No requieren consentimiento previo. Solo guardamos su preferencia de cookies.
+                  Imprescindibles para que el sitio funcione: mantener su sesión iniciada y recordar su respuesta al aviso de cookies. No se usan para publicidad ni para seguirle en otros sitios.
                 </p>
               </div>
               <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
                 <h3 className="font-semibold text-blue-800 text-sm mb-2">Analíticas</h3>
                 <p className="text-xs text-blue-700 leading-relaxed">
-                  Google Analytics nos ayuda a entender cómo se usa la plataforma. <strong>Requieren su consentimiento</strong> y puede rechazarlas sin perder funcionalidad.
+                  Google Analytics nos ayuda a entender cómo se usa la plataforma. Puede rechazarlas en el aviso de cookies <strong>sin perder ninguna función</strong> del sitio.
                 </p>
               </div>
             </div>
@@ -104,9 +139,10 @@ export default function Cookies() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-[#0e5c4a] mb-3">Base legal (GDPR)</h2>
+            <h2 className="text-xl font-bold text-[#0e5c4a] mb-3">Sobre el aviso de cookies</h2>
             <p className="text-sm text-[#5e6673] leading-relaxed">
-              De acuerdo al <strong>Reglamento General de Protección de Datos (RGPD/GDPR)</strong>, las cookies analíticas requieren consentimiento previo explícito (Art. 6.1.a). Puede otorgarlo o retirarlo en cualquier momento sin consecuencias.
+              El script de Google Analytics se carga al abrir el sitio. Si usted elige «Rechazar» en el aviso, se desactiva la medición de Google Analytics en esa visita y su respuesta queda guardada en su navegador.
+              Si desea bloquear Google Analytics de forma permanente en todas sus visitas, le recomendamos usar el complemento de inhabilitación de Google o configurar su navegador para bloquear cookies de terceros.
             </p>
           </section>
 
